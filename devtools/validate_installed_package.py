@@ -11,6 +11,7 @@ import opencastp
 
 def main() -> None:
     """Check package origin and execute the independent numerical engine."""
+    print(f"Runtime Python {sys.version.split()[0]}")
     origin = Path(opencastp.__file__).resolve()
     if not origin.is_relative_to(Path(sys.prefix).resolve()):
         raise RuntimeError(f"Package is not installed in this environment: {origin}")

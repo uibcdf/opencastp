@@ -1,0 +1,158 @@
+[
+  {
+    "run_id": 37055144977,
+    "url": "https://github.com/uibcdf/opencastp/actions/runs/37055144977",
+    "commit": "c9a6f65ea6a7b76924f21df17c88830e745ca561",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "test",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run python -m pip install --no-deps --no-build-isolation .",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run python -I devtools/validate_installed_package.py",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run python -m pytest --receptor=ci",
+            "conclusion": "success",
+            "number": 6
+          }
+        ],
+        "runtime_lines": [
+          "  + pytest-receptor         1.1.0  py_1                  uibcdf           39kB",
+          "  pytest-receptor     1.1.0      py_1                  uibcdf     ",
+          "Installed OpenCASTp 0.1.0: independent closed-void smoke passed",
+          "PASS exit=0 | 26 passed | 1.67s"
+        ]
+      },
+      {
+        "name": "quality",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": []
+      },
+      {
+        "name": "full_matrix",
+        "status": "completed",
+        "conclusion": "skipped",
+        "steps": []
+      }
+    ]
+  },
+  {
+    "run_id": 37055176911,
+    "url": "https://github.com/uibcdf/opencastp/actions/runs/37055176911",
+    "commit": "c9a6f65ea6a7b76924f21df17c88830e745ca561",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "quality",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": []
+      },
+      {
+        "name": "full_matrix (3.11)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run python -m pip install --no-deps --no-build-isolation .",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run python -I devtools/validate_installed_package.py",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run python -m pytest --receptor=ci",
+            "conclusion": "success",
+            "number": 6
+          }
+        ],
+        "runtime_lines": [
+          "  + pytest-receptor         1.1.0  py_1                  uibcdf           39kB",
+          "  pytest-receptor     1.1.0      py_1                  uibcdf     ",
+          "Installed OpenCASTp 0.1.0: independent closed-void smoke passed",
+          "PASS exit=0 | 26 passed | 1.95s"
+        ]
+      },
+      {
+        "name": "full_matrix (3.13)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run python -m pip install --no-deps --no-build-isolation .",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run python -I devtools/validate_installed_package.py",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run python -m pytest --receptor=ci",
+            "conclusion": "success",
+            "number": 6
+          }
+        ],
+        "runtime_lines": [
+          "  + pytest-receptor         1.1.0  py_1                  uibcdf           39kB",
+          "  pytest-receptor     1.1.0      py_1                  uibcdf     ",
+          "Installed OpenCASTp 0.1.0: independent closed-void smoke passed",
+          "PASS exit=0 | 26 passed | 1.29s"
+        ]
+      },
+      {
+        "name": "full_matrix (3.12)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run python -m pip install --no-deps --no-build-isolation .",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run python -I devtools/validate_installed_package.py",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run python -m pytest --receptor=ci",
+            "conclusion": "success",
+            "number": 6
+          }
+        ],
+        "runtime_lines": [
+          "  + pytest-receptor         1.1.0  py_1                  uibcdf           39kB",
+          "  pytest-receptor     1.1.0      py_1                  uibcdf     ",
+          "Installed OpenCASTp 0.1.0: independent closed-void smoke passed",
+          "PASS exit=0 | 26 passed | 2.04s"
+        ]
+      },
+      {
+        "name": "test",
+        "status": "completed",
+        "conclusion": "skipped",
+        "steps": []
+      }
+    ]
+  }
+]

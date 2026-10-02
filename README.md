@@ -40,7 +40,7 @@ and GPU are planned; the only implemented backend is `python`.
 ## Development
 
 Use Python 3.13 for routine development. The inherited compatibility target is
-Python 3.11, 3.12 and 3.13. Full supported-minor/platform and clean dependency-closure qualification
+Python 3.11, 3.12, 3.13 and 3.14; the newly requested 3.14 lane is pending executed qualification. Full supported-minor/platform and clean dependency-closure qualification
 remain pending; no public release or stable API is claimed.
 
 ```bash
@@ -76,3 +76,12 @@ TopoMT's CASTp implementation is retained during this initial coexistence.
 [Architecture](devguide/architecture.md) and
 [scientific status](devguide/scientific_status.md) define current boundaries.
 Consult [source provenance](THIRD_PARTY_NOTICES.md) before public distribution.
+
+The policy workflow currently executes an explicit admission bootstrap pinned to
+MolSysSuite commit `a801b4ae09aa3085228013dbfdead8b3b905868b`.
+The published `policy-v1.5.2` caller is visibly disabled because its frozen
+membership registry predates OpenCASTp. This bounded source-checker exception
+expires on 2026-12-31 and is tracked in
+[MolSysSuite #73](https://github.com/uibcdf/molsyssuite/issues/73) and
+[OpenCASTp #3](https://github.com/uibcdf/opencastp/issues/3).
+A successful bootstrap is separate from published policy adoption.
