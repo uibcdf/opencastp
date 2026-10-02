@@ -1689,6 +1689,34 @@ def volbl_measurements(
     )
 
 
+def region_measurements(
+    geometry,
+    simplex_groups: list[tuple[int, ...]],
+    input_rank: int,
+    *,
+    cusp: bool = False,
+) -> list[VoidMeasurement]:
+    """Measure complement tetrahedra in closed or flow-delimited open regions.
+
+    The simplex groups, rather than closure, define the integration domain.
+    Inclusion/exclusion clips atomic sectors and overlaps inside each selected
+    tetrahedron. Artificial mouth faces delimit volume but are not molecular
+    surface patches. The historical result container name is retained internally.
+    No mouth area/perimeter measurement is implied by these region quantities.
+    """
+    context = _metric_context_from_geometry(geometry)
+    return [
+        _measure_void_component(
+            geometry,
+            context,
+            simplex_indices=indices,
+            input_rank=input_rank,
+            cusp=cusp,
+        )
+        for indices in simplex_groups
+    ]
+
+
 def _measure_void_component(
     geometry,
     context: VolblMetricContext,

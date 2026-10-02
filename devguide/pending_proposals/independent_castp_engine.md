@@ -47,3 +47,11 @@ TopoMT remains unchanged. Broader extracted-engine corpus validation, installed
 supported-minor qualification and a future optional TopoMT adapter remain open.
 Rust, threads and GPU are future separately measurable stages. Provenance and
 public distribution remain tracked by uibcdf/opencastp#2.
+
+## Current priority
+
+The maintainer explicitly defers other improvements until complete measured
+CASTp3/CASTpFold equivalence. uibcdf/opencastp#6 owns that investigation and
+its direct-server evidence; this extraction issue does not certify equivalence
+or authorize consumer migration. Python 3.11--3.14 installation compatibility
+is now measured in the separate archived #5 record.

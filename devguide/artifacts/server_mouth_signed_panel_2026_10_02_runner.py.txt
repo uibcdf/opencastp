@@ -1,0 +1,389 @@
+"""Compare OpenCASTp directly with pinned local CASTp3/CASTpFold archives.
+
+TopoMT supplies developer-only molecular preparation. Region predictions and
+analytical metrics are calculated by OpenCASTp; no TopoMT result is the target.
+Archives stay external and are never extracted wholesale or redistributed.
+"""
+
+import argparse
+import hashlib
+import json
+import math
+import subprocess
+import tempfile
+import time
+from collections import Counter, defaultdict
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from importlib import metadata
+from pathlib import Path
+from zipfile import ZipFile
+
+import numpy as np
+import pyunitwizard as puw
+
+from opencastp import analyze
+
+FIELDS = (
+    ("solvent_accessible_area", "angstrom**2"),
+    ("molecular_surface_area", "angstrom**2"),
+    ("solvent_accessible_volume", "angstrom**3"),
+    ("molecular_surface_volume", "angstrom**3"),
+)
+
+ADDITIONAL_FIELDS = (
+    ("intersection_length", "angstrom"),
+    ("corner_count", None),
+    ("solvent_accessible_mouth_area", "angstrom**2"),
+    ("molecular_surface_mouth_area", "angstrom**2"),
+    ("solvent_accessible_mouth_perimeter", "angstrom"),
+    ("molecular_surface_mouth_perimeter", "angstrom"),
+    ("mouth_triangle_count", None),
+)
+
+
+def prepare_pdb_records(pdb_bytes: bytes, policy: str) -> bytes:
+    """Apply a declared input-record policy without consulting server results.
+
+    'protein' preserves the existing caller's protein/peptide preparation;
+    'atom' excludes HETATM before the same preparation. The latter reflects
+    the pinned corpus, not a universal server or molecular chemistry contract.
+    """
+    if policy == "protein":
+        return pdb_bytes
+    if policy == "atom":
+        return b"".join(
+            line
+            for line in pdb_bytes.splitlines(keepends=True)
+            if not line.startswith(b"HETATM")
+        )
+    raise ValueError("Unknown PDB record policy")
+
+
+def read_archive(path: Path) -> tuple[bytes, list[dict]]:
+    """Read original atom memberships and printed analytical values."""
+    with ZipFile(path) as handle:
+
+        def read(suffix):
+            names = [name for name in handle.namelist() if name.endswith(suffix)]
+            if len(names) != 1:
+                raise ValueError(f"Expected exactly one {suffix} file")
+            return handle.read(names[0])
+
+        pdb = read(".pdb")
+        atoms = defaultdict(set)
+        for line in read(".poc").decode().splitlines():
+            if line.startswith(("ATOM", "HETATM")):
+                atoms[int(line.split()[-2])].add(int(line[6:11]))
+        mouths = defaultdict(set)
+        for line in read(".mouth").decode().splitlines():
+            if line.startswith(("ATOM", "HETATM")):
+                mouths[int(line.split()[-2])].add(int(line[6:11]))
+        mouth_info = {
+            int(row[2]): row
+            for row in (
+                line.split() for line in read(".mouthInfo").decode().splitlines()[1:]
+            )
+            if row
+        }
+        regions = []
+        for line in read(".pocInfo").decode().splitlines()[1:]:
+            row = line.split()
+            if not row:
+                continue
+            identifier, n_mouths = int(row[2]), int(row[3])
+            mouth_row = mouth_info[identifier]
+            if int(mouth_row[3]) != n_mouths:
+                raise ValueError("Region and mouth counts differ")
+            kind = (
+                ("void", "pocket", "channel")[n_mouths]
+                if n_mouths < 3
+                else "branched_channel"
+            )
+            regions.append(
+                dict(
+                    server_id=identifier,
+                    feature_type=kind,
+                    n_mouths=n_mouths,
+                    atom_indices=sorted(atoms[identifier]),
+                    aggregate_mouth_atoms=sorted(mouths[identifier]),
+                    metrics={
+                        field: row[index + 4]
+                        for index, (field, _unit) in enumerate(FIELDS)
+                    },
+                    additional_metrics=dict(
+                        zip(
+                            (field for field, _unit in ADDITIONAL_FIELDS),
+                            (row[8], row[9], *mouth_row[4:8], mouth_row[8]),
+                            strict=True,
+                        )
+                    ),
+                )
+            )
+        if set(atoms) != {item["server_id"] for item in regions}:
+            raise ValueError("Pocket information and membership IDs differ")
+    return pdb, regions
+
+
+def compare_regions(expected: list[dict], actual: list[dict]) -> dict:
+    """Require exact multiset membership before comparing scalar precision."""
+
+    def key(item):
+        return item["feature_type"], tuple(sorted(item["atom_indices"]))
+
+    reference, predicted = Counter(map(key, expected)), Counter(map(key, actual))
+    buckets = defaultdict(list)
+    for item in actual:
+        buckets[key(item)].append(item)
+    rows = []
+    metric_count = 0
+    additional_count = 0
+    required_additional_count = sum(
+        len(item.get("additional_metrics", {})) for item in expected
+    )
+    for target in expected:
+        candidates = buckets[key(target)]
+        if not candidates:
+            continue
+        if len(candidates) != 1:
+            # Atom sets alone cannot pair duplicate regions for scalar evidence.
+            rows.append(
+                dict(
+                    server_id=target["server_id"],
+                    passed=False,
+                    error="ambiguous duplicate membership",
+                )
+            )
+            continue
+        item = candidates.pop()
+        metrics = []
+        for field, unit in FIELDS:
+            printed = target["metrics"][field]
+            decimals = len(printed.partition(".")[2])
+            tolerance = 0.5 * 10 ** (-decimals) + 1e-8
+            value = item.get(field)
+            value = None if value is None else float(puw.get_value(value, to_unit=unit))
+            passed = (
+                value is not None
+                and math.isfinite(value)
+                and abs(value - float(printed)) <= tolerance
+            )
+            metrics.append(
+                dict(
+                    field=field,
+                    expected=float(printed),
+                    actual=value,
+                    tolerance=tolerance,
+                    passed=passed,
+                )
+            )
+            metric_count += int(passed)
+        mouth_atoms = sorted(
+            {int(atom) for mouth in item["mouths"] for atom in mouth["atom_indices"]}
+        )
+        mouths_passed = (
+            item["n_mouths"] == target["n_mouths"]
+            and mouth_atoms == target["aggregate_mouth_atoms"]
+        )
+        additional_metrics = []
+        for field, unit in ADDITIONAL_FIELDS:
+            printed = target.get("additional_metrics", {}).get(field)
+            if printed is None:
+                continue
+            value = item.get(field)
+            if unit is None:
+                value = None if value is None else int(value)
+                tolerance = 0.0
+            else:
+                value = (
+                    None if value is None else float(puw.get_value(value, to_unit=unit))
+                )
+                tolerance = 0.5 * 10 ** (-len(printed.partition(".")[2])) + 1e-8
+            passed = (
+                value is not None
+                and math.isfinite(value)
+                and abs(value - float(printed)) <= tolerance
+            )
+            additional_metrics.append(
+                dict(
+                    field=field,
+                    expected=float(printed),
+                    actual=value,
+                    tolerance=tolerance,
+                    passed=passed,
+                )
+            )
+            additional_count += int(passed)
+        rows.append(
+            dict(
+                server_id=target["server_id"],
+                feature_type=target["feature_type"],
+                mouths_passed=mouths_passed,
+                metrics=metrics,
+                additional_metrics=additional_metrics,
+                passed=mouths_passed
+                and all(row["passed"] for row in metrics + additional_metrics),
+            )
+        )
+    missing = [
+        [kind, list(atoms)] for kind, atoms in (reference - predicted).elements()
+    ]
+    extra = [[kind, list(atoms)] for kind, atoms in (predicted - reference).elements()]
+    return dict(
+        server_regions=len(expected),
+        native_regions=len(actual),
+        exact_memberships=sum((reference & predicted).values()),
+        missing=missing,
+        extra=extra,
+        regions=rows,
+        matched_scalars=metric_count,
+        required_scalars=4 * len(expected),
+        matched_additional_descriptors=additional_count,
+        required_additional_descriptors=required_additional_count,
+        passed=reference == predicted
+        and len(rows) == len(expected)
+        and all(row["passed"] for row in rows),
+        complete_server_equivalence=False,
+        untested=[
+            "individual mouth geometry",
+            "per-atom contributions",
+            "exported orthospheres",
+        ],
+    )
+
+
+def audit_archive(
+    path: Path, topomt_root: Path, atom_record_policy: str = "protein"
+) -> dict:
+    """Prepare exact molecular input and calculate using only OpenCASTp's engine."""
+    import molsysmt as msm
+    from topomt.third_party.castp3.core.castp_core.geometry import build_castp_geometry
+
+    started = time.monotonic()
+    pdb_bytes, reference = read_archive(path)
+    with tempfile.TemporaryDirectory(prefix="opencastp-oracle-") as folder:
+        pdb = Path(folder) / "input.pdb"
+        prepared_pdb = prepare_pdb_records(pdb_bytes, atom_record_policy)
+        pdb.write_bytes(prepared_pdb)
+        parsed = msm.convert(str(pdb), to_form="molsysmt.MolSys")
+        serials = msm.get(parsed, element="atom", atom_id=True)
+        positions = puw.get_value(
+            msm.get(parsed, element="atom", coordinates=True), to_unit="angstrom"
+        )[0]
+        source = {}
+        for line in pdb_bytes.decode().splitlines():
+            if line.startswith(("ATOM", "HETATM")):
+                serial = int(line[6:11])
+                if serial in source:
+                    raise ValueError("Duplicate original atom serial")
+                source[serial] = [
+                    float(line[a:b]) for a, b in ((30, 38), (38, 46), (46, 54))
+                ]
+        for serial, coordinate in zip(serials, positions, strict=True):
+            np.testing.assert_allclose(
+                coordinate, source[int(serial)], rtol=0, atol=1e-10
+            )
+        geometry = build_castp_geometry(
+            str(pdb),
+            selection='molecule_type in ["protein", "peptide"]',
+            radii_model="castp3_protor",
+            solvent_radius=1.4,
+        )
+        ids = np.asarray(
+            [int(serials[int(index)]) for index in geometry.atom_indices_map]
+        )
+        result = analyze(
+            geometry.atom_coordinates,
+            geometry.atom_radii - 1.4,
+            length_unit="angstrom",
+            probe_radius=1.4,
+            atom_indices=ids,
+            pocket_definition="castp3",
+        )
+        report = compare_regions(reference, result.features)
+        report.update(
+            case=path.stem,
+            completed=True,
+            archive_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+            pdb_sha256=hashlib.sha256(pdb_bytes).hexdigest(),
+            prepared_pdb_sha256=hashlib.sha256(prepared_pdb).hexdigest(),
+            prepared_coordinates_sha256=hashlib.sha256(
+                geometry.atom_coordinates.tobytes()
+            ).hexdigest(),
+            prepared_expanded_radii_sha256=hashlib.sha256(
+                geometry.atom_radii.tobytes()
+            ).hexdigest(),
+            preparation=dict(
+                owner="TopoMT developer reference",
+                atom_record_policy=atom_record_policy,
+                selection='molecule_type in ["protein", "peptide"]',
+                radii_model="castp3_protor",
+                topomt_commit=subprocess.check_output(
+                    ["git", "rev-parse", "HEAD"], cwd=topomt_root, text=True
+                ).strip(),
+            ),
+            versions={
+                name: metadata.version(name)
+                for name in ("molsysmt", "numpy", "scipy", "pyunitwizard")
+            },
+            atom_count=len(ids),
+            seconds=round(time.monotonic() - started, 3),
+        )
+    return report
+
+
+def main() -> int:
+    """Run bounded cases and retain every discrepancy or calculation failure."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--topomt-root", type=Path, required=True)
+    parser.add_argument("--archive-dir", type=Path, required=True)
+    parser.add_argument("--cases", nargs="+", required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--workers", type=int, default=1)
+    parser.add_argument(
+        "--atom-record-policy", choices=("protein", "atom"), default="atom"
+    )
+    args = parser.parse_args()
+    if len(args.cases) != len(set(args.cases)):
+        parser.error("Cases must be unique")
+    report = dict(
+        requested_cases=args.cases,
+        comparison="direct archived-server memberships, region SA/MS and aggregate analytical mouth/boundary descriptors; individual mouth geometry remains unqualified",
+        cases=[],
+        completed=False,
+    )
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    with ProcessPoolExecutor(max_workers=args.workers) as executor:
+        futures = {
+            executor.submit(
+                audit_archive,
+                args.archive_dir / f"{case}.zip",
+                args.topomt_root,
+                args.atom_record_policy,
+            ): case
+            for case in args.cases
+        }
+        for future in as_completed(futures):
+            case = futures[future]
+            try:
+                item = future.result()
+            except Exception as error:
+                item = dict(
+                    case=case,
+                    completed=False,
+                    passed=False,
+                    error=f"{type(error).__name__}: {error}",
+                )
+            report["cases"].append(item)
+            print(
+                f"{case}: completed={item['completed']} passed={item['passed']} scalars={item.get('matched_scalars', 0)}/{item.get('required_scalars', 0)}",
+                flush=True,
+            )
+            args.output.write_text(json.dumps(report, indent=2) + "\n")
+    report["completed"] = all(item["completed"] for item in report["cases"])
+    report["passed"] = all(item["passed"] for item in report["cases"])
+    args.output.write_text(json.dumps(report, indent=2) + "\n")
+    return 0 if report["passed"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -26,16 +26,34 @@ assert result.features[0]["feature_type"] == "void"
 ```
 
 Physical output values are PyUnitWizard quantities. `polyhedral_area` and
-`polyhedral_volume` describe triangulation geometry. Closed voids additionally
-expose solvent-accessible and molecular-surface areas and volumes. Open-region
-analytical SA/MS measures remain pending. Mouth faces use local mesh indices;
+`polyhedral_volume` describe triangulation geometry. All detected regions
+additionally expose solvent-accessible and molecular-surface areas and volumes.
+Analytical SA/MS mouth areas and perimeters use an explicit measurement
+convention, separately from planar mouth fields. Mouth faces use local mesh indices;
 reported atom IDs use the supplied source mapping.
 
 `pocket_definition='literature'` is the published maximum-depth definition.
 `pocket_definition='castp3'` selects an empirical modern-server compatibility
 reconstruction; it does not silently replace the caller's radii.
+`mouth_measurement_policy='signed'` retains signed segment projections;
+`mouth_measurement_policy='castp3'` selects the reconstructed unsigned
+archived-server mouth convention, including its observed negative areas.
+The effective policy is recorded and does not change region detection.
 Complete CASTp3/CASTpFold equivalence is not established. Rust, multithreading
 and GPU are planned; the only implemented backend is `python`.
+
+Complete measured server equivalence is the sole current scientific priority
+under [issue #6](https://github.com/uibcdf/opencastp/issues/6). All other
+improvements are deferred. The fresh forty-system direct-server region audit matches
+all 991 regions and 3964 region SA/MS values with the declared benchmark-wide
+ATOM-record preparation policy. The original 39/40 diagnosis remains retained. See [the region checkpoint](devguide/server_equivalence.md) for exact
+counts, input boundaries and the unqualified individual mouth geometry.
+Three further incorporated-phosphotyrosine examples and a free-ligand control
+bring the fully matching ATOM-record panel to 44 distinct systems.
+The archived server route omits HETATM records, including modified protein
+residues in 1HIV. The benchmark reproduces that input convention explicitly;
+users retain control over their molecular model. See
+[molecular inputs and server comparisons](docs/server_comparison.md).
 
 ## Development
 

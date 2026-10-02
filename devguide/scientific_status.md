@@ -98,3 +98,47 @@ component-specific scientific instructions. Canonical guides were synchronized
 from verified current remote source snapshots. Scoped developer instructions,
 report lifecycle and CI/coverage inventory follow the current starter; the
 published policy membership defect is tracked separately in central #73.
+
+## Direct server region checkpoint — 2026-10-02
+
+The later [direct-server checkpoint](server_equivalence.md) measures the
+independent OpenCASTp engine over the original forty-system panel: 39/40
+cases, 990/991 region memberships and 3960/3964 region SA/MS values. A separate
+explicit ATOM-record preparation of 1HIV matches its 17 regions and 68 values.
+Analytical fields now cover open as well as closed regions; the initial
+closed-only description above remains historical extraction evidence.
+Individual mouth measures and other exported descriptors remain unqualified.
+Complete measured equivalence is the sole current scientific priority under
+#6; other improvements are deferred. No complete server equivalence is claimed.
+
+## Extended direct-server checkpoint — 2026-10-02
+
+The fresh benchmark-wide ATOM preparation matches 40/40 systems, 991 region
+memberships and 3964 region SA/MS values. Analytical aggregate mouth fields
+under the explicit unsigned castp3 convention match 2412 values across 603
+open regions; intersection length, corners and mouth-triangle counts also
+match. The signed precursor's 23/40 full-descriptor result remains separately
+recorded. No epsilon, radius fit or molecule-specific correction is introduced.
+
+Paired 3LCK/1QPE/1G1F phosphotyrosine examples and a 1PTY free-ligand control
+add four fully matching ATOM cases. Retained HETATM preparations mismatch the
+three incorporated-residue examples; 1G1F produces extra regions. The complete
+inventory now covers 44 distinct ATOM systems, 1160 exact region memberships,
+4640 region values and 8120 additional descriptors. This does not qualify all
+89 archives, individual mouth geometry, contributions or orthospheres.
+
+See server_equivalence.md and its pinned artifacts for executed source hashes,
+preparation alternatives, printed precision and open gates. OpenCASTp #6 is
+the sole active scientific priority; acceleration and unrelated improvements
+remain deferred. The numerical API retains arbitrary explicitly supplied
+spheres, and molecular-file ingestion is not yet a public frontend capability.
+
+The final local source gate passes 49 tests with pytest-receptor, including
+executed 1STP and 8RAT molecular guards (one pre-existing Pint cache warning
+in developer preparation). Ruff, bounded public-API mypy and warning-free
+Sphinx checks pass. A non-editable wheel with SHA-256
+ad01d66169e14e3a83dedf5455c325e0dfd13a5c7f5506e8152e5b509b4b74e3
+passes isolated installed void/pocket and analytical mouth smoke in Python
+3.13.14, with neither TopoMT nor MolSysMT imported. Its temporary environment
+borrows scientific dependencies and is not a public package qualification.
+Hosted verification of the changed source remains a separate gate.

@@ -1,0 +1,24 @@
+"""Inspect contributor inclusion against original PDB record types."""
+import argparse
+import csv
+import hashlib
+import io
+import json
+from pathlib import Path
+from zipfile import ZipFile
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--archive-dir', type=Path, required=True)
+parser.add_argument('--output', type=Path, required=True)
+args = parser.parse_args()
+results = []
+for path in sorted(args.archive_dir.glob('*.zip')):
+    with ZipFile(path) as handle:
+        contrib = handle.read(next(name for name in handle.namelist() if name.endswith('.contrib.csv')))
+        lines = '\n'.join(line for line in contrib.decode().splitlines() if line and not line.startswith('#'))
+        contributors = {int(row['Atom_ID']) for row in csv.DictReader(io.StringIO(lines))}
+        pdb = handle.read(next(name for name in handle.namelist() if name.endswith('.pdb')))
+        heterogens = {int(line[6:11]) for line in pdb.decode().splitlines() if line.startswith('HETATM')}
+        results.append(dict(case=path.stem, archive_sha256=hashlib.sha256(path.read_bytes()).hexdigest(), pdb_sha256=hashlib.sha256(pdb).hexdigest(), contribution_sha256=hashlib.sha256(contrib).hexdigest(), pdb_heterogen_count=len(heterogens), contribution_heterogens=sorted(contributors & heterogens), contribution_atoms=len(contributors)))
+args.output.write_text(json.dumps(results, indent=2) + '\n')
+print(f'{len(results)} inputs; {sum(bool(case["contribution_heterogens"]) for case in results)} with contributing HETATM records')

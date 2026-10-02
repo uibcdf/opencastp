@@ -1,0 +1,33 @@
+import argparse,csv,hashlib,io,json,tempfile
+from importlib import metadata
+from zipfile import ZipFile
+from pathlib import Path
+import molsysmt as msm
+parser=argparse.ArgumentParser(description='Inspect protein/peptide HETATM inclusion in pinned server archives.')
+parser.add_argument('--archive-dir',type=Path,required=True)
+parser.add_argument('--cases',nargs='+',default=['1hiv','1qpe','3lck','1g1f','1pty'])
+parser.add_argument('--output',type=Path,required=True)
+args=parser.parse_args()
+root=args.archive_dir
+report=[]
+for case in args.cases:
+ path=root/(case+'.zip')
+ with ZipFile(path) as z:
+  pdb=z.read(next(n for n in z.namelist() if n.endswith('.pdb')))
+  csv_bytes=z.read(next(n for n in z.namelist() if n.endswith('.contrib.csv')))
+ contributors={int(row['Atom_ID']) for row in csv.DictReader(io.StringIO("\n".join(line for line in csv_bytes.decode().splitlines() if line and not line.startswith("#"))))}
+ text=pdb.decode(); het={int(line[6:11]):line for line in text.splitlines() if line.startswith('HETATM')}
+ with tempfile.TemporaryDirectory(prefix='opencastp-het-inspection-') as tmp:
+  f=Path(tmp)/'input.pdb';f.write_bytes(pdb)
+  mol=msm.convert(str(f),to_form='molsysmt.MolSys')
+  indices=msm.select(mol,selection='molecule_type in ["protein", "peptide"]')
+  serials=msm.get(mol,element='atom',atom_id=True)
+  protein_ids={int(serials[i]) for i in indices}
+ selected=sorted(set(het)&protein_ids)
+ groups={}
+ for serial in selected:
+  line=het[serial];key=line[17:27].strip()
+  groups.setdefault(key,[]).append(serial)
+ print(case,'selected HETATM',len(selected),groups,flush=True)
+ report.append(dict(case=case,archive_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),pdb_sha256=hashlib.sha256(pdb).hexdigest(),contribution_sha256=hashlib.sha256(csv_bytes).hexdigest(),protein_heterogen_atom_ids=selected,protein_heterogen_groups=groups,contributing_protein_heterogens=sorted(set(selected)&contributors),MODRES=[line for line in text.splitlines() if line.startswith('MODRES')],LINK=[line for line in text.splitlines() if line.startswith('LINK')],rcsb_url='https://www.rcsb.org/structure/'+case.upper()))
+args.output.write_text(json.dumps({'cases':report,'molsysmt_version':metadata.version('molsysmt'),'selection':'molecule_type in ["protein", "peptide"]'},indent=2)+'\n')

@@ -151,14 +151,14 @@ def analyze(
             raise CastpGeometryError(
                 "Four points are coplanar on the five-decimal grid"
             )
-    probe_values = (
+    probe = (
         np.asarray(1.4)
         if probe_radius is None
         else _length_values(probe_radius, scale, "probe_radius")
     )
-    if probe_values.ndim != 0 or not np.isfinite(probe_values) or probe_values < 0:
+    if probe.ndim != 0 or not np.isfinite(probe) or probe < 0:
         raise CastpInputError("probe_radius must be one finite non-negative length")
-    probe = float(probe_values)
+    probe = float(probe)
     ids: np.ndarray
     if atom_indices is None:
         ids = np.arange(len(points), dtype=int)
