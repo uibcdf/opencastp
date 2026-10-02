@@ -1,0 +1,53 @@
+{
+  "topomt_commit": "e891ccb823d97e56ffefb3cd58a98de666e1bf7d",
+  "pocket_definition": "castp3",
+  "radii_preparation": "castp3_protor",
+  "comparison": "same prepared spheres; independent geometry and analytical void calculations",
+  "cases": [
+    {
+      "case": "1stp",
+      "passed": true,
+      "archive_sha256": "0e80ae5ab12e4339ff40f24c13ef65df829f50cc4efe9c91e17839a6b4e82b5a",
+      "pdb_sha256": "39c5922d3c24c9b9110fde936915d1904e51d5d929d561035a28f94b626c97a3",
+      "prepared_coordinates_sha256": "967d8fb85366286ab3e1b48b366c21cc0aec2e83a82b6e94cb37638ad2fbf72b",
+      "prepared_expanded_radii_sha256": "bff92c69fd1f386eebcf33c0d0d3dcdd8bbaddc56ee17e105c4542860e90b217",
+      "counts": {
+        "pocket": 5,
+        "void": 3,
+        "channel": 1
+      },
+      "analytical_void_scalars": 12,
+      "atom_count": 901,
+      "seconds": 36.634,
+      "versions": {
+        "molsysmt": "0.22.4+118.g03b318549.dirty",
+        "numpy": "2.4.6",
+        "scipy": "1.18.0",
+        "pyunitwizard": "0.25.0+7.g00d756c"
+      }
+    },
+    {
+      "case": "1cdo",
+      "passed": true,
+      "archive_sha256": "288afe4a4655c4be293fa59b01fc4d47af44614f08334510e1cae1e0b156b560",
+      "pdb_sha256": "3806c9b7efc7527444f3213bb02a61e6d56138fc930e7da3db940bf02499763f",
+      "prepared_coordinates_sha256": "4997cef3e3c6e28543ed1342d4e20dbcf3baa54fd5849ce29387a12e6ee16b62",
+      "prepared_expanded_radii_sha256": "8f90146f92908d6d8897d8a1650ea0aa2038c2e09057253cea71654cfcd2aec1",
+      "counts": {
+        "branched_channel": 3,
+        "void": 43,
+        "pocket": 36,
+        "channel": 3
+      },
+      "analytical_void_scalars": 172,
+      "atom_count": 5606,
+      "seconds": 228.968,
+      "versions": {
+        "molsysmt": "0.22.4+118.g03b318549.dirty",
+        "numpy": "2.4.6",
+        "scipy": "1.18.0",
+        "pyunitwizard": "0.25.0+7.g00d756c"
+      }
+    }
+  ]
+}

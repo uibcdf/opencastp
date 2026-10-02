@@ -1,0 +1,75 @@
+{
+  "source_repository": "uibcdf/topomt",
+  "source_commit": "e891ccb823d97e56ffefb3cd58a98de666e1bf7d",
+  "extracted": "2026-10-02",
+  "files": [
+    {
+      "source_path": "topomt/third_party/castp3/core/castp_core/exact.py",
+      "source_sha256": "e0bea997d7df2626179e2d88f7d58f138f2496c835e81695c2e530e3de5f437d",
+      "destination": "src/opencastp/_core/exact.py",
+      "transformation": "Numerical source retained; formatting may change."
+    },
+    {
+      "source_path": "topomt/third_party/castp3/core/castp_core/components.py",
+      "source_sha256": "bd71a0f4b76f3bcd7a1445b151768a0ec4d78044930fa182b796c08176b3846f",
+      "destination": "src/opencastp/_core/components.py",
+      "transformation": "Numerical source retained; formatting may change."
+    },
+    {
+      "source_path": "topomt/third_party/castp3/core/castp_core/mouths.py",
+      "source_sha256": "8eb0afbdf921f4688e8005627318ef89c732a7e4dff1685f1651a4bcf35dc660",
+      "destination": "src/opencastp/_core/mouths.py",
+      "transformation": "Numerical source retained; formatting may change."
+    },
+    {
+      "source_path": "topomt/third_party/castp3/core/castp_core/volbl.py",
+      "source_sha256": "537e5039ddade379d70989e2905cd22fd0d047dead7378404d950295b92f003f",
+      "destination": "src/opencastp/_core/volbl.py",
+      "transformation": "Numerical source retained; formatting may change. Legacy identifier l renamed vertex_l for Ruff E741."
+    },
+    {
+      "source_path": "topomt/third_party/castp3/core/castp_core/__init__.py",
+      "source_sha256": "fd67bd4311284652cb886968b7b9a8d78630c5ab71e7b1635567f569c95c7b46",
+      "destination": "src/opencastp/_core/__init__.py",
+      "transformation": "Numerical source retained; formatting may change."
+    },
+    {
+      "source_path": "topomt/third_party/castp3/core/castp_core/geometry.py",
+      "source_sha256": "86d234829af0ee1bf98e91193c4c0a1ed5e861e9cce4652e1fd6946cd511aee1",
+      "destination": "src/opencastp/_core/geometry.py",
+      "transformation": "Remove molecular preparation, legacy radii tables and TopoMT imports; retain numerical stages; array-only input boundary."
+    },
+    {
+      "source_path": "topomt/weighted_delaunay_mesh.py",
+      "source_sha256": "989cc362a7fc340611b94b872398b2c384cb0cf0ef391b855ce65987498cfbfb",
+      "destination": "src/opencastp/_core/weighted_mesh.py",
+      "transformation": "Retain numeric mesh operations; remove unit conversion from the private array kernel."
+    },
+    {
+      "source_path": "topomt/delaunay_mesh.py",
+      "source_sha256": "7dff832d02c3c999e17847cde8d431e355a2d93fa8a45783de505351a2e8540c",
+      "destination": "src/opencastp/_core/primitives.py",
+      "transformation": "Extract only face-index constant and three tetrahedral primitives."
+    },
+    {
+      "source_path": "topomt/tools/geometry/primitives.py",
+      "source_sha256": "40b1d1a7ccb3659f8af880e39922c932318761d6021226fa1e8667d91c734ce6",
+      "destination": "src/opencastp/_core/primitives.py",
+      "transformation": "Extract triangle_area unchanged."
+    },
+    {
+      "source_path": "topomt/third_party/castp3/core/castp_core/metrics.py",
+      "source_sha256": "4a462ec5d0480fded3d1a1ea851f8a8b1b974c0ae90b3028093460e0f1402d46",
+      "destination": "src/opencastp/_core/metrics.py",
+      "transformation": "Use the same local triangle-area primitive for component and mouth areas."
+    }
+  ],
+  "exclusions": [
+    "Historical C sources",
+    "Historical PDB2ALF parameter file",
+    "Server archives and molecular fixtures",
+    "Molecular preparation",
+    "Topography adapters",
+    "Physicochemical ranking"
+  ]
+}

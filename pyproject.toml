@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68", "versioningit"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opencastp"
+dynamic = ["version"]
+description = "Local, reproducible CASTp geometry analysis for molecular cavities and openings."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+license = {text = "MIT"}
+dependencies = ["numpy>=1.26,<3", "scipy>=1.11", "pyunitwizard>=0.25.0"]
+
+[project.urls]
+Source = "https://github.com/uibcdf/opencastp"
+Issues = "https://github.com/uibcdf/opencastp/issues"
+
+[tool.versioningit]
+default-version = "0.1.0+unknown"
+
+[tool.versioningit.format]
+distance = "{base_version}+{distance}.{vcs}{rev}"
+dirty = "{base_version}+{distance}.{vcs}{rev}.dirty"
+distance-dirty = "{base_version}+{distance}.{vcs}{rev}.dirty"
+
+[tool.versioningit.vcs]
+method = "git"
+match = ["*"]
+default-tag = "0.1.0"
+
+[tool.versioningit.tag2version]
+regex = '^(?P<version>(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*))$'
+require-match = true
+
+[project.optional-dependencies]
+docs = ["sphinx>=7", "myst-parser>=2"]
+test = [
+  "pytest>=8",
+  "pytest-receptor==1.1.0",
+  "ruff==0.16.5",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+extend-exclude = ["MOLSYSSUITE_GUIDE.md", "PYUNITWIZARD_GUIDE.md", "GH_RUN_RECEPTOR_GUIDE.md", "PYTEST_RECEPTOR_GUIDE.md"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

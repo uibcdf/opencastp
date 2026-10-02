@@ -1,0 +1,14 @@
+channels:
+  - uibcdf
+  - conda-forge
+dependencies:
+  - python >=3.11,<3.14
+  - pip
+  - setuptools >=68
+  - versioningit
+  - wheel
+  - pytest >=8
+  - pytest-receptor ==1.1.0
+  - numpy >=1.26,<3
+  - scipy >=1.11
+  - pyunitwizard >=0.25.0
