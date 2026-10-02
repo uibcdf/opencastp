@@ -48,3 +48,12 @@ and the maintainer's later instruction.
 Rust and GPU are planned. No empty Cargo crate or placeholder backend is counted
 as an implemented capability. Dependency and provenance qualification belongs
 to uibcdf/opencastp#2; extraction and scientific validation to #1.
+
+## Coexistence review boundary
+
+Retained duplication is deliberate under the maintainer's instruction and
+uibcdf/opencastp#1 / uibcdf/molsyssuite#70. The maintainer owns the future
+migration decision. Review by 2026-12-31; this is a review checkpoint, not
+permission to remove TopoMT code. Removal requires a later explicit instruction
+and a validated optional consumer adapter. Until then, TopoMT retains both
+historical and modern implementations and its molecular preparation contracts.

@@ -40,7 +40,7 @@ and GPU are planned; the only implemented backend is `python`.
 ## Development
 
 Use Python 3.13 for routine development. The inherited compatibility target is
-Python 3.11, 3.12 and 3.13. Initial platform and installed-package qualification
+Python 3.11, 3.12 and 3.13. Full supported-minor/platform and clean dependency-closure qualification
 remain pending; no public release or stable API is claimed.
 
 ```bash
@@ -57,6 +57,12 @@ sphinx-build -W -b html docs /tmp/opencastp-docs
 The official public installation route will be the `uibcdf` Conda channel with
 third-party dependencies from `conda-forge`, after candidate verification and
 publication. There is no published-package installation claim yet.
+
+Coverage of the numerical library is applicable. A meaningful producer and
+accepted uploaded report remain tracked in
+[OpenCASTp #3](https://github.com/uibcdf/opencastp/issues/3); no percentage is
+claimed before that evidence exists. CI and installed-artifact evidence are
+separate from server compatibility.
 
 ## Governance and provenance
 
