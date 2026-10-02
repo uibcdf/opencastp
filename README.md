@@ -2,7 +2,7 @@
 
 [![MolSysSuite: Support Library](https://img.shields.io/badge/MolSysSuite-support%20library-2563eb?labelColor=24292f)](https://github.com/uibcdf/molsyssuite/blob/main/devguide/repository_badges.md#support-library)
 [![MolSysSuite policy](https://github.com/uibcdf/opencastp/actions/workflows/molsyssuite-policy.yml/badge.svg?branch=main)](https://github.com/uibcdf/opencastp/actions/workflows/molsyssuite-policy.yml)
-[![Python 3.11 | 3.12 | 3.13](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13-3776AB?logo=python&logoColor=white)](https://github.com/uibcdf/molsyssuite/blob/main/devguide/python_policy.md)
+[![Python 3.11 | 3.12 | 3.13 | 3.14](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-3776AB?logo=python&logoColor=white)](https://github.com/uibcdf/molsyssuite/blob/main/devguide/python_policy.md)
 [![License](https://img.shields.io/github/license/uibcdf/opencastp)](https://github.com/uibcdf/opencastp/blob/main/LICENSE)
 
 OpenCASTp is an incubating auxiliary MolSysSuite library for local analysis of
@@ -40,8 +40,10 @@ and GPU are planned; the only implemented backend is `python`.
 ## Development
 
 Use Python 3.13 for routine development. The inherited compatibility target is
-Python 3.11, 3.12, 3.13 and 3.14; the newly requested 3.14 lane is pending executed qualification. Full supported-minor/platform and clean dependency-closure qualification
-remain pending; no public release or stable API is claimed.
+Python 3.11, 3.12, 3.13 and 3.14. The four-minor Linux matrix has passed,
+including non-editable installed numerical checks. Broader platform and
+public-channel dependency qualification remain pending; no public release
+or stable API is claimed.
 
 ```bash
 conda env create -n opencastp-dev -f devtools/conda-envs/development_env.yaml
@@ -78,7 +80,7 @@ TopoMT's CASTp implementation is retained during this initial coexistence.
 Consult [source provenance](THIRD_PARTY_NOTICES.md) before public distribution.
 
 The policy workflow currently executes an explicit admission bootstrap pinned to
-MolSysSuite commit `a801b4ae09aa3085228013dbfdead8b3b905868b`.
+MolSysSuite commit `2707ef9389e0579ece75138b0b5c5e1fdb2a1a34`.
 The published `policy-v1.5.2` caller is visibly disabled because its frozen
 membership registry predates OpenCASTp. This bounded source-checker exception
 expires on 2026-12-31 and is tracked in

@@ -57,7 +57,7 @@ No macOS/Windows or public-channel claim follows from these runs.
 The published policy caller failed at run 37055145913 with `[UNREGISTERED]`:
 its immutable policy-v1.5.2 registry predates this member. The provider defect is
 uibcdf/molsyssuite#73. Interim conformance uses the explicit immutable central
-admission checker `a801b4ae09aa3085228013dbfdead8b3b905868b`, the same inherited
+admission checker `2707ef9389e0579ece75138b0b5c5e1fdb2a1a34`, the same inherited
 Ruff version and a deadline gate. The old caller remains visibly disabled; no
 published policy adoption is claimed. The central policy-caller exception
 expires on 2026-12-31. The maintainer owns review; removal requires a published
@@ -65,3 +65,13 @@ admission-aware gate that recognizes OpenCASTp and passes actual hosted checks.
 
 Coverage reporting remains pending. Do not close this theme based solely on
 bootstrap success or use a static badge to replace missing coverage evidence.
+
+## Four-minor installed qualification — 2026-10-02
+
+At 762db29693f030ac61baa423de0371993ad6a454, routine 37058866994,
+full 37058887654 and explicit source conformance 37058867837 passed.
+All four real interpreter/installation/numerical/test cells executed; see
+../artifacts/hosted_python_matrix_2026_10_02.json. Python support is admitted
+under #5; the central CI review is partial, with no unobserved OS claim or
+executed PR claim. Coverage remains pending, and the published policy exception
+remains active under central #73. This theme therefore remains open.

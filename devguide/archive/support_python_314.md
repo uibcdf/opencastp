@@ -1,13 +1,13 @@
 ---
 summary: Support Python 3.14 with installed scientific validation
 issue: uibcdf/opencastp#5
-status: active
+status: resolved
 opened: 2026-10-02
-closed:
-verification: inspected
+closed: 2026-10-02
+verification: measured
 area: [compatibility, testing, distribution]
-guard:
-normative:
+guard: tests/test_analysis.py
+normative: devguide/python_support.md
 blocked_by: []
 supersedes: []
 ---
@@ -40,3 +40,24 @@ widening TopoMT's existing contract or removing either of its CASTp routes.
 - Record source/artifact/interpreter evidence and limits.
 - Admit the wider component contract and generate its canonical Python badge only after success.
 - Retain the scientific suite as the durable runtime guard; public Conda publication stays in #2.
+
+## Resolution — 2026-10-02
+
+Full matrix 37058887654 at 762db29693f030ac61baa423de0371993ad6a454
+executed and passed on Python 3.11.16, 3.12.14, 3.13.15 and 3.14.7.
+Each cell passed non-editable installation, the isolated installed numerical
+validator and 26 unfiltered tests. Actual interpreter assertions passed.
+Native evidence is ../artifacts/hosted_python_matrix_2026_10_02.json;
+GH Run Receptor 1.1.1 preserved native success. Routine 37058866994 and the
+bounded source-policy gate 37058867837 also passed.
+
+The public analysis tests protect numerical execution, quantities, validation
+and atom mapping in the real interpreter. Installation and interpreter gates
+separately protect acquisition and matrix identity; the test module alone is
+not represented as complete packaging evidence. The normative support document
+records the accepted range and these limits. Metadata/Conda constraints and
+routine/full CI remain aligned. Central transition admission and its generated
+badge now reflect this measured outcome.
+
+This qualifies Linux interpreter/runtime compatibility; no macOS/Windows,
+public OpenCASTp channel or complete server-equivalence claim follows.

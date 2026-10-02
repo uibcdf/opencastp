@@ -79,3 +79,22 @@ No server archives are redistributed here before the data/provenance review.
 Molecular preparation and castp3_protor radius assignment remain caller-owned;
 the initial standalone API requires explicit radii and does not resolve 1HIV
 preparation or unobserved terminal labels automatically.
+
+## Hosted compatibility checkpoint — 2026-10-02
+
+Source 762db29693f030ac61baa423de0371993ad6a454 passed routine CI
+37058866994 and full four-minor Linux matrix 37058887654. Actual Python
+3.11.16, 3.12.14, 3.13.15 and 3.14.7 each passed non-editable installation,
+the isolated installed numerical validator and 26 unfiltered tests. Native
+step/runtime evidence is artifacts/hosted_python_matrix_2026_10_02.json.
+These lanes used public Conda dependencies and built OpenCASTp from source;
+they do not establish a publicly published OpenCASTp package. The 1STP/1CDO
+molecular extraction audit above was executed in the recorded Python 3.13
+development environment and is not represented as a new four-minor corpus run.
+
+The official repository starter was re-generated from current MolSysSuite
+source 362d440, then extended with the retained numerical extraction and
+component-specific scientific instructions. Canonical guides were synchronized
+from verified current remote source snapshots. Scoped developer instructions,
+report lifecycle and CI/coverage inventory follow the current starter; the
+published policy membership defect is tracked separately in central #73.
