@@ -124,3 +124,12 @@ Ruff, bounded public-API mypy, generated-index verification and warning-free
 Sphinx checks pass. The final numerical wheel passes an isolated non-editable
 Python 3.13.14 void/pocket/mouth smoke without TopoMT/MolSysMT imports. Hosted
 supported-minor evidence for the changed commit remains independent.
+
+## Hosted verification
+
+Commit a050289 passes full matrix 37075626305 on actual Python 3.11.16,
+3.12.14, 3.13.15 and 3.14.7, with non-editable installation, isolated
+void/pocket/mouth smoke and 47 source tests plus two explicit molecular skips
+per minor. The locally executed molecular guards and 44-case benchmark remain
+separate evidence. Routine CI 37075626152 and admission bootstrap 37075626661
+also pass. See ../scientific_status.md and the pinned native runtime artifact.

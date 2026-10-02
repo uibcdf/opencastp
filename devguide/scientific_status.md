@@ -142,3 +142,18 @@ passes isolated installed void/pocket and analytical mouth smoke in Python
 3.13.14, with neither TopoMT nor MolSysMT imported. Its temporary environment
 borrows scientific dependencies and is not a public package qualification.
 Hosted verification of the changed source remains a separate gate.
+
+## Hosted verification of the equivalence checkpoint
+
+Scientific source a0502899e61b4a6d5cc2232f951bea45ccf43d98 passes routine CI
+37075626152, the bounded admission source-policy check 37075626661 and full
+four-minor Linux matrix 37075626305. GH Run Receptor reports GitHub success.
+Native logs verify Python 3.11.16, 3.12.14, 3.13.15 and 3.14.7. Each minor
+passes non-editable installation, isolated installed void/pocket/mouth
+validation and 47 source tests; two explicit local-archive molecular guards
+skip visibly in hosted environments. Both guards passed in the 49-test local
+run. This is not a four-minor rerun of the 44-system molecular benchmark.
+The sanitized native job/step and runtime facts are retained in
+artifacts/hosted_equivalence_python_matrix_2026_10_02.json. The published-policy
+caller remains separately disabled under the existing central #73 bootstrap
+exception; source-check success is not published policy adoption.
