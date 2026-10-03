@@ -298,3 +298,38 @@ def test_live_output_inspection_rejects_html_even_with_http_200():
             assert not row["html"] and row["valid_data"]
             assert row["same_bytes_as_archive"]
             assert row["sha256"] == row["archive_sha256"]
+
+
+def test_independent_atom_export_controls_preserve_a_new_formatting_failure():
+    report = json.loads(
+        (ARTIFACTS / "independent_atom_export_controls_2026_10_03.json").read_text()
+    )
+    assert report["completed"] and not report["complete_server_equivalence"]
+    assert report["python"] == "3.14.7"
+    assert not report["public_export_policy_delivered"]
+    assert {row["case"] for row in report["cases"]} == {"1stp", "8rat"}
+    assert sum(row["tested"] for row in report["cases"]) == 3702
+    assert sum(row["passed"] for row in report["cases"]) == 3620
+    assert sum(len(row["failed"]) for row in report["cases"]) == 82
+    for name, digest in report["collector_sha256"].items():
+        assert hashlib.sha256((ARTIFACTS / name).read_bytes()).hexdigest() == digest
+    cases = {row["case"]: row for row in report["cases"]}
+    first = cases["1stp"]["quantization_diagnostic"]
+    assert first["matched"] == first["required"] == 1802
+    assert first["explained_original_failures"] == 47
+    assert first["introduced_failures"] == 0
+    other = cases["8rat"]["quantization_diagnostic"]
+    assert other["matched"] == 1899 and other["required"] == 1900
+    assert other["explained_original_failures"] == 35
+    assert other["introduced_failures"] == 1
+    (introduced,) = other["failed"]
+    assert introduced["atom_id"] == 429 and introduced["field"] == "SA_Volume"
+    assert introduced["passed"] and not introduced["export_matches"]
+    assert abs(introduced["actual"] - introduced["expected"]) <= introduced["tolerance"]
+    assert float(np.round(float(f"{introduced['actual']:.4f}"), 3)) == 11.040
+    assert introduced["expected"] == 11.039
+    for case in report["cases"]:
+        for row in case["failed"]:
+            assert abs(row["actual"] - row["expected"]) > row["tolerance"]
+        assert case["preparation"]["atom_record_policy"] == "atom"
+        assert case["preparation"]["radii_model"] == "castp3_protor"

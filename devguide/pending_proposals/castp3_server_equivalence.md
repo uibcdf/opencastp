@@ -225,3 +225,15 @@ accepts explicit radii and independent region/mouth policies; public molecular
 preparation controls and a certified server export recipe remain to implement
 and validate. No new API, rounding rule or full equivalence claim is introduced
 by this documentation decision. Current scientific failures remain open under #6.
+
+
+## Independent export-hypothesis controls — 2026-10-03
+
+The [1STP/8RAT atom controls](../independent_atom_export_controls_2026_10_03.md) test the same four-decimal intermediate
+export candidate on 3,702 additional SA space-filling quantities. All 82
+strict raw discrepancies match that candidate, but it introduces a new
+8RAT atom-429 export failure where the raw value passed. Across the three
+independent systems including 1MRG, the candidate matches 7,564/7,566 values,
+explains 186/187 native discrepancies and introduces one other mismatch.
+It remains unqualified as a public server-export policy. Native precision
+and original failures are retained; the region gate is unchanged.

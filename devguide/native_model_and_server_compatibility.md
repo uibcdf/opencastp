@@ -126,3 +126,15 @@ for 1HIV and the other incorporated-HETATM cases. Native modeling improvements
 do not close a compatibility failure; compatibility success does not establish
 native physical superiority. Rust/GPU and unrelated improvements remain
 deferred, and TopoMT CASTp code remains retained.
+
+
+## Independent export-hypothesis controls — 2026-10-03
+
+The [1STP/8RAT atom controls](independent_atom_export_controls_2026_10_03.md) test the same four-decimal intermediate
+export candidate on 3,702 additional SA space-filling quantities. All 82
+strict raw discrepancies match that candidate, but it introduces a new
+8RAT atom-429 export failure where the raw value passed. Across the three
+independent systems including 1MRG, the candidate matches 7,564/7,566 values,
+explains 186/187 native discrepancies and introduces one other mismatch.
+It remains unqualified as a public server-export policy. Native precision
+and original failures are retained; the region gate is unchanged.

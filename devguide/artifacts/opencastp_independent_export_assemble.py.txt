@@ -1,0 +1,30 @@
+"""Retain independent SA export controls and their original strict failures."""
+
+import hashlib
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
+root = Path('/home/diego/repos@uibcdf/opencastp')
+report = json.loads(Path('/tmp/opencastp_atom_export_independent.json').read_text())
+preparation = json.loads(Path('/tmp/opencastp_prepare_contribution_controls.json').read_text())
+preparations = {row['case']: row for row in preparation['cases']}
+assert {row['case'] for row in report['cases']} == {'1stp', '8rat'}
+for row in report['cases']:
+    row['preparation'] = preparations[row['case']]
+    assert row['atoms'] == row['preparation']['atoms']
+report.update(
+    completed=True, complete_server_equivalence=False, public_export_policy_delivered=False,
+    units={'SA_Area': 'angstrom**2', 'SA_Volume': 'angstrom**3'},
+    assembled_utc=datetime.now(timezone.utc).isoformat(),
+    preparation_producer_versions=preparation['versions'],
+    preparation_python=preparation['python'],
+    preparation_source_sha256=hashlib.sha256(Path('/home/diego/repos@uibcdf/topomt/topomt/third_party/castp3/core/castp_core/geometry.py').read_bytes()).hexdigest(),
+    collector_sha256={name+'.txt': hashlib.sha256(Path('/tmp', name).read_bytes()).hexdigest() for name in (
+        'opencastp_prepare_contribution_controls.py',
+        'opencastp_atom_export_independent.py',
+        'opencastp_independent_export_assemble.py',
+    )},
+)
+Path('/tmp/independent_atom_export_controls_2026_10_03.json').write_text(json.dumps(report, indent=2)+'\n')
+print('Completed independent controls; public_export_policy_delivered=False', flush=True)

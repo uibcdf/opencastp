@@ -1,0 +1,793 @@
+{
+  "scope": "SA space-filling per-atom CHECKING values; not pocket contributions",
+  "complete_server_equivalence": false,
+  "source_commit": "a922f9b00fcb25e0c974d24fa919686401632d1b",
+  "python": "3.14.7",
+  "versions": {
+    "numpy": "2.4.6",
+    "scipy": "1.18.1",
+    "pyunitwizard": "0.27.0",
+    "opencastp": "0.1.0+12.g4ffb6cb"
+  },
+  "cases": [
+    {
+      "case": "1stp",
+      "atoms": 901,
+      "tested": 1802,
+      "passed": 1755,
+      "failed": [
+        {
+          "atom_id": 4,
+          "field": "SA_Volume",
+          "actual": 6.610509471148993,
+          "expected": 6.61,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 9,
+          "field": "SA_Volume",
+          "actual": 8.914535269400073,
+          "expected": 8.914,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 40,
+          "field": "SA_Volume",
+          "actual": 60.19854486161368,
+          "expected": 60.198,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 61,
+          "field": "SA_Volume",
+          "actual": 22.3674758623302,
+          "expected": 22.368,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 77,
+          "field": "SA_Area",
+          "actual": 0.13496553852238424,
+          "expected": 0.14,
+          "tolerance": 0.00500001,
+          "passed": false
+        },
+        {
+          "atom_id": 113,
+          "field": "SA_Volume",
+          "actual": 7.634514038151379,
+          "expected": 7.634,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 138,
+          "field": "SA_Volume",
+          "actual": 25.54851713995363,
+          "expected": 25.548,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 176,
+          "field": "SA_Volume",
+          "actual": 9.72149809647938,
+          "expected": 9.722,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 201,
+          "field": "SA_Volume",
+          "actual": 9.217464126617628,
+          "expected": 9.218,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 207,
+          "field": "SA_Volume",
+          "actual": 39.20253429469242,
+          "expected": 39.202,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 213,
+          "field": "SA_Volume",
+          "actual": 2.03054960277066,
+          "expected": 2.03,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 226,
+          "field": "SA_Volume",
+          "actual": 17.292511957632662,
+          "expected": 17.292,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 238,
+          "field": "SA_Volume",
+          "actual": 33.30252761645122,
+          "expected": 33.302,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 254,
+          "field": "SA_Volume",
+          "actual": 17.888535520755248,
+          "expected": 17.888,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 280,
+          "field": "SA_Area",
+          "actual": 0.04503425579183351,
+          "expected": 0.04,
+          "tolerance": 0.00500001,
+          "passed": false
+        },
+        {
+          "atom_id": 292,
+          "field": "SA_Volume",
+          "actual": 8.879471962202956,
+          "expected": 8.88,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 295,
+          "field": "SA_Volume",
+          "actual": 1.808529366608926,
+          "expected": 1.808,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 301,
+          "field": "SA_Area",
+          "actual": 0.02500881474495742,
+          "expected": 0.02,
+          "tolerance": 0.00500001,
+          "passed": false
+        },
+        {
+          "atom_id": 305,
+          "field": "SA_Volume",
+          "actual": 21.29053429810658,
+          "expected": 21.29,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 310,
+          "field": "SA_Volume",
+          "actual": 25.447475847326345,
+          "expected": 25.448,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 319,
+          "field": "SA_Volume",
+          "actual": 6.51548168061661,
+          "expected": 6.516,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 344,
+          "field": "SA_Volume",
+          "actual": 1.9214558727192481,
+          "expected": 1.922,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 347,
+          "field": "SA_Volume",
+          "actual": 20.544508473227566,
+          "expected": 20.544,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 352,
+          "field": "SA_Volume",
+          "actual": 32.79549922280152,
+          "expected": 32.796,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 353,
+          "field": "SA_Volume",
+          "actual": 6.246509683687086,
+          "expected": 6.246,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 382,
+          "field": "SA_Volume",
+          "actual": 17.050501350556438,
+          "expected": 17.05,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 410,
+          "field": "SA_Volume",
+          "actual": 27.199496688855678,
+          "expected": 27.2,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 469,
+          "field": "SA_Volume",
+          "actual": 24.647459578019717,
+          "expected": 24.648,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 507,
+          "field": "SA_Volume",
+          "actual": 9.067491582488822,
+          "expected": 9.068,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 525,
+          "field": "SA_Volume",
+          "actual": 32.39346100665859,
+          "expected": 32.394,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 535,
+          "field": "SA_Volume",
+          "actual": 6.5394964769703305,
+          "expected": 6.54,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 541,
+          "field": "SA_Volume",
+          "actual": 26.89145406622013,
+          "expected": 26.892,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 575,
+          "field": "SA_Volume",
+          "actual": 34.527465191416006,
+          "expected": 34.528,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 588,
+          "field": "SA_Volume",
+          "actual": 22.055455541286282,
+          "expected": 22.056,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 612,
+          "field": "SA_Volume",
+          "actual": 24.000544207450496,
+          "expected": 24.0,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 647,
+          "field": "SA_Volume",
+          "actual": 43.69053708971246,
+          "expected": 43.69,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 708,
+          "field": "SA_Volume",
+          "actual": 18.56545284462926,
+          "expected": 18.566,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 718,
+          "field": "SA_Volume",
+          "actual": 30.169475662479073,
+          "expected": 30.17,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 730,
+          "field": "SA_Volume",
+          "actual": 10.649491517751162,
+          "expected": 10.65,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 732,
+          "field": "SA_Volume",
+          "actual": 7.287452957824471,
+          "expected": 7.288,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 736,
+          "field": "SA_Volume",
+          "actual": 69.82949868235444,
+          "expected": 69.83,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 750,
+          "field": "SA_Volume",
+          "actual": 34.83946741606411,
+          "expected": 34.84,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 801,
+          "field": "SA_Volume",
+          "actual": 43.9885363254134,
+          "expected": 43.988,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 824,
+          "field": "SA_Volume",
+          "actual": 9.994515703108846,
+          "expected": 9.994,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 828,
+          "field": "SA_Area",
+          "actual": 0.6850429596455805,
+          "expected": 0.68,
+          "tolerance": 0.00500001,
+          "passed": false
+        },
+        {
+          "atom_id": 831,
+          "field": "SA_Volume",
+          "actual": 82.81450392825195,
+          "expected": 82.814,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 868,
+          "field": "SA_Volume",
+          "actual": 9.366522358756477,
+          "expected": 9.366,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        }
+      ],
+      "quantization_diagnostic": {
+        "rule": "printf four-decimal string then numpy round to two area/three volume decimals; empirical candidate, not recovered modern export source",
+        "matched": 1802,
+        "required": 1802,
+        "failed": [],
+        "explained_original_failures": 47,
+        "introduced_failures": 0
+      },
+      "source_sha256": {
+        "pdb": "39c5922d3c24c9b9110fde936915d1904e51d5d929d561035a28f94b626c97a3",
+        "csv": "68a9e841d57a39cd8fe11784ae2ce08b91a153f6a7ee69f0ae934ada661d05d8"
+      },
+      "simplex_counts": {
+        "1": 901,
+        "2": 5586,
+        "3": 8741,
+        "4": 4053
+      },
+      "elapsed_seconds": 33.762386966496706,
+      "prepared_coordinate_sha256": "967d8fb85366286ab3e1b48b366c21cc0aec2e83a82b6e94cb37638ad2fbf72b",
+      "prepared_expanded_radius_sha256": "bff92c69fd1f386eebcf33c0d0d3dcdd8bbaddc56ee17e105c4542860e90b217",
+      "core_source_sha256": {
+        "src/opencastp/_core/geometry.py": "867f8200178ebd50d7356e2154c4224c821eac275aa5edfa441257352fe4b669",
+        "src/opencastp/_core/volbl.py": "6882062560926d795d74f7ab00bc81c36dbdd3afd396c3b0213c9813f848451c"
+      },
+      "preparation": {
+        "case": "1stp",
+        "atoms": 901,
+        "archive_sha256": "0e80ae5ab12e4339ff40f24c13ef65df829f50cc4efe9c91e17839a6b4e82b5a",
+        "pdb_sha256": "39c5922d3c24c9b9110fde936915d1904e51d5d929d561035a28f94b626c97a3",
+        "prepared_pdb_sha256": "472ce95356936e62d624c5c8f2d5a1798b9f50267c21c9eca30477b522cf8f04",
+        "atom_record_policy": "atom",
+        "radii_model": "castp3_protor",
+        "probe_radius_angstrom": 1.4,
+        "selection": "molecule_type in [\"protein\", \"peptide\"]",
+        "topomt_commit": "a0b8eb5cd3115cb7d134ce368583db5fb5b7d3ad"
+      }
+    },
+    {
+      "case": "8rat",
+      "atoms": 950,
+      "tested": 1900,
+      "passed": 1865,
+      "failed": [
+        {
+          "atom_id": 12,
+          "field": "SA_Volume",
+          "actual": 6.331494596366069,
+          "expected": 6.332,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 20,
+          "field": "SA_Area",
+          "actual": 7.085006845031263,
+          "expected": 7.08,
+          "tolerance": 0.00500001,
+          "passed": false
+        },
+        {
+          "atom_id": 124,
+          "field": "SA_Volume",
+          "actual": 8.039459847743412,
+          "expected": 8.04,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 140,
+          "field": "SA_Volume",
+          "actual": 36.95252254860938,
+          "expected": 36.952,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 142,
+          "field": "SA_Volume",
+          "actual": 25.39250538141902,
+          "expected": 25.392,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 196,
+          "field": "SA_Volume",
+          "actual": 28.576515169216382,
+          "expected": 28.576,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 281,
+          "field": "SA_Area",
+          "actual": 3.214970432996221,
+          "expected": 3.22,
+          "tolerance": 0.00500001,
+          "passed": false
+        },
+        {
+          "atom_id": 408,
+          "field": "SA_Volume",
+          "actual": 15.279467469514616,
+          "expected": 15.28,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 424,
+          "field": "SA_Volume",
+          "actual": 38.91749282884407,
+          "expected": 38.918,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 433,
+          "field": "SA_Volume",
+          "actual": 70.9645424265795,
+          "expected": 70.964,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 444,
+          "field": "SA_Volume",
+          "actual": 17.91749419819438,
+          "expected": 17.918,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 480,
+          "field": "SA_Volume",
+          "actual": 32.420519790962906,
+          "expected": 32.42,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 518,
+          "field": "SA_Area",
+          "actual": 0.8450305975224275,
+          "expected": 0.84,
+          "tolerance": 0.00500001,
+          "passed": false
+        },
+        {
+          "atom_id": 538,
+          "field": "SA_Volume",
+          "actual": 51.39650456341674,
+          "expected": 51.396,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 567,
+          "field": "SA_Volume",
+          "actual": 29.280516536313336,
+          "expected": 29.28,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 581,
+          "field": "SA_Volume",
+          "actual": 37.71747480228267,
+          "expected": 37.718,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 584,
+          "field": "SA_Volume",
+          "actual": 39.57749557645441,
+          "expected": 39.578,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 592,
+          "field": "SA_Volume",
+          "actual": 41.52548347911261,
+          "expected": 41.526,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 600,
+          "field": "SA_Volume",
+          "actual": 9.092514430217097,
+          "expected": 9.092,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 641,
+          "field": "SA_Volume",
+          "actual": 30.667471794433734,
+          "expected": 30.668,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 676,
+          "field": "SA_Volume",
+          "actual": 8.228538097305496,
+          "expected": 8.228,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 702,
+          "field": "SA_Volume",
+          "actual": 35.33854929275392,
+          "expected": 35.338,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 720,
+          "field": "SA_Volume",
+          "actual": 41.37652382166746,
+          "expected": 41.376,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 738,
+          "field": "SA_Volume",
+          "actual": 1.9705465013920345,
+          "expected": 1.97,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 740,
+          "field": "SA_Volume",
+          "actual": 21.11545107189127,
+          "expected": 21.116,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 767,
+          "field": "SA_Volume",
+          "actual": 78.36745606289129,
+          "expected": 78.368,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 776,
+          "field": "SA_Volume",
+          "actual": 41.520528394723,
+          "expected": 41.52,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 777,
+          "field": "SA_Volume",
+          "actual": 12.826546354091452,
+          "expected": 12.826,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 792,
+          "field": "SA_Volume",
+          "actual": 6.565462809009322,
+          "expected": 6.566,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 873,
+          "field": "SA_Volume",
+          "actual": 6.515463160196001,
+          "expected": 6.516,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 877,
+          "field": "SA_Area",
+          "actual": 6.014986234165219,
+          "expected": 6.02,
+          "tolerance": 0.00500001,
+          "passed": false
+        },
+        {
+          "atom_id": 878,
+          "field": "SA_Volume",
+          "actual": 32.14046030781111,
+          "expected": 32.141,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 892,
+          "field": "SA_Volume",
+          "actual": 6.332518898688616,
+          "expected": 6.332,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 930,
+          "field": "SA_Volume",
+          "actual": 12.260523815102111,
+          "expected": 12.26,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        },
+        {
+          "atom_id": 932,
+          "field": "SA_Area",
+          "actual": 1.0850222712788442,
+          "expected": 1.08,
+          "tolerance": 0.00500001,
+          "passed": false
+        }
+      ],
+      "quantization_diagnostic": {
+        "rule": "printf four-decimal string then numpy round to two area/three volume decimals; empirical candidate, not recovered modern export source",
+        "matched": 1899,
+        "required": 1900,
+        "failed": [
+          {
+            "atom_id": 429,
+            "field": "SA_Volume",
+            "actual": 11.039450149385319,
+            "expected": 11.039,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "diagnostic_export": 11.04,
+            "export_matches": false
+          }
+        ],
+        "explained_original_failures": 35,
+        "introduced_failures": 1
+      },
+      "source_sha256": {
+        "pdb": "87e7228f66b2719a5d2eab954f79bf8183f599886038fd73d3bc31ee0b2e46c0",
+        "csv": "849bc222c3156e32628d151f29074fb61af854208ebd9c383a6f229affde3216"
+      },
+      "simplex_counts": {
+        "1": 950,
+        "2": 6013,
+        "3": 9513,
+        "4": 4450
+      },
+      "elapsed_seconds": 37.89587972313166,
+      "prepared_coordinate_sha256": "466adf89321e6c746f33c51c476a9a5aa162211117f301347d2fcdb703399f39",
+      "prepared_expanded_radius_sha256": "885624c1623f21a9a3806d35cc133eed1f6077a1ccf2a44d63dde94957a25122",
+      "core_source_sha256": {
+        "src/opencastp/_core/geometry.py": "867f8200178ebd50d7356e2154c4224c821eac275aa5edfa441257352fe4b669",
+        "src/opencastp/_core/volbl.py": "6882062560926d795d74f7ab00bc81c36dbdd3afd396c3b0213c9813f848451c"
+      },
+      "preparation": {
+        "case": "8rat",
+        "atoms": 950,
+        "archive_sha256": "19f08c9e20df50c3a4f8048b4435d843ce65c2c58a908ceef2187c926dc0b91b",
+        "pdb_sha256": "87e7228f66b2719a5d2eab954f79bf8183f599886038fd73d3bc31ee0b2e46c0",
+        "prepared_pdb_sha256": "87e7228f66b2719a5d2eab954f79bf8183f599886038fd73d3bc31ee0b2e46c0",
+        "atom_record_policy": "atom",
+        "radii_model": "castp3_protor",
+        "probe_radius_angstrom": 1.4,
+        "selection": "molecule_type in [\"protein\", \"peptide\"]",
+        "topomt_commit": "a0b8eb5cd3115cb7d134ce368583db5fb5b7d3ad"
+      }
+    }
+  ],
+  "completed": true,
+  "public_export_policy_delivered": false,
+  "units": {
+    "SA_Area": "angstrom**2",
+    "SA_Volume": "angstrom**3"
+  },
+  "assembled_utc": "2026-10-03T13:17:11.127122+00:00",
+  "preparation_producer_versions": {
+    "molsysmt": "0.22.4+24.g42b487869",
+    "topomt": "0.5.0+288.g9504291.dirty",
+    "opencastp": "0.1.0+12.g4ffb6cb",
+    "numpy": "2.4.6",
+    "scipy": "1.18.1",
+    "pyunitwizard": "0.27.0"
+  },
+  "preparation_python": "3.14.7",
+  "preparation_source_sha256": "86d234829af0ee1bf98e91193c4c0a1ed5e861e9cce4652e1fd6946cd511aee1",
+  "collector_sha256": {
+    "opencastp_prepare_contribution_controls.py.txt": "03582965d6332fb986c069ae68863b7ff230c261ab286423700da4c64f3ac3bb",
+    "opencastp_atom_export_independent.py.txt": "5b8b23cfb97ed5062ae431b455ff1695fbdce5a8dcc2170786c3dbd78ea85fff",
+    "opencastp_independent_export_assemble.py.txt": "3a0a8e8fdc998de13ff883dc7dbe3d4de576e73470b3f84ac3da9d041f1b728c"
+  }
+}

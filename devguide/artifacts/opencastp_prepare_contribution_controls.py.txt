@@ -1,0 +1,33 @@
+"""Prepare two independent, previously region-qualified atom export controls."""
+
+import hashlib
+import json
+import pickle
+import subprocess
+import sys
+import tempfile
+from importlib import metadata
+from pathlib import Path
+from zipfile import ZipFile
+
+import molsysmt as msm
+
+from topomt.third_party.castp3.core.castp_core.geometry import build_castp_geometry
+
+root = Path('/home/diego/repos@uibcdf/topomt')
+report = {'python': sys.version.split()[0], 'versions': {name: metadata.version(name) for name in ('molsysmt', 'topomt', 'opencastp', 'numpy', 'scipy', 'pyunitwizard')}, 'cases': []}
+for name in ('1stp', '8rat'):
+    archive = root/'topomt/data/CASTpFold_server'/f'{name}.zip'
+    with ZipFile(archive) as handle:
+        raw = handle.read(next(n for n in handle.namelist() if n.endswith('.pdb')))
+    prepared = b''.join(line for line in raw.splitlines(keepends=True) if not line.startswith(b'HETATM'))
+    with tempfile.TemporaryDirectory(prefix='opencastp-atom-control-') as directory:
+        path = Path(directory)/'input.pdb'
+        path.write_bytes(prepared)
+        geometry = build_castp_geometry(str(path), selection='molecule_type in ["protein", "peptide"]', radii_model='castp3_protor', solvent_radius=1.4)
+    snapshot = {'coordinates': geometry.atom_coordinates, 'radii': geometry.atom_radii}
+    Path(f'/tmp/opencastp_residual_{name}.pickle').write_bytes(pickle.dumps(snapshot))
+    row = {'case': name, 'atoms': len(geometry.atom_radii), 'archive_sha256': hashlib.sha256(archive.read_bytes()).hexdigest(), 'pdb_sha256': hashlib.sha256(raw).hexdigest(), 'prepared_pdb_sha256': hashlib.sha256(prepared).hexdigest(), 'atom_record_policy': 'atom', 'radii_model': 'castp3_protor', 'probe_radius_angstrom': 1.4, 'selection': 'molecule_type in ["protein", "peptide"]', 'topomt_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()}
+    report['cases'].append(row)
+    print(name, row['atoms'], flush=True)
+Path('/tmp/opencastp_prepare_contribution_controls.json').write_text(json.dumps(report, indent=2)+'\n')

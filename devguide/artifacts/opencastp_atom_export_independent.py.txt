@@ -1,0 +1,82 @@
+"""Audit SA atom contributions against the external archived CHECKING CSV."""
+
+import csv
+import hashlib
+import io
+import json
+import pickle
+import sys
+import subprocess
+import time
+from importlib import metadata
+from collections import Counter, defaultdict
+from pathlib import Path
+from zipfile import ZipFile
+
+import numpy as np
+
+ROOT=Path('/home/diego/repos@uibcdf/opencastp')
+TOPOMT=Path('/home/diego/repos@uibcdf/topomt')
+from opencastp._core import volbl
+from opencastp._core.geometry import build_castp_geometry, ALF_VERTEX, ALF_EDGE, ALF_TRIANGLE, ALF_TETRA
+
+report={'scope':'SA space-filling per-atom CHECKING values; not pocket contributions', 'complete_server_equivalence':False,'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'python':sys.version.split()[0],'versions':{name:metadata.version(name) for name in ('numpy','scipy','pyunitwizard','opencastp')},'cases':[]}
+for name in sys.argv[1:]:
+    start=time.monotonic()
+    snapshot=pickle.loads(Path(f'/tmp/opencastp_residual_{name}.pickle').read_bytes())
+    with ZipFile(TOPOMT/'topomt/data/CASTpFold_server'/f'{name}.zip') as arc:
+        raw_pdb=arc.read(next(n for n in arc.namelist() if n.endswith('.pdb')))
+        raw_csv=arc.read(next(n for n in arc.namelist() if n.endswith('.contrib.csv')))
+    coordinates_to_ids=defaultdict(list)
+    for line in raw_pdb.decode().splitlines():
+        if line.startswith('ATOM'):
+            point=tuple(float(line[a:b]) for a,b in [(30,38),(38,46),(46,54)])
+            coordinates_to_ids[point].append(int(line[6:11]))
+    ids=[]
+    for point in snapshot['coordinates']:
+        candidates=coordinates_to_ids[tuple(round(float(v),3) for v in point)]
+        assert len(candidates)==1
+        ids.append(candidates[0])
+    geometry=build_castp_geometry(snapshot['coordinates'],snapshot['radii'],solvent_radius=1.4,atom_indices=np.array(ids))
+    context=volbl._metric_context_from_geometry(geometry)
+    edges=volbl._edge_atoms_by_master_id(geometry)
+    faces=volbl._face_atoms_by_master_id(geometry)
+    contributions=np.zeros((len(ids),2))
+    count=Counter()
+    for rank in range(1,geometry.base_rank+1):
+        start_end=geometry.master_rank_offsets.get(rank)
+        if start_end is None: continue
+        first,last=start_end
+        for entry in geometry.master_entries[first:last]:
+            kind=int(entry.f_type)
+            if kind!=ALF_TETRA and not entry.is_first: continue
+            if kind==ALF_VERTEX:
+                atoms=[int(entry.index)];area=lambda i,*others:context.ball_area(i);volume=lambda i,*others:context.ball_volume(i);sign=1
+            elif kind==ALF_EDGE:
+                atoms=list(edges[int(entry.index)]);area=context.cap_area;volume=context.cap_volume;sign=-1
+            elif kind==ALF_TRIANGLE:
+                atoms=list(faces[int(entry.index)]);area=context.cap2_area;volume=context.cap2_volume;sign=1
+            elif kind==ALF_TETRA:
+                atoms=list(map(int,geometry.mesh.simplex_atom_indices[int(entry.index)]));area=context.cap3_area;volume=context.cap3_volume;sign=-1
+            else: raise AssertionError(kind)
+            count[kind]+=1
+            for atom in atoms:
+                others=[other for other in atoms if other!=atom]
+                contributions[atom]+=sign*np.array([area(atom,*others),volume(atom,*others)])
+    targets={int(row['Atom_ID']):row for row in csv.DictReader(line for line in raw_csv.decode().splitlines() if not line.startswith('#'))}
+    assert set(ids)==set(targets)
+    rows=[]
+    for index,identifier in enumerate(geometry.atom_indices_map):
+        for position,field,quantum in [(0,'SA_Area',.01),(1,'SA_Volume',.001)]:
+            actual=float(contributions[index,position]);expected=float(targets[int(identifier)][field]);tolerance=quantum/2+1e-8
+            rows.append({'atom_id':int(identifier),'field':field,'actual':actual,'expected':expected,'tolerance':tolerance,'passed':abs(actual-expected)<=tolerance})
+    quantized=[]
+    for row in rows:
+        digits=2 if row['field']=='SA_Area' else 3
+        exported=float(np.round(float(f'{row['actual']:.4f}'),digits))
+        quantized.append({**row,'diagnostic_export':exported,'export_matches':exported==row['expected']})
+    result={'case':name,'atoms':len(ids),'tested':len(rows),'passed':sum(row['passed'] for row in rows),'failed':[row for row in rows if not row['passed']],
+        'quantization_diagnostic':{'rule':'printf four-decimal string then numpy round to two area/three volume decimals; empirical candidate, not recovered modern export source','matched':sum(row['export_matches'] for row in quantized),'required':len(quantized),'failed':[row for row in quantized if not row['export_matches']],'explained_original_failures':sum(not row['passed'] and row['export_matches'] for row in quantized),'introduced_failures':sum(row['passed'] and not row['export_matches'] for row in quantized)}, 'source_sha256':{'pdb':hashlib.sha256(raw_pdb).hexdigest(),'csv':hashlib.sha256(raw_csv).hexdigest()},'simplex_counts':dict(count),'elapsed_seconds':time.monotonic()-start,'prepared_coordinate_sha256':hashlib.sha256(snapshot['coordinates'].tobytes()).hexdigest(),'prepared_expanded_radius_sha256':hashlib.sha256(snapshot['radii'].tobytes()).hexdigest(),'core_source_sha256':{str(path.relative_to(ROOT)):hashlib.sha256(path.read_bytes()).hexdigest() for path in [ROOT/'src/opencastp/_core/geometry.py',ROOT/'src/opencastp/_core/volbl.py']}}
+    report['cases'].append(result)
+    Path('/tmp/opencastp_atom_export_independent.json').write_text(json.dumps(report,indent=2)+'\n')
+    print(name,{k:v for k,v in result.items() if k not in ('failed','quantization_diagnostic')},'first_failures',result['failed'][:3],flush=True)
