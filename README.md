@@ -55,6 +55,12 @@ ATOM-record preparation policy. The original 39/40 diagnosis remains retained. S
 counts, input boundaries and the unqualified individual mouth geometry.
 Three further incorporated-phosphotyrosine examples and a free-ligand control
 bring the fully matching ATOM-record panel to 44 distinct systems.
+The [concrete problem register](docs/problems_and_model_control.md) records
+HETATM handling, per-atom radius control and executed pyCASTa index defects.
+The later remaining-45 comparison brings cumulative coverage to all 89
+archives: all 3729 regions and 26103 aggregate descriptors match, while five
+region scalars remain outside the unchanged printed-precision tolerance.
+Thus 84/89 systems pass every audited field; complete equivalence remains open.
 The archived server route omits HETATM records, including modified protein
 residues in 1HIV. The benchmark reproduces that input convention explicitly;
 users retain control over their molecular model. See

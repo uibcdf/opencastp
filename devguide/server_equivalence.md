@@ -193,7 +193,44 @@ remain in the report. Server archives remain external and are not redistributed.
 
 Individual mouth identity/boundary geometry, per-atom contributions and
 exported orthospheres require independent audit. The remaining 45 archives
-and new independently selected inputs have not been fully predicted here.
+have now been calculated as recorded below; five scalar discrepancies remain.
+New independently selected inputs have not been fully predicted here.
 All reports retain complete_server_equivalence=false. Extend measured
 coverage while preserving the present closed-void/open-region controls;
 no finite panel alone establishes equivalence for arbitrary chemistry.
+
+## Expanded corpus checkpoint — 2026-10-03
+
+The complete remaining-45 run independently calculates the disjoint archive
+cohort with the same declared ATOM preparation and compatibility conventions.
+It completes all cases and preserves five strict scalar failures. Results are
+2569/2569 exact regions, 10271/10276 region SA/MS values and 17983/17983
+aggregate mouth/boundary descriptors; 40/45 systems pass every audited field.
+The run exits 1. Evidence is artifacts/server_remaining_panel_2026_10_03.json
+with pinned runner/launch snapshots, hashes, source commit 51bed38 and versions.
+
+Together with the earlier 44 distinct cases, cumulative coverage is all 89
+archives, 3729/3729 exact regions, 14911/14916 region values and 26103/26103
+additional descriptors; 84/89 systems pass the full comparator. This combines
+separately pinned stages rather than claiming a new single 89-input run.
+
+| Input / region | Field | Expected | Actual | Fixed tolerance |
+| --- | --- | ---: | ---: | ---: |
+| 1MRG / 22 | SA volume | 0.004 | 0.0034996378073546275 | 0.00050001 |
+| 1PSN / 13 | SA volume | 0.686 | 0.6854994934777379 | 0.00050001 |
+| 1YPI / 6 | SA volume | 18.094 | 18.094500169312916 | 0.00050001 |
+| 1FBP / 3 | SA area | 299.277 | 299.2764954437975 | 0.00050001 |
+| 2FBP / 11 | SA volume | 36.266 | 36.26650173333687 | 0.00050001 |
+
+Areas use square angstroms and volumes cubic angstroms. These lie near printed
+rounding boundaries, but the cause remains unestablished. Do not loosen the
+comparator, fit radii or promote an unexplained scalar correction. Fixed-
+topology rigid-translation diagnostics on the first three cases retain each
+failure; a simple coordinate-frame remedy is refuted. No numerical source
+changed during this expanded audit. Individual mouth geometry, contributions
+and orthospheres remain unqualified; complete_server_equivalence stays false.
+
+[Concrete comparison evidence](comparison_evidence_2026_10_03.md) records the
+executed pyCASTa preparation/index discrepancies and current public form
+inspection. The public [problem register](../docs/problems_and_model_control.md)
+keeps implemented model control separate from physical correctness claims.

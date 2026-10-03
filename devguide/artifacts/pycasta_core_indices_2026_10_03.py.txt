@@ -1,0 +1,50 @@
+from pathlib import Path
+from zipfile import ZipFile
+import sys, tempfile, json, subprocess, hashlib, logging, os
+import numpy as np
+upstream=Path('/home/diego/repos@others/pycasta')
+sys.path.insert(0,str(upstream/'src/pycasta'))
+with tempfile.TemporaryDirectory(prefix='pycasta-core-audit-') as folder:
+ os.chdir(folder)
+ import config
+ config.OUTPUT_DIR=str(Path(folder)/'results')
+ config.FLOW_KWARGS=dict(config.FLOW_KWARGS,debug=False,write_steps=False)
+ import pocket_detection
+ from alpha_shape import compute_alpha_complex_from_tetrahedra
+ from cgal_wdelaunay import cgal_weighted_delaunay
+ from utils.preprocessing_utils import load_and_separate_pdb,calculate_atomic_radii
+ logging.getLogger().setLevel(logging.ERROR)
+ original=pocket_detection.flow_detection
+ observations=[]
+ def observed_flow(*args,**kwargs):
+  result=original(*args,**kwargs)
+  pockets=result[0];n_atoms=len(args[3]);n_tets=len(args[0])
+  rejected=[p for p in pockets if any(int(i)>=n_atoms or int(i)<0 for i in p)]
+  observations.append({'atoms':n_atoms,'tetrahedra':n_tets,'flow_groups':len(pockets),'groups_rejected_by_atom_count_check':len(rejected),'rejected_valid_tetrahedron_groups':sum(all(0<=int(i)<n_tets for i in p) for p in rejected),'rejected_tetrahedra':sum(len(p) for p in rejected),'sample_rejected_group':list(map(int,rejected[0])) if rejected else []})
+  return result
+ pocket_detection.flow_detection=observed_flow
+ report={'recorded':'2026-10-03','upstream_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=upstream,text=True).strip(),'scope':'Executed geometric routines, not process_pdb (upstream entry module cannot compile); default numerical configuration; output location and debug/write_steps changed','pocketlab_available':False,'source_sha256':{p:hashlib.sha256((upstream/p).read_bytes()).hexdigest() for p in ('src/pycasta/pocket_detection.py','src/pycasta/alpha_shape.py','src/pycasta/run_analysis.py','src/pycasta/config.py','src/pycasta/cgal_wdelaunay.py')},'cases':[]}
+ try:
+  source=upstream/'src/pycasta/run_analysis.py'
+  compile(source.read_text(),str(source),'exec')
+  report['entry_module_compiles']=True
+ except SyntaxError as error:
+  report.update(entry_module_compiles=False,entry_module_error={'type':type(error).__name__,'line':error.lineno,'message':error.msg})
+ for case in ('1stp','1hew'):
+  observations.clear();path=Path(folder)/(case+'.pdb')
+  with ZipFile(Path('/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server')/(case+'.zip')) as z:
+   data=z.read(next(n for n in z.namelist() if n.endswith('.pdb')))
+  path.write_bytes(data)
+  row={'case':case,'pdb_sha256':hashlib.sha256(data).hexdigest()}
+  try:
+   points,ligands,atoms,ppdb=load_and_separate_pdb(str(path));radii=calculate_atomic_radii(ppdb)
+   simplices,info=cgal_weighted_delaunay(points,radii)
+   tetra_positions=points[simplices]
+   mask,proxy,tetra_positions,simplices=compute_alpha_complex_from_tetrahedra(simplices,tetra_positions,config.get_alpha(),case,points,config.FILTER_ALPHA_BY_SASA,config.SASA_CONTACT_THRESHOLD,str(path))
+   output=pocket_detection.detect_pockets(points,simplices,tetra_positions,mask,flow_params=config.FLOW_KWARGS,molecule_name=case,radii=proxy)
+   row.update(completed=True,reported_pockets=len(output['ranked_pockets']) if isinstance(output,dict) else None,return_type=type(output).__name__,triangulation_info=info)
+  except Exception as error:row.update(completed=False,error=f'{type(error).__name__}: {error}')
+  row['flow_observations']=list(observations)
+  report['cases'].append(row)
+ Path('/tmp/pycasta_core_indices_2026_10_03.json').write_text(json.dumps(report,indent=2)+'\n')
+ print(json.dumps({'entry_module_compiles':report['entry_module_compiles'],'entry_module_error':report.get('entry_module_error'),'cases':report['cases']}))

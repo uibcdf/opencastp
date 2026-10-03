@@ -1,0 +1,49 @@
+{
+  "recorded": "2026-10-03",
+  "retrieved_utc": "2026-10-03T08:06:25.801847+00:00",
+  "scope": "Read-only public form inspection; no submitted calculations, undocumented-backend probes or relabeled-input validation",
+  "forms": [
+    {
+      "service": "CASTp3",
+      "url": "http://sts.bioe.uic.edu/castp/calculation.html",
+      "source_sha256": "bac14ff610614ceb10687eb59c4d04c8e868da68c531858b1cb0102b46200fcb",
+      "source_bytes": 11243,
+      "submitted_form_fields": [
+        "file",
+        "probe",
+        "email"
+      ],
+      "probe_range_angstrom": [
+        0,
+        10
+      ],
+      "exposed_hetatm_control": false,
+      "exposed_per_atom_radius_input": false
+    },
+    {
+      "service": "CASTpFold",
+      "url": "https://cfold.bme.uic.edu/castpfold/compute",
+      "bundle_url": "https://cfold.bme.uic.edu/castpfold/static/js/main.9ed1feb8.js",
+      "source_sha256": "037323183fcad6ba992ba11ba1c537c33f7f848d692d5daaef0e365b14f5282f",
+      "source_bytes": 2171158,
+      "submitted_form_fields": [
+        "file",
+        "probe",
+        "email"
+      ],
+      "probe_range_angstrom": [
+        0,
+        10
+      ],
+      "exposed_hetatm_control": false,
+      "exposed_per_atom_radius_input": false,
+      "hetatm_name_occurrences_are_reply_display_only": true
+    }
+  ],
+  "upstream_frontend_reference": {
+    "repo": "https://github.com/BoweiYe1/CastpFold",
+    "commit": "766326ec98256d0daf02783500c1eb7f6812a560",
+    "path": "src/components/CalculationPage.js",
+    "hetatm_control_commented_out": true
+  }
+}

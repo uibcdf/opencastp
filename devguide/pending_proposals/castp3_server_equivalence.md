@@ -147,3 +147,25 @@ and distinguishing polyhedral from SA/MS measures. Preserve missing quantities
 as missing. The server archive remains the oracle; pyCASTa is a comparison
 provider. This evidence may support publication rationale but does not replace
 the remaining individual-mouth, contribution, orthosphere and corpus gates.
+
+## Expanded corpus and concrete comparisons — 2026-10-03
+
+All remaining 45 archives were independently predicted; 40/45 pass every
+audited field. Cumulative disjoint coverage is all 89 archives, 3729 exact
+regions, 14911/14916 region scalars and 26103 additional aggregate descriptors.
+Five strict scalar discrepancies in 1MRG/1PSN/1YPI/1FBP/2FBP remain explicit.
+Rigid translations retain the first three failures; no production correction
+or tolerance change is justified by that diagnosis. Source numerical code is
+unchanged. See ../server_equivalence.md for exact targets and values.
+
+The executed pyCASTa preparation excludes incorporated HETATM atoms in four
+protein/peptide examples and allows elemental, rather than per-atom, radius
+overrides through its inspected table. Its current main module cannot compile;
+separate unchanged geometric-routine calls on 1STP/1HEW demonstrate rejection
+of valid tetrahedron groups using an atom-count limit. These observations are
+pinned to f3418f3 and do not certify a separately distributed package or full
+competitor metric parity. Current public server forms expose no HETATM toggle
+or per-atom radii. The observed restrictions, possible unqualified workarounds,
+negative-mouth convention and independently tested OpenCASTp radius control
+are recorded in ../../docs/problems_and_model_control.md and
+../comparison_evidence_2026_10_03.md. All remaining scientific gates stay open.

@@ -1,0 +1,38 @@
+from pathlib import Path
+from zipfile import ZipFile
+import hashlib
+import json
+import sys
+import tempfile
+import subprocess
+import platform
+
+upstream=Path('/home/diego/repos@others/pycasta')
+sys.path.insert(0,str(upstream/'src/pycasta'))
+from utils.preprocessing_utils import load_and_separate_pdb,calculate_atomic_radii
+from atomic_radii import ATOMIC_RADII_DICT
+import numpy as np
+root=Path('/home/diego/repos@uibcdf/opencastp')
+inventory=json.loads((root/'devguide/artifacts/protein_heterogen_inspection_2026_10_02.json').read_text())
+report={'recorded':'2026-10-03','upstream_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=upstream,text=True).strip(),'runtime_python':platform.python_version(),'scope':'Executed upstream molecular preparation only; no pocket prediction or physical ground truth claim','source_sha256':{},'cases':[]}
+for path in ('src/pycasta/utils/preprocessing_utils.py','src/pycasta/atomic_radii.py','src/pycasta/config.py'):
+ report['source_sha256'][path]=hashlib.sha256((upstream/path).read_bytes()).hexdigest()
+for case in inventory['cases']:
+ with ZipFile(Path('/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server')/(case['case']+'.zip')) as z:
+  data=z.read(next(n for n in z.namelist() if n.endswith('.pdb')))
+ with tempfile.TemporaryDirectory(prefix='pycasta-preparation-') as folder:
+  pdb=Path(folder)/'input.pdb';pdb.write_bytes(data)
+  protein,ligand,atoms,ppdb=load_and_separate_pdb(str(pdb))
+  ids=set(int(x) for x in ppdb.df['ATOM']['atom_number'])
+  ligand_ids=set(int(x) for x in ppdb.df['HETATM'].loc[ppdb.df['HETATM']['residue_name']!='HOH','atom_number'])
+  modified=set(case['protein_heterogen_atom_ids'])
+  radii=calculate_atomic_radii(ppdb)
+  oxygen=np.asarray(ppdb.df['ATOM']['element_symbol'])=='O'
+  original=ATOMIC_RADII_DICT['O']
+  try:
+   ATOMIC_RADII_DICT['O']=1.234
+   perturbed=calculate_atomic_radii(ppdb)
+  finally:ATOMIC_RADII_DICT['O']=original
+  report['cases'].append({'case':case['case'],'pdb_sha256':hashlib.sha256(data).hexdigest(),'protein_atoms':len(protein),'ligand_atoms':len(ligand),'incorporated_heterogen_atoms':len(modified),'included_in_protein':sorted(modified&ids),'classified_as_ligand':sorted(modified&ligand_ids),'water_option_preserves_protein_exclusion':len(load_and_separate_pdb(str(pdb),include_water=True)[0])==len(protein),'oxygen_radius_values':np.unique(radii[oxygen]).tolist(),'elemental_oxygen_override_affects_all_oxygen':bool(np.all(perturbed[oxygen]==1.234)),'other_element_radii_unchanged':bool(np.array_equal(perturbed[~oxygen],radii[~oxygen]))})
+Path('/tmp/pycasta_preparation_2026_10_03.json').write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps({'upstream_commit':report['upstream_commit'],'cases':[{k:r[k] for k in ('case','incorporated_heterogen_atoms','included_in_protein','oxygen_radius_values','elemental_oxygen_override_affects_all_oxygen')} for r in report['cases']]}))

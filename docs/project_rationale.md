@@ -5,6 +5,8 @@ register for OpenCASTp. The current scientific priority is complete measured
 server equivalence under [issue #6](https://github.com/uibcdf/opencastp/issues/6).
 The register records demonstrated capabilities, bounded source observations and
 future candidates separately. It does not certify a public release.
+The [concrete problem register](problems_and_model_control.md) adds executed
+HETATM/radius control evidence, current pyCASTa defects and the expanded corpus.
 
 ## Purpose and alternatives
 
@@ -92,8 +94,11 @@ The current 44-system comparison qualifies exact region memberships, region
 SA/MS values and the audited aggregate mouth/boundary descriptors under the
 declared ATOM-record preparation. Targets are original archived CASTpFold
 outputs. This is not a fresh live comparison of every CASTp3/server route.
-Individual mouth identity and geometry, per-atom contributions, exported
-orthospheres, the remaining 45 archives and independent new inputs still need
+The remaining 45 archives have now been calculated in a separately pinned run:
+all regions and aggregate descriptors match, but five scalar fields fail the
+strict comparator. Cumulative coverage is 84/89 fully passing systems; see the
+concrete problem register. Individual mouth identity and geometry, per-atom
+contributions, exported orthospheres and independent new inputs still need
 audit. No finite panel establishes equivalence for arbitrary chemistry.
 
 After the sole scientific priority is satisfied, readiness work includes source

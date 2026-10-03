@@ -157,3 +157,21 @@ The sanitized native job/step and runtime facts are retained in
 artifacts/hosted_equivalence_python_matrix_2026_10_02.json. The published-policy
 caller remains separately disabled under the existing central #73 bootstrap
 exception; source-check success is not published policy adoption.
+
+## Expanded archived-server checkpoint — 2026-10-03
+
+The remaining 45 archived inputs were independently calculated with the declared
+ATOM preparation: all 2569 region memberships and 17983 aggregate descriptors
+match; 10271/10276 region scalars pass. Five fields in 1MRG, 1PSN, 1YPI, 1FBP
+and 2FBP lie just outside the fixed printed-precision comparison. Their cause
+is open, and the completed run exits 1. Together with the earlier disjoint
+44 cases, cumulative coverage is 89 inputs, 3729 exact regions, 14911/14916
+region scalars and 26103/26103 additional descriptors; 84/89 systems pass every
+audited field. These are separately pinned runs, not new four-minor corpus
+evidence. Source geometry and comparator tolerances were not changed.
+
+See server_equivalence.md and comparison_evidence_2026_10_03.md for full
+artifacts, strict failures, refuted frame-remedy diagnostics, competitor source
+observations and implemented model-control boundaries. Individual mouth
+geometry, per-atom contributions and exported orthospheres remain open under
+#6. No complete equivalence or publicly qualified distribution is claimed.

@@ -1,0 +1,36 @@
+from pathlib import Path
+from zipfile import ZipFile
+import sys,tempfile,json,hashlib
+import numpy as np
+sys.path.insert(0,'/home/diego/repos@uibcdf/opencastp/src')
+sys.path.insert(0,'/home/diego/repos@uibcdf/topomt')
+from opencastp._core.geometry import build_castp_geometry as build_explicit
+from opencastp._core.components import build_castp_feature_records
+from opencastp._core.volbl import _metric_context_from_geometry,_measure_void_component,VolblMetricContext
+from topomt.third_party.castp3.core.castp_core.geometry import build_castp_geometry as prepare
+import molsysmt as msm
+
+report={'recorded':'2026-10-03','purpose':'Rigid-translation diagnostic of strict SA volume print-boundary discrepancies; topology/radii fixed; no production mutation or tolerance change','cases':[]}
+for name,server_id,expected in (('1mrg',22,0.004),('1psn',13,0.686),('1ypi',6,18.094)):
+ with ZipFile(Path('/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server')/(name+'.zip')) as z:
+  data=z.read(next(n for n in z.namelist() if n.endswith('.pdb')))
+  target={int(line[6:11]) for line in z.read(next(n for n in z.namelist() if n.endswith('.poc'))).decode().splitlines() if line.startswith(('ATOM','HETATM')) and int(line.split()[-2])==server_id}
+ with tempfile.TemporaryDirectory(prefix='opencastp-rounding-') as folder:
+  path=Path(folder)/'input.pdb';path.write_bytes(b''.join(line for line in data.splitlines(keepends=True) if not line.startswith(b'HETATM')))
+  molecular=msm.convert(str(path),to_form='molsysmt.MolSys')
+  serials=msm.get(molecular,element='atom',atom_id=True)
+  prepared=prepare(str(path),selection='molecule_type in ["protein", "peptide"]',radii_model='castp3_protor',solvent_radius=1.4)
+  ids=np.asarray([int(serials[int(i)]) for i in prepared.atom_indices_map])
+  geometry=build_explicit(prepared.atom_coordinates,prepared.atom_radii,atom_indices=ids,solvent_radius=1.4)
+  features=build_castp_feature_records(geometry,probe_radius=1.4,pocket_definition='castp3')
+  matches=[r for r in features if set(r['atom_indices'])==target]
+  assert len(matches)==1
+  feature=matches[0];indices=tuple(feature['tetrahedron_indices']);base=_metric_context_from_geometry(geometry)
+  rows=[]
+  for shift in (np.zeros(3),np.full(3,10.),np.full(3,100.),-geometry.atom_coordinates.mean(axis=0)):
+   context=VolblMetricContext(base.coordinates+shift,base.radii,weights=base.weights,solvent_radius=base.solvent_radius,alpha=base.alpha,hidden0=base.hidden0,hidden1=base.hidden1,ccw=base.ccw)
+   result=_measure_void_component(geometry,context,simplex_indices=indices,input_rank=geometry.base_rank,cusp=False)
+   rows.append({'shift_angstrom':shift.tolist(),'volume_sa':result.volume_sa,'volume_ms':result.volume_ms,'area_sa':result.area_sa,'area_ms':result.area_ms,'volume_sa_passes':abs(result.volume_sa-expected)<=0.00050001})
+  report['cases'].append({'case':name,'server_id':server_id,'feature_type':feature['feature_type'],'tetrahedra':len(indices),'expected_volume_sa':expected,'pdb_sha256':hashlib.sha256(data).hexdigest(),'translations':rows})
+  Path('/tmp/opencastp_volume_rounding_2026_10_03.json').write_text(json.dumps(report,indent=2)+'\n')
+  print(name,[(r['volume_sa'],r['volume_sa_passes']) for r in rows],flush=True)

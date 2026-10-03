@@ -1,0 +1,28 @@
+from pathlib import Path
+import hashlib
+import json
+import os
+import platform
+import subprocess
+import sys
+from datetime import datetime, timezone
+
+root=Path('/home/diego/repos@uibcdf/opencastp')
+runner=root/'devtools/compare_castp_servers.py'
+output=Path('/tmp/opencastp_remaining_panel_2026_10_03.json')
+cases=json.loads(Path('/tmp/opencastp_remaining_cases.json').read_text())
+paths=[root/'src/opencastp/analysis.py',root/'src/opencastp/_core/mouth_measurements.py',runner]
+sources={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+Path('/tmp/opencastp_remaining_panel_2026_10_03_runner.py.txt').write_bytes(runner.read_bytes())
+started=datetime.now(timezone.utc).isoformat()
+command=[sys.executable,str(runner),'--topomt-root','/home/diego/repos@uibcdf/topomt','--archive-dir','/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server','--cases',*cases,'--atom-record-policy','atom','--workers','4','--output',str(output)]
+env=os.environ.copy()
+env['PYTHONPATH']=str(root/'src')+':/home/diego/repos@uibcdf/topomt'
+print('Starting independent remaining-45 archive comparison',flush=True)
+result=subprocess.run(command,cwd=root,env=env)
+report=json.loads(output.read_text())
+report.update(recorded='2026-10-03',started_utc=started,finished_utc=datetime.now(timezone.utc).isoformat(),runtime_python=platform.python_version(),producer_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),source_sha256=sources,atom_record_policy='atom',mouth_measurement_policy='castp3',complete_server_equivalence=False,command=command,exit_code=result.returncode)
+report['cases'].sort(key=lambda c:cases.index(c['case']))
+output.write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps({'completed':report['completed'],'passed':report['passed'],'cases':len(report['cases']),'passing_cases':sum(c['passed'] for c in report['cases']),'output':str(output)}),flush=True)
+sys.exit(result.returncode)

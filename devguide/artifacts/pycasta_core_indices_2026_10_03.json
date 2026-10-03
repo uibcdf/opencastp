@@ -1,0 +1,79 @@
+{
+  "recorded": "2026-10-03",
+  "upstream_commit": "f3418f38cd3d3c11e6cdd8c13b11431cc5b91894",
+  "scope": "Executed geometric routines, not process_pdb (upstream entry module cannot compile); default numerical configuration; output location and debug/write_steps changed",
+  "pocketlab_available": false,
+  "source_sha256": {
+    "src/pycasta/pocket_detection.py": "021fc87a7629091e9b78c603bc27d5e8bd90c4ed9547ee9c6581cc26cf1c704f",
+    "src/pycasta/alpha_shape.py": "b314c370c42b356867a6fe715c63331922e9003019a7615d984edacc2efdb80c",
+    "src/pycasta/run_analysis.py": "44c3cf897fc66e7b00923377e77f45b3ffe63114b49805041ffef5d209ceaa05",
+    "src/pycasta/config.py": "5927c46f2b66e0a7e4a816a695e0ee95b07f929fc64afe2c65b91cf3c9e9b3d4",
+    "src/pycasta/cgal_wdelaunay.py": "e51ead453b75d93e5346e6e2da6aa9317078f17c3736eb0afbcd840735726032"
+  },
+  "cases": [
+    {
+      "case": "1stp",
+      "pdb_sha256": "39c5922d3c24c9b9110fde936915d1904e51d5d929d561035a28f94b626c97a3",
+      "completed": true,
+      "reported_pockets": 2,
+      "return_type": "dict",
+      "triangulation_info": null,
+      "flow_observations": [
+        {
+          "atoms": 901,
+          "tetrahedra": 5718,
+          "flow_groups": 574,
+          "groups_rejected_by_atom_count_check": 478,
+          "rejected_valid_tetrahedron_groups": 478,
+          "rejected_tetrahedra": 1389,
+          "sample_rejected_group": [
+            1,
+            571,
+            572,
+            1345,
+            1348,
+            1349,
+            1793,
+            1347,
+            1346,
+            2688,
+            4159,
+            385
+          ]
+        }
+      ]
+    },
+    {
+      "case": "1hew",
+      "pdb_sha256": "7b97063491f6e1a1b586cb7ea8a602ca68e8281afc1682772aa54cfa511e7840",
+      "completed": true,
+      "reported_pockets": 1,
+      "return_type": "dict",
+      "triangulation_info": null,
+      "flow_observations": [
+        {
+          "atoms": 1001,
+          "tetrahedra": 6416,
+          "flow_groups": 640,
+          "groups_rejected_by_atom_count_check": 548,
+          "rejected_valid_tetrahedron_groups": 548,
+          "rejected_tetrahedra": 1523,
+          "sample_rejected_group": [
+            4,
+            724,
+            5620
+          ]
+        }
+      ]
+    }
+  ],
+  "entry_module_compiles": false,
+  "entry_module_error": {
+    "type": "IndentationError",
+    "line": 457,
+    "message": "expected an indented block after 'if' statement on line 456"
+  },
+  "collector_snapshot": "pycasta_core_indices_2026_10_03.py.txt",
+  "collector_sha256": "5f0a0275495d573cdd2789ce567f8e74035d4ba4f9507eb4c4f710007a5a0785",
+  "runtime_python": "3.13.14"
+}

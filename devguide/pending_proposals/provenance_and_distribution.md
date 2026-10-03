@@ -44,3 +44,15 @@ reconstruction and measured compatibility with modern archived CASTp results.
 Complete server equivalence, current-version pyCASTa numerical superiority,
 Rust/GPU speedups and public distribution are not certified. File-by-file
 provenance and publication qualification remain open under this issue.
+
+## Concrete problem register — 2026-10-03
+
+../../docs/problems_and_model_control.md adds executed evidence for incorporated
+HETATM exclusion and elemental radius assignment in pinned pyCASTa source,
+its tetrahedron/atom index-space defect and current source-entry compilation
+failure. It also records the exposed public-server controls, unqualified
+relabeling workarounds, independent OpenCASTp per-atom radii and the negative
+archived mouth convention. ../comparison_evidence_2026_10_03.md retains the
+collectors/hashes and distinguishes source defects from scientific novelty.
+The expanded 89-input audit preserves five scalar failures; no complete
+equivalence, superior physical ground truth or public release is certified.

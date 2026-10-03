@@ -109,3 +109,18 @@ Existing `mouth['area']` and `mouth['perimeter']`, and parent `mouth_area` and
 `mouth_perimeter`, retain their planar triangulation meanings. Analytical
 SA/MS fields are separately named and carry units. The analytical perimeter
 is a sum of molecular boundary arcs, not the triangle-edge wire length.
+
+## Later corpus and model-control checkpoint — 2026-10-03
+
+The separately pinned remaining-45 run completes the available 89-input
+archive inventory. Cumulative exact region membership is 3729/3729 and all
+26103 additional aggregate descriptors match. Five region scalars remain
+outside the unchanged strict printed-precision interval, so 84/89 systems
+pass every audited field; complete equivalence remains false.
+
+The [concrete problem register](problems_and_model_control.md) records these
+failures and the executed pyCASTa HETATM/radius/index-space findings. It also
+explains the current public-server controls and why a relabeled upload is
+not yet a qualified chemical workaround. Per-atom radius overrides are
+implemented in the numerical API; direct molecular-file ingestion remains
+a separate frontend boundary.

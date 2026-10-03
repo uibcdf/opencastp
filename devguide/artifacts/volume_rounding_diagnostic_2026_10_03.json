@@ -1,0 +1,189 @@
+{
+  "recorded": "2026-10-03",
+  "purpose": "Rigid-translation diagnostic of strict SA volume print-boundary discrepancies; topology/radii fixed; no production mutation or tolerance change",
+  "cases": [
+    {
+      "case": "1mrg",
+      "server_id": 22,
+      "feature_type": "void",
+      "tetrahedra": 2,
+      "expected_volume_sa": 0.004,
+      "pdb_sha256": "1f2d801cc8e3862ffeb0d3564808856db3ab7ac2f199e46a96e55fa25c629f1f",
+      "translations": [
+        {
+          "shift_angstrom": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_sa": 0.0034996378073546275,
+          "volume_ms": 15.828674090144467,
+          "area_sa": 0.199450255206024,
+          "area_ms": 31.214112492126695,
+          "volume_sa_passes": false
+        },
+        {
+          "shift_angstrom": [
+            10.0,
+            10.0,
+            10.0
+          ],
+          "volume_sa": 0.003499637791193888,
+          "volume_ms": 15.828674090128995,
+          "area_sa": 0.199450255206016,
+          "area_ms": 31.214112492146757,
+          "volume_sa_passes": false
+        },
+        {
+          "shift_angstrom": [
+            100.0,
+            100.0,
+            100.0
+          ],
+          "volume_sa": 0.003499637950260426,
+          "volume_ms": 15.828674090575392,
+          "area_sa": 0.19945025520598314,
+          "area_ms": 31.214112492296906,
+          "volume_sa_passes": false
+        },
+        {
+          "shift_angstrom": [
+            -45.45071221532088,
+            -101.01661283643898,
+            8.648100931677044
+          ],
+          "volume_sa": 0.0034996378020938357,
+          "volume_ms": 15.828674090201519,
+          "area_sa": 0.19945025520602133,
+          "area_ms": 31.2141124922254,
+          "volume_sa_passes": false
+        }
+      ]
+    },
+    {
+      "case": "1psn",
+      "server_id": 13,
+      "feature_type": "void",
+      "tetrahedra": 13,
+      "expected_volume_sa": 0.686,
+      "pdb_sha256": "a3589219de36c7b380fcceff8f87f2413f51a7fc04592f08e53a6354d2e5ace2",
+      "translations": [
+        {
+          "shift_angstrom": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_sa": 0.6854994934777379,
+          "volume_ms": 57.40492098538099,
+          "area_sa": 8.948965969090686,
+          "area_ms": 83.42931831577168,
+          "volume_sa_passes": false
+        },
+        {
+          "shift_angstrom": [
+            10.0,
+            10.0,
+            10.0
+          ],
+          "volume_sa": 0.6854994934749978,
+          "volume_ms": 57.40492098536511,
+          "area_sa": 8.948965969090747,
+          "area_ms": 83.42931831574306,
+          "volume_sa_passes": false
+        },
+        {
+          "shift_angstrom": [
+            100.0,
+            100.0,
+            100.0
+          ],
+          "volume_sa": 0.6854994936246328,
+          "volume_ms": 57.40492098586051,
+          "area_sa": 8.948965969090773,
+          "area_ms": 83.42931831646523,
+          "volume_sa_passes": false
+        },
+        {
+          "shift_angstrom": [
+            -11.728933114485008,
+            -23.878071399261398,
+            -10.508949528108312
+          ],
+          "volume_sa": 0.6854994934779031,
+          "volume_ms": 57.404920985381025,
+          "area_sa": 8.948965969090747,
+          "area_ms": 83.42931831577177,
+          "volume_sa_passes": false
+        }
+      ]
+    },
+    {
+      "case": "1ypi",
+      "server_id": 6,
+      "feature_type": "pocket",
+      "tetrahedra": 42,
+      "expected_volume_sa": 18.094,
+      "pdb_sha256": "64d2d25b2b1a6bed39918378dd25547b8ed0a8ceade763f64243125bb4eb403f",
+      "translations": [
+        {
+          "shift_angstrom": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "volume_sa": 18.094500169312916,
+          "volume_ms": 132.68952683613205,
+          "area_sa": 50.79882694134567,
+          "area_ms": 122.70260408498254,
+          "volume_sa_passes": false
+        },
+        {
+          "shift_angstrom": [
+            10.0,
+            10.0,
+            10.0
+          ],
+          "volume_sa": 18.094500169243254,
+          "volume_ms": 132.68952683601384,
+          "area_sa": 50.7988269413456,
+          "area_ms": 122.70260408490303,
+          "volume_sa_passes": false
+        },
+        {
+          "shift_angstrom": [
+            100.0,
+            100.0,
+            100.0
+          ],
+          "volume_sa": 18.09450016834584,
+          "volume_ms": 132.68952683562887,
+          "area_sa": 50.79882694134568,
+          "area_ms": 122.70260408593083,
+          "volume_sa_passes": false
+        },
+        {
+          "shift_angstrom": [
+            -60.15222980871408,
+            -38.7030589798087,
+            -38.78471625929863
+          ],
+          "volume_sa": 18.09450016928199,
+          "volume_ms": 132.6895268360565,
+          "area_sa": 50.79882694134572,
+          "area_ms": 122.70260408494295,
+          "volume_sa_passes": false
+        }
+      ]
+    }
+  ],
+  "collector_snapshot": "volume_rounding_diagnostic_2026_10_03.py.txt",
+  "collector_sha256": "6d625c176e3f9cf0eae28b5f61b9c2c03a289ae1c4b4e758dfd5d44b10b8d92c",
+  "runtime_python": "3.13.14",
+  "producer_commit": "51bed381e574129f02599717e28b742461b15077",
+  "source_sha256": {
+    "src/opencastp/_core/volbl.py": "6882062560926d795d74f7ab00bc81c36dbdd3afd396c3b0213c9813f848451c",
+    "src/opencastp/_core/geometry.py": "867f8200178ebd50d7356e2154c4224c821eac275aa5edfa441257352fe4b669",
+    "src/opencastp/_core/components.py": "425e428f20522d93709416fa6b362eb3d4e408a145d6d6b677ce60e961657da0"
+  }
+}
