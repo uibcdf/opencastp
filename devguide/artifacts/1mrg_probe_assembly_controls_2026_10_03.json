@@ -1,0 +1,3646 @@
+{
+  "completed": true,
+  "complete_server_equivalence": false,
+  "production_source_changed": false,
+  "assembled_utc": "2026-10-03T20:47:31.231845+00:00",
+  "scope": "five new CASTpFold probe jobs, original C assembly on seven frozen native systems, conditional reader materialization and formatting replay",
+  "original_corpus_verdict_unchanged": true,
+  "original_corpus": {
+    "distinct_inputs": 89,
+    "exact_regions": 3729,
+    "scalar_matches": 14911,
+    "required_scalars": 14916,
+    "additional_matches": 26103,
+    "required_additional": 26103,
+    "complete_cases": 84
+  },
+  "historical_assembly": {
+    "completed": true,
+    "complete_server_equivalence": false,
+    "scope": "unchanged historical region assembly and all SA/MS primitives on seven fixed native domains",
+    "full_historical_pipeline_executed": false,
+    "domains_predicates_and_inputs_shared": true,
+    "production_source_changed": false,
+    "source_commit": "75faeeec7c8bc05c647af65f3c1052a7d27bb41f",
+    "python": "3.14.7",
+    "versions": {
+      "opencastp": "0.1.0+12.g4ffb6cb",
+      "numpy": "2.4.6",
+      "scipy": "1.18.1"
+    },
+    "collector_sha256": "c6f9ea2553ccfac550ec935c6e70eeaa5fcbbdedd0c3a8722b8430a7f025ff91",
+    "build": {
+      "collector_sha256": "bee7b8469fa86608378694680e1550064d03564028e18a839cf9070eaea19a68",
+      "original_assembly_slice_sha256": "4bc6a390e084cba15c978775356d3bca0c8aa782e49cfd27363797ac7f85cd7d",
+      "original_source_sha256": {
+        "volbl.c": "ffecc76a09c654ace452bfd1baf14a785444929536c7ec1b6fd01088bb202591",
+        "metric.c": "fb5dc5659fdc2a5d0f8d19d7e5b3e74010225e5b16adf6da33a42105db2bfaf3",
+        "volbl.h": "17e2e604117ed369f679f3da687e8b98b51bc0630b5b37ada4ccbdc1a86c61e9"
+      },
+      "command": [
+        "gcc",
+        "-O2",
+        "-fPIC",
+        "-shared",
+        "-I/home/diego/repos@uibcdf/Alphashape/castp/topomt_version/include",
+        "-I/home/diego/repos@uibcdf/Alphashape/castp/alpha-4.1-src/volbl",
+        "/tmp/opencastp_historical_assembly/assembly_bridge.c",
+        "/home/diego/repos@uibcdf/Alphashape/castp/alpha-4.1-src/volbl/metric.c",
+        "-lm",
+        "-o",
+        "/tmp/opencastp_historical_assembly/assembly.so"
+      ],
+      "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+      "binary_sha256": "77f67f0077f926dcb1f812f0adb59b66b08b69d862bea87aac8409ed1962e697",
+      "full_historical_pipeline_executed": false,
+      "original_assembly_functions_unchanged": true
+    },
+    "comparison_tolerance": 0.00050001,
+    "units": {
+      "length": "angstrom",
+      "area": "angstrom**2",
+      "volume": "angstrom**3"
+    },
+    "regions": 384,
+    "strict_scalar_matches": 1531,
+    "required_scalars": 1536,
+    "required_additional": 768,
+    "additional_matches": 768,
+    "private_full_comparison_sha256": "2a7c6fbc732f9e3c758bdf7e5142b7b593d3319d6685b5fb2acae10e7bcd4b09",
+    "cases": [
+      {
+        "case": "1stp",
+        "regions": 9,
+        "corrections": 0,
+        "warnings": 0,
+        "archive_sha256": "0e80ae5ab12e4339ff40f24c13ef65df829f50cc4efe9c91e17839a6b4e82b5a",
+        "cache_sha256": "b04cb95c71273389b256c9f7ad680c983f5e3d9e45f04592bdfbe8c548a9982f",
+        "strict_scalar_matches": 36,
+        "max_scalar_difference_from_native": 5.076827847005916e-12,
+        "seconds": 1.3398889191448689
+      },
+      {
+        "case": "8rat",
+        "regions": 12,
+        "corrections": 0,
+        "warnings": 0,
+        "archive_sha256": "19f08c9e20df50c3a4f8048b4435d843ce65c2c58a908ceef2187c926dc0b91b",
+        "cache_sha256": "6219b032d4f872b6b2fbf41257e17e08185543c6f7b67f3bd2c19798baf2ea7f",
+        "strict_scalar_matches": 48,
+        "max_scalar_difference_from_native": 4.3513637137948535e-11,
+        "seconds": 1.8981994623318315
+      },
+      {
+        "case": "1mrg",
+        "regions": 29,
+        "corrections": 0,
+        "warnings": 0,
+        "archive_sha256": "6f6a79a5a52e02e4ef878ec1e03276dff719bdc068876ea80f59ef7d275e6205",
+        "cache_sha256": "09371bdd2807a421510a4167857c1b96f0da96f198e29954ef6718a5224b65cb",
+        "strict_scalar_matches": 115,
+        "max_scalar_difference_from_native": 5.182201334719139e-10,
+        "seconds": 4.027948333881795
+      },
+      {
+        "case": "1psn",
+        "regions": 41,
+        "corrections": 0,
+        "warnings": 0,
+        "archive_sha256": "23586bf64261fd4f657472e257ba3bed57800a457279a9b83d5c33c320f13b49",
+        "cache_sha256": "02fdb1286e3f34226ffbba402978f17c18efbd31601c511af8609e9eef76085d",
+        "strict_scalar_matches": 163,
+        "max_scalar_difference_from_native": 4.069988790433854e-11,
+        "seconds": 7.357148001901805
+      },
+      {
+        "case": "1ypi",
+        "regions": 75,
+        "corrections": 0,
+        "warnings": 0,
+        "archive_sha256": "df1ca85bb1ad5367b0ff730bd4ed04b529ceeed6c7887dfc411ba4e10bd65f7a",
+        "cache_sha256": "197019135bccc4c344a8ec1fade5e3816c356b9076afc36ba36991e6594aead4",
+        "strict_scalar_matches": 299,
+        "max_scalar_difference_from_native": 7.914763955341186e-09,
+        "seconds": 13.287595169618726
+      },
+      {
+        "case": "1fbp",
+        "regions": 98,
+        "corrections": 0,
+        "warnings": 0,
+        "archive_sha256": "3ac750d2a539527bdc088ac134036443999931fa1b4ddd9a98240e2e6cfcf6e0",
+        "cache_sha256": "fad04038a3d93d246e80b04c3e68a6d8e92672d16a4fc43baf2bc485fc00c40a",
+        "strict_scalar_matches": 391,
+        "max_scalar_difference_from_native": 1.7828156728683098e-09,
+        "seconds": 20.024669853039086
+      },
+      {
+        "case": "2fbp",
+        "regions": 120,
+        "corrections": 0,
+        "warnings": 0,
+        "archive_sha256": "eb6714f65d2556c07f15b738eed8e5ee3d6f90f8c1e71e7b39f603efd1257e4d",
+        "cache_sha256": "3f3b41164ae77f744f85b0e9fbb69300ab0283d2a82832366c3e12343616528a",
+        "strict_scalar_matches": 479,
+        "max_scalar_difference_from_native": 8.442242460660054e-10,
+        "seconds": 20.011526837944984
+      }
+    ],
+    "failed_fields": [
+      {
+        "case": "1mrg",
+        "server_id": 22,
+        "field": "volume_sa",
+        "historical": 0.0034996378023914865,
+        "native": 0.0034996378073546275,
+        "expected": 0.004,
+        "delta_from_native": -4.9631410092843e-12,
+        "raw_server_passed": false,
+        "direct_three_decimal": "0.003",
+        "historical_scientific_then_three_decimal": "0.003"
+      },
+      {
+        "case": "1psn",
+        "server_id": 13,
+        "field": "volume_sa",
+        "historical": 0.6854994934776049,
+        "native": 0.6854994934777379,
+        "expected": 0.686,
+        "delta_from_native": -1.3300471835009375e-13,
+        "raw_server_passed": false,
+        "direct_three_decimal": "0.685",
+        "historical_scientific_then_three_decimal": "0.685"
+      },
+      {
+        "case": "1ypi",
+        "server_id": 6,
+        "field": "volume_sa",
+        "historical": 18.094500169285375,
+        "native": 18.094500169312916,
+        "expected": 18.094,
+        "delta_from_native": -2.7540636438061483e-11,
+        "raw_server_passed": false,
+        "direct_three_decimal": "18.095",
+        "historical_scientific_then_three_decimal": "18.095"
+      },
+      {
+        "case": "1fbp",
+        "server_id": 3,
+        "field": "area_sa",
+        "historical": 299.27649544379767,
+        "native": 299.2764954437975,
+        "expected": 299.277,
+        "delta_from_native": 1.7053025658242404e-13,
+        "raw_server_passed": false,
+        "direct_three_decimal": "299.276",
+        "historical_scientific_then_three_decimal": "299.276"
+      },
+      {
+        "case": "2fbp",
+        "server_id": 11,
+        "field": "volume_sa",
+        "historical": 36.26650173327036,
+        "native": 36.26650173333687,
+        "expected": 36.266,
+        "delta_from_native": -6.650680006714538e-11,
+        "raw_server_passed": false,
+        "direct_three_decimal": "36.267",
+        "historical_scientific_then_three_decimal": "36.267"
+      }
+    ]
+  },
+  "historical_reader_materialization": {
+    "completed": true,
+    "complete_server_equivalence": false,
+    "scope": "source-derived lia_ffpload floor plus optional Alf_coord float32 materialization; fixed five native residual domains and original predicates",
+    "source_path": "/home/diego/repos@uibcdf/Alphashape/castp/alpha-4.1-src/lia/aux.c",
+    "source_sha256": "022dc99600297c4c1da5557465b71b9ca7e0a95641191a6500fb5a9562305b11",
+    "collector_sha256": "7cb65d1e5d65405ea18ad2ed19358ed7fa4a7291110f296a32d3db570030c825",
+    "assembly_collector_sha256": "c6f9ea2553ccfac550ec935c6e70eeaa5fcbbdedd0c3a8722b8430a7f025ff91",
+    "full_historical_pipeline_executed": false,
+    "production_source_changed": false,
+    "comparison_tolerance": 0.00050001,
+    "cases": [
+      {
+        "case": "1mrg",
+        "server_id": 22,
+        "field": "volume_sa",
+        "expected": 0.004,
+        "actual": 0.0034996378073546275,
+        "fsum": 0.0034996378073543014,
+        "sum_absolute_terms": 84.66819587720505,
+        "tetrahedra": 2,
+        "pdb_sha256": "1f2d801cc8e3862ffeb0d3564808856db3ab7ac2f199e46a96e55fa25c629f1f",
+        "feature_type": "void",
+        "variants": [
+          {
+            "variant": "baseline",
+            "actual": 0.0034996378023914865,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 0.0,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "coordinates_floor5",
+            "actual": 0.0034993402096186177,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 1.0000000000065512e-05,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "radii_floor5",
+            "actual": 0.0034996378023914865,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 0.0,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "both_floor5",
+            "actual": 0.0034993402096186177,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 1.0000000000065512e-05,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "floor5_then_alf_float32",
+            "actual": 0.003499638252512094,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 1.6845703115109245e-05,
+            "max_radius_change_angstrom": 1.6212463371800823e-07,
+            "corrections": 0,
+            "warnings": 0
+          }
+        ]
+      },
+      {
+        "case": "1psn",
+        "server_id": 13,
+        "field": "volume_sa",
+        "expected": 0.686,
+        "actual": 0.6854994934777379,
+        "fsum": 0.6854994934776547,
+        "sum_absolute_terms": 657.0000278917507,
+        "tetrahedra": 13,
+        "pdb_sha256": "a3589219de36c7b380fcceff8f87f2413f51a7fc04592f08e53a6354d2e5ace2",
+        "feature_type": "void",
+        "variants": [
+          {
+            "variant": "baseline",
+            "actual": 0.6854994934776049,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 0.0,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "coordinates_floor5",
+            "actual": 0.6854805221344247,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 9.999999999996123e-06,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "radii_floor5",
+            "actual": 0.6854994934776049,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 0.0,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "both_floor5",
+            "actual": 0.6854805221344247,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 9.999999999996123e-06,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "floor5_then_alf_float32",
+            "actual": 0.6854818475342472,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 1.2969970697440658e-05,
+            "max_radius_change_angstrom": 1.6212463371800823e-07,
+            "corrections": 0,
+            "warnings": 0
+          }
+        ]
+      },
+      {
+        "case": "1ypi",
+        "server_id": 6,
+        "field": "volume_sa",
+        "expected": 18.094,
+        "actual": 18.094500169312916,
+        "fsum": 18.094500169312862,
+        "sum_absolute_terms": 2032.476303658858,
+        "tetrahedra": 42,
+        "pdb_sha256": "64d2d25b2b1a6bed39918378dd25547b8ed0a8ceade763f64243125bb4eb403f",
+        "feature_type": "pocket",
+        "variants": [
+          {
+            "variant": "baseline",
+            "actual": 18.094500169285375,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 0.0,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "coordinates_floor5",
+            "actual": 18.094494938547804,
+            "raw_passed": true,
+            "max_coordinate_change_angstrom": 9.999999999621423e-06,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "radii_floor5",
+            "actual": 18.094500169285375,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 0.0,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "both_floor5",
+            "actual": 18.094494938547804,
+            "raw_passed": true,
+            "max_coordinate_change_angstrom": 9.999999999621423e-06,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "floor5_then_alf_float32",
+            "actual": 18.09454631679708,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 1.617431638578637e-05,
+            "max_radius_change_angstrom": 1.6212463371800823e-07,
+            "corrections": 0,
+            "warnings": 0
+          }
+        ]
+      },
+      {
+        "case": "1fbp",
+        "server_id": 3,
+        "field": "area_sa",
+        "expected": 299.277,
+        "actual": 299.2764954437975,
+        "fsum": 299.27649544379716,
+        "sum_absolute_terms": 8195.818695478076,
+        "tetrahedra": 141,
+        "pdb_sha256": "7d70f7a292a68a278b577c4345cf48077df1d418074ffc422c974a64c8bebc25",
+        "feature_type": "channel",
+        "variants": [
+          {
+            "variant": "baseline",
+            "actual": 299.27649544379767,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 0.0,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "coordinates_floor5",
+            "actual": 299.276449515895,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 1.0000000003174137e-05,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "radii_floor5",
+            "actual": 299.27649544379767,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 0.0,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "both_floor5",
+            "actual": 299.276449515895,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 1.0000000003174137e-05,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "floor5_then_alf_float32",
+            "actual": 299.2763122044229,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 2.0874023419992227e-05,
+            "max_radius_change_angstrom": 1.6212463371800823e-07,
+            "corrections": 0,
+            "warnings": 0
+          }
+        ]
+      },
+      {
+        "case": "2fbp",
+        "server_id": 11,
+        "field": "volume_sa",
+        "expected": 36.266,
+        "actual": 36.26650173333687,
+        "fsum": 36.26650173333725,
+        "sum_absolute_terms": 2403.398882405572,
+        "tetrahedra": 49,
+        "pdb_sha256": "18bcc6c36377fb4aae6627b52c2fb8f26d9451d8e31e2f86fe91bc9377a84e0e",
+        "feature_type": "pocket",
+        "variants": [
+          {
+            "variant": "baseline",
+            "actual": 36.26650173327036,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 0.0,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "coordinates_floor5",
+            "actual": 36.26644240330289,
+            "raw_passed": true,
+            "max_coordinate_change_angstrom": 1.0000000000065512e-05,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "radii_floor5",
+            "actual": 36.26650173327036,
+            "raw_passed": false,
+            "max_coordinate_change_angstrom": 0.0,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "both_floor5",
+            "actual": 36.26644240330289,
+            "raw_passed": true,
+            "max_coordinate_change_angstrom": 1.0000000000065512e-05,
+            "max_radius_change_angstrom": 0.0,
+            "corrections": 0,
+            "warnings": 0
+          },
+          {
+            "variant": "floor5_then_alf_float32",
+            "actual": 36.266468323122986,
+            "raw_passed": true,
+            "max_coordinate_change_angstrom": 1.65405273264696e-05,
+            "max_radius_change_angstrom": 1.6212463371800823e-07,
+            "corrections": 0,
+            "warnings": 0
+          }
+        ]
+      }
+    ],
+    "python": "3.14.7",
+    "source_commit": "75faeeec7c8bc05c647af65f3c1052a7d27bb41f",
+    "versions": {
+      "opencastp": "0.1.0+12.g4ffb6cb",
+      "numpy": "2.4.6",
+      "scipy": "1.18.1"
+    },
+    "units": {
+      "length": "angstrom",
+      "area": "angstrom**2",
+      "volume": "angstrom**3"
+    },
+    "existing_fixed_point_helper_sha256": "cd101daa7d15579b0c8ee79a5c7e13d26e5f692a478b9fe8295d8cbd953104c9",
+    "private_cache_sha256": {
+      "1mrg": "7db600495a2a2872d908c8f6a40cb5a32086b84b126c42d5bb2dc07b66703b1b",
+      "1psn": "e88fcad6d47dd9564350433811cf981820330400260d591a08d8c4c450d0108b",
+      "1ypi": "15ca90eaefb61ec9f4940e35745f8a51f736fe8df239afdff4dacc99b457c39b",
+      "1fbp": "531e55eb18e408db88893066c835a0cce509d7d8c9fdd60c1c2296f2c5835ece",
+      "2fbp": "083daadd6713e2190d4b4debc068f39d59fd3d6756989a6eee53a3beef8a2b0d"
+    }
+  },
+  "probe_controls": [
+    {
+      "probe_angstrom": 1.3999,
+      "jobid": "j_6ac15ba892fe8",
+      "archive_sha256": "103d137dc0b15dc305aae726407c914f5276a3452f1938570137b2ae1ca380ef",
+      "archive_receipt_and_job_identity_verified": true,
+      "geometry_and_filtration_rebuilt": true,
+      "exact_regions": 29,
+      "required_regions": 29,
+      "scalar_matches": 116,
+      "required_scalars": 116,
+      "additional_matches": 203,
+      "required_additional": 203,
+      "target_server_id": 22,
+      "target_server_volume_angstrom3": 0.004,
+      "target_server_metrics": {
+        "solvent_accessible_area": "0.200",
+        "molecular_surface_area": "31.220",
+        "solvent_accessible_volume": "0.004",
+        "molecular_surface_volume": "15.833"
+      },
+      "target_native_volume_angstrom3": 0.0035196183333613407,
+      "orthospheres_passed": true,
+      "orthospheres": 365,
+      "max_exported_center_error_angstrom": 4.995101036087135e-05,
+      "max_exported_radius_error_angstrom": 4.990198342391672e-05,
+      "failed_fields": [],
+      "seconds": 41.86858300957829
+    },
+    {
+      "probe_angstrom": 1.4001,
+      "jobid": "j_6ac15ba94bafa",
+      "archive_sha256": "4f4d9a2351528f19037bf8e9530cf1528d6556fd1f93a1d935e11bd0fa75457c",
+      "archive_receipt_and_job_identity_verified": true,
+      "geometry_and_filtration_rebuilt": true,
+      "exact_regions": 29,
+      "required_regions": 29,
+      "scalar_matches": 116,
+      "required_scalars": 116,
+      "additional_matches": 203,
+      "required_additional": 203,
+      "target_server_id": 22,
+      "target_server_volume_angstrom3": 0.003,
+      "target_server_metrics": {
+        "solvent_accessible_area": "0.199",
+        "molecular_surface_area": "31.208",
+        "solvent_accessible_volume": "0.003",
+        "molecular_surface_volume": "15.825"
+      },
+      "target_native_volume_angstrom3": 0.0034797282494416493,
+      "orthospheres_passed": true,
+      "orthospheres": 365,
+      "max_exported_center_error_angstrom": 4.9951118128888083e-05,
+      "max_exported_radius_error_angstrom": 4.998270915645975e-05,
+      "failed_fields": [],
+      "seconds": 41.348467827774584
+    },
+    {
+      "probe_angstrom": 1.4003,
+      "jobid": "j_6ac15ba9eb729",
+      "archive_sha256": "c01a5e9ee1a6901c83ca345b258c7c9600a485f8bc00cf89e60a5aa8671a166e",
+      "archive_receipt_and_job_identity_verified": true,
+      "geometry_and_filtration_rebuilt": true,
+      "exact_regions": 29,
+      "required_regions": 29,
+      "scalar_matches": 116,
+      "required_scalars": 116,
+      "additional_matches": 203,
+      "required_additional": 203,
+      "target_server_id": 22,
+      "target_server_volume_angstrom3": 0.003,
+      "target_server_metrics": {
+        "solvent_accessible_area": "0.197",
+        "molecular_surface_area": "31.196",
+        "solvent_accessible_volume": "0.003",
+        "molecular_surface_volume": "15.816"
+      },
+      "target_native_volume_angstrom3": 0.003440121565229881,
+      "orthospheres_passed": true,
+      "orthospheres": 365,
+      "max_exported_center_error_angstrom": 4.999617343770524e-05,
+      "max_exported_radius_error_angstrom": 4.9938982371600105e-05,
+      "failed_fields": [],
+      "seconds": 42.93654843606055
+    },
+    {
+      "probe_angstrom": 1.399999,
+      "jobid": "j_6ac15fdfe6f5b",
+      "archive_sha256": "b0e94410b72d2d057b1c81e9d3fa0cd6d1c94021e0320704f57b68ab7763f37d",
+      "archive_receipt_and_job_identity_verified": true,
+      "geometry_and_filtration_rebuilt": true,
+      "exact_regions": 29,
+      "required_regions": 29,
+      "scalar_matches": 115,
+      "required_scalars": 116,
+      "additional_matches": 203,
+      "required_additional": 203,
+      "target_server_id": 22,
+      "target_server_volume_angstrom3": 0.004,
+      "target_server_metrics": {
+        "solvent_accessible_area": "0.199",
+        "molecular_surface_area": "31.214",
+        "solvent_accessible_volume": "0.004",
+        "molecular_surface_volume": "15.829"
+      },
+      "target_native_volume_angstrom3": 0.0034998372609419404,
+      "orthospheres_passed": true,
+      "orthospheres": 365,
+      "max_exported_center_error_angstrom": 4.99798766906423e-05,
+      "max_exported_radius_error_angstrom": 4.967590218063478e-05,
+      "failed_fields": [
+        {
+          "server_id": 22,
+          "field": "solvent_accessible_volume",
+          "expected": 0.004,
+          "actual": 0.0034998372609419404,
+          "tolerance": 0.0005000100000000001,
+          "passed": false
+        }
+      ],
+      "seconds": 40.20345862675458
+    },
+    {
+      "probe_angstrom": 1.400001,
+      "jobid": "j_6ac15fe08c966",
+      "archive_sha256": "16f5ec664ba735fb7a6f83c837a84f20e29fd19b2162b9eede2560133ee78f39",
+      "archive_receipt_and_job_identity_verified": true,
+      "geometry_and_filtration_rebuilt": true,
+      "exact_regions": 29,
+      "required_regions": 29,
+      "scalar_matches": 116,
+      "required_scalars": 116,
+      "additional_matches": 203,
+      "required_additional": 203,
+      "target_server_id": 22,
+      "target_server_volume_angstrom3": 0.003,
+      "target_server_metrics": {
+        "solvent_accessible_area": "0.199",
+        "molecular_surface_area": "31.214",
+        "solvent_accessible_volume": "0.003",
+        "molecular_surface_volume": "15.829"
+      },
+      "target_native_volume_angstrom3": 0.003499438358244511,
+      "orthospheres_passed": true,
+      "orthospheres": 365,
+      "max_exported_center_error_angstrom": 4.991699155709739e-05,
+      "max_exported_radius_error_angstrom": 4.9888140877918374e-05,
+      "failed_fields": [],
+      "seconds": 39.9919253308326
+    }
+  ],
+  "probe_execution_context": [
+    {
+      "completed": true,
+      "complete_server_equivalence": false,
+      "scope": "fresh public analyze calculations on frozen prepared coordinate/base-radius inputs for all 1MRG probe controls",
+      "source_commit": "75faeeec7c8bc05c647af65f3c1052a7d27bb41f",
+      "python": "3.14.7",
+      "versions": {
+        "opencastp": "0.1.0+12.g4ffb6cb",
+        "numpy": "2.4.6",
+        "scipy": "1.18.1",
+        "pyunitwizard": "0.27.0"
+      },
+      "collector_sha256": "f1cc912b9d31dab7956631289658cdd8ba518c054ee793c49545aa7c4de2f3c4",
+      "geometry_cache_sha256": "09371bdd2807a421510a4167857c1b96f0da96f198e29954ef6718a5224b65cb",
+      "native_geometry_and_filtration_rebuilt": true,
+      "molecular_preparation_shared": true,
+      "archive_receipt_and_job_identity_verified": true,
+      "production_source_changed": false,
+      "units": {
+        "length": "angstrom",
+        "area": "angstrom**2",
+        "volume": "angstrom**3"
+      },
+      "private_full_comparison_sha256": "b76657431f603241f1718cb9b2f226d9e1fa2491b619ae0f53e533228bab44eb",
+      "server_submission": {
+        "completed": true,
+        "complete_server_equivalence": false,
+        "scope": "three bounded CASTpFold probe controls on identical prepared 1MRG PDB; predeclared export predictions",
+        "prepared_utc": "2026-10-03T19:44:35.277466+00:00",
+        "collector_sha256": "b77e122c5276e732062d22682e0558c60357c17ac44b29a0be562c502cec3a3c",
+        "input_sha256": "e7806e77389a876d7b741115c838a10f40f85a6550a8b8d06c8c9b45333421d4",
+        "predictions_share_fixed_domains_and_predicates": true,
+        "baseline_volume_angstrom3": 0.0034996378073546275,
+        "jobs": [
+          {
+            "probe_angstrom": 1.3999,
+            "path": "/tmp/opencastp-1mrg-rigid-controls/1mrg_baseline.pdb",
+            "status": "completed_zip",
+            "submission_attempted": true,
+            "conditional_fixed_domain_volume_angstrom3": 0.0035196183333613407,
+            "direct_three_decimal_prediction": "0.004",
+            "prior_four_decimal_numpy_prediction": "0.004",
+            "submitted_utc": "2026-10-03T19:46:48.044053+00:00",
+            "jobid": "j_6ac15ba892fe8",
+            "result_url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_6ac15ba892fe8/processed/j_6ac15ba892fe8.zip",
+            "result_path": "/tmp/opencastp-1mrg-probe-boundary/probe_1.3999.zip",
+            "result_sha256": "103d137dc0b15dc305aae726407c914f5276a3452f1938570137b2ae1ca380ef",
+            "polls": [
+              {
+                "polled_utc": "2026-10-03T19:49:03.931583+00:00",
+                "http_status": 200,
+                "bytes": 107149,
+                "content_type": "application/zip",
+                "valid_zip": true
+              }
+            ]
+          },
+          {
+            "probe_angstrom": 1.4001,
+            "path": "/tmp/opencastp-1mrg-rigid-controls/1mrg_baseline.pdb",
+            "status": "completed_zip",
+            "submission_attempted": true,
+            "conditional_fixed_domain_volume_angstrom3": 0.0034797282494416493,
+            "direct_three_decimal_prediction": "0.003",
+            "prior_four_decimal_numpy_prediction": "0.004",
+            "submitted_utc": "2026-10-03T19:46:48.661110+00:00",
+            "jobid": "j_6ac15ba94bafa",
+            "result_url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_6ac15ba94bafa/processed/j_6ac15ba94bafa.zip",
+            "result_path": "/tmp/opencastp-1mrg-probe-boundary/probe_1.4001.zip",
+            "result_sha256": "4f4d9a2351528f19037bf8e9530cf1528d6556fd1f93a1d935e11bd0fa75457c",
+            "polls": [
+              {
+                "polled_utc": "2026-10-03T19:49:04.610588+00:00",
+                "http_status": 200,
+                "bytes": 107118,
+                "content_type": "application/zip",
+                "valid_zip": true
+              }
+            ]
+          },
+          {
+            "probe_angstrom": 1.4003,
+            "path": "/tmp/opencastp-1mrg-rigid-controls/1mrg_baseline.pdb",
+            "status": "completed_zip",
+            "submission_attempted": true,
+            "conditional_fixed_domain_volume_angstrom3": 0.003440121565229881,
+            "direct_three_decimal_prediction": "0.003",
+            "prior_four_decimal_numpy_prediction": "0.003",
+            "submitted_utc": "2026-10-03T19:46:49.368980+00:00",
+            "jobid": "j_6ac15ba9eb729",
+            "result_url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_6ac15ba9eb729/processed/j_6ac15ba9eb729.zip",
+            "result_path": "/tmp/opencastp-1mrg-probe-boundary/probe_1.4003.zip",
+            "result_sha256": "c01a5e9ee1a6901c83ca345b258c7c9600a485f8bc00cf89e60a5aa8671a166e",
+            "polls": [
+              {
+                "polled_utc": "2026-10-03T19:49:05.185068+00:00",
+                "http_status": 200,
+                "bytes": 107130,
+                "content_type": "application/zip",
+                "valid_zip": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "completed": true,
+      "complete_server_equivalence": false,
+      "scope": "fresh public analyze calculations on frozen prepared coordinate/base-radius inputs for all 1MRG probe controls",
+      "source_commit": "75faeeec7c8bc05c647af65f3c1052a7d27bb41f",
+      "python": "3.14.7",
+      "versions": {
+        "opencastp": "0.1.0+12.g4ffb6cb",
+        "numpy": "2.4.6",
+        "scipy": "1.18.1",
+        "pyunitwizard": "0.27.0"
+      },
+      "collector_sha256": "f1cc912b9d31dab7956631289658cdd8ba518c054ee793c49545aa7c4de2f3c4",
+      "geometry_cache_sha256": "09371bdd2807a421510a4167857c1b96f0da96f198e29954ef6718a5224b65cb",
+      "native_geometry_and_filtration_rebuilt": true,
+      "molecular_preparation_shared": true,
+      "archive_receipt_and_job_identity_verified": true,
+      "production_source_changed": false,
+      "units": {
+        "length": "angstrom",
+        "area": "angstrom**2",
+        "volume": "angstrom**3"
+      },
+      "private_full_comparison_sha256": "0f6dd3bf97873331793b9a5e42b941f8007772406579b11c1cc6f1b8889c237a",
+      "server_submission": {
+        "completed": true,
+        "complete_server_equivalence": false,
+        "scope": "two predeclared fine CASTpFold probes to discriminate input quantization and decimal export near 1MRG/22",
+        "prepared_utc": "2026-10-03T19:55:39.526465+00:00",
+        "collector_sha256": "4752d906b3b365eae84507e3569f676e1fe6dcb85ba682406c152759deebf43c",
+        "submission_runner_sha256": "b77e122c5276e732062d22682e0558c60357c17ac44b29a0be562c502cec3a3c",
+        "input_sha256": "e7806e77389a876d7b741115c838a10f40f85a6550a8b8d06c8c9b45333421d4",
+        "predictions_share_fixed_domains_and_predicates": true,
+        "jobs": [
+          {
+            "probe_angstrom": 1.399999,
+            "path": "/tmp/opencastp-1mrg-rigid-controls/1mrg_baseline.pdb",
+            "status": "completed_zip",
+            "submission_attempted": true,
+            "conditional_fixed_domain_volume_angstrom3": 0.0034998372609419404,
+            "direct_three_decimal_prediction": "0.003",
+            "five_decimal_then_three_prediction": "0.004",
+            "six_decimal_then_three_prediction": "0.004",
+            "submitted_utc": "2026-10-03T20:04:47.299747+00:00",
+            "jobid": "j_6ac15fdfe6f5b",
+            "result_url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_6ac15fdfe6f5b/processed/j_6ac15fdfe6f5b.zip",
+            "result_path": "/tmp/opencastp-1mrg-probe-fine/j_6ac15fdfe6f5b.zip",
+            "result_sha256": "b0e94410b72d2d057b1c81e9d3fa0cd6d1c94021e0320704f57b68ab7763f37d",
+            "polls": [
+              {
+                "polled_utc": "2026-10-03T20:17:15.782880+00:00",
+                "http_status": 200,
+                "bytes": 107207,
+                "content_type": "application/zip",
+                "valid_zip": true
+              }
+            ],
+            "superseded_colliding_result_path": "/tmp/opencastp-1mrg-probe-fine/probe_1.4000.zip",
+            "recovered_utc": "2026-10-03T20:38:48.270313+00:00",
+            "recovery_archive_sha256_identical": true
+          },
+          {
+            "probe_angstrom": 1.400001,
+            "path": "/tmp/opencastp-1mrg-rigid-controls/1mrg_baseline.pdb",
+            "status": "completed_zip",
+            "submission_attempted": true,
+            "conditional_fixed_domain_volume_angstrom3": 0.003499438358244511,
+            "direct_three_decimal_prediction": "0.003",
+            "five_decimal_then_three_prediction": "0.004",
+            "six_decimal_then_three_prediction": "0.003",
+            "submitted_utc": "2026-10-03T20:04:47.997144+00:00",
+            "jobid": "j_6ac15fe08c966",
+            "result_url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_6ac15fe08c966/processed/j_6ac15fe08c966.zip",
+            "result_path": "/tmp/opencastp-1mrg-probe-fine/j_6ac15fe08c966.zip",
+            "result_sha256": "16f5ec664ba735fb7a6f83c837a84f20e29fd19b2162b9eede2560133ee78f39",
+            "polls": [
+              {
+                "polled_utc": "2026-10-03T20:17:16.466694+00:00",
+                "http_status": 200,
+                "bytes": 107187,
+                "content_type": "application/zip",
+                "valid_zip": true
+              }
+            ],
+            "superseded_colliding_result_path": "/tmp/opencastp-1mrg-probe-fine/probe_1.4000.zip",
+            "recovered_utc": "2026-10-03T20:38:48.848912+00:00",
+            "recovery_archive_sha256_identical": true
+          }
+        ],
+        "archive_filename_collision_corrected": true,
+        "recovery_collector_sha256": "9841f97f9ec0c721aca3cfff9bca5d1e4f12b7b3c8bc7a1312a6af61f19a0b9c"
+      }
+    }
+  ],
+  "formatting_replay": {
+    "completed": true,
+    "complete_server_equivalence": false,
+    "production_source_changed": false,
+    "scope": "formatting replay only, not a fresh 89-input numerical calculation",
+    "collector_sha256": "d7d61c0a0001dcff82e9c2b9ea074bcd03180e00bfbc436c03f5b644307c7529",
+    "rule": "Python nearest formatting: fixed decimal intermediate parsed as float, then nearest .3f; distinct from prior NumPy replay",
+    "source_artifact_sha256": {
+      "server_mouth_castp3_panel_2026_10_02.json": "979a1d4615d9afe3e626ebbbca4858878013ca6442d9ce6831c782f7bd8933b8",
+      "protein_heterogen_panel_2026_10_02.json": "4d011f1e239aee813c1a47d0d395deb9f8fa283f278eee597d9b7f59f02ea981",
+      "server_remaining_panel_2026_10_03.json": "067b4e922967b70099aa146672bd41a5ad90a420b25fffec4a0ebd3aa5c592f1"
+    },
+    "original_cases": 89,
+    "original_fields": 14916,
+    "probe_controls": [
+      {
+        "probe_angstrom": 1.3999,
+        "jobid": "j_6ac15ba892fe8",
+        "comparison_sha256": "b76657431f603241f1718cb9b2f226d9e1fa2491b619ae0f53e533228bab44eb",
+        "rules": {
+          "nearest_direct": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "truncate_three": {
+            "required": 116,
+            "matches": 63,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 53,
+            "failures": [
+              {
+                "field": "solvent_accessible_area",
+                "expected": 158.339,
+                "actual": 158.33871265818422,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 158.338
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 291.303,
+                "actual": 291.30252876919354,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 291.302
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 241.571,
+                "actual": 241.57085386533035,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 241.57
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 80.01,
+                "actual": 80.00958136095743,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 80.009
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 69.351,
+                "actual": 69.35056835668354,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 69.35
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 90.252,
+                "actual": 90.2517912096735,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 90.251
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 22.539,
+                "actual": 22.538840499981028,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 22.538
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 10.075,
+                "actual": 10.074769477819284,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 10.074
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 74.58,
+                "actual": 74.57963358415324,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 74.579
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 30.862,
+                "actual": 30.861781950058663,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 30.861
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 7.794,
+                "actual": 7.793572008747624,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 7.793
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 86.439,
+                "actual": 86.43884683452674,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 86.438
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 63.899,
+                "actual": 63.89875450351175,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 63.898
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 13.799,
+                "actual": 13.798724697333467,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 13.798
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 2.836,
+                "actual": 2.83599977440679,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 2.835
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 53.044,
+                "actual": 53.04369520164371,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 53.043
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 5.199,
+                "actual": 5.19883691559555,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 5.198
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 69.548,
+                "actual": 69.54796515744884,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 69.547
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 41.779,
+                "actual": 41.77854748893205,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 41.778
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 1.126,
+                "actual": 1.1255183393742594,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 1.125
+              }
+            ],
+            "failure_count": 53,
+            "failed_rows_sha256": "4b7b531e753a11bd25f366b4f351d42e0d9fd78cb9bef92c1f7022138e8d5da8",
+            "failures_retained_complete": false
+          },
+          "4_decimal_then_three": {
+            "required": 116,
+            "matches": 109,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 7,
+            "failures": [
+              {
+                "field": "solvent_accessible_area",
+                "expected": 144.241,
+                "actual": 144.24146210648638,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 144.242
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 334.117,
+                "actual": 334.1174889695521,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 334.118
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 16.507,
+                "actual": 16.507493705772156,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 16.508
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 58.777,
+                "actual": 58.777482414085995,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 58.778
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 1.164,
+                "actual": 1.1644669507717786,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 1.165
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 1.126,
+                "actual": 1.1255183393742594,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 1.125
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 6.374,
+                "actual": 6.374482227682334,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 6.375
+              }
+            ],
+            "failure_count": 7,
+            "failed_rows_sha256": "ab0869817dd7fffa67797dab3c3579b1fd7799ad706cb23867537c4a17d6b0f0",
+            "failures_retained_complete": true
+          },
+          "5_decimal_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "6_decimal_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "7_decimal_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "historical_scientific_7_significant_then_three": {
+            "required": 116,
+            "matches": 114,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 2,
+            "failures": [
+              {
+                "field": "solvent_accessible_area",
+                "expected": 144.241,
+                "actual": 144.24146210648638,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 144.242
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 334.117,
+                "actual": 334.1174889695521,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 334.118
+              }
+            ],
+            "failure_count": 2,
+            "failed_rows_sha256": "6c584dd9f6f405a072f6cb69aa9aa1b21ac3756cd1ddacf73af81dc337762d22",
+            "failures_retained_complete": true
+          }
+        }
+      },
+      {
+        "probe_angstrom": 1.4001,
+        "jobid": "j_6ac15ba94bafa",
+        "comparison_sha256": "b76657431f603241f1718cb9b2f226d9e1fa2491b619ae0f53e533228bab44eb",
+        "rules": {
+          "nearest_direct": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "truncate_three": {
+            "required": 116,
+            "matches": 61,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 55,
+            "failures": [
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 133.786,
+                "actual": 133.78577386260758,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 133.785
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 443.504,
+                "actual": 443.50386450031806,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 443.503
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 79.981,
+                "actual": 79.98073588345345,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 79.98
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 334.108,
+                "actual": 334.1076852365989,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 334.107
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 69.346,
+                "actual": 69.34561546775919,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 69.345
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 18.517,
+                "actual": 18.516763759140503,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 18.516
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 90.248,
+                "actual": 90.24798745328914,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 90.247
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 22.529,
+                "actual": 22.528526831969693,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 22.528
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 76.159,
+                "actual": 76.1585516623495,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 76.158
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 74.571,
+                "actual": 74.57061666346142,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 74.57
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 20.667,
+                "actual": 20.66657092770935,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 20.666
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 63.885,
+                "actual": 63.88466464422234,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 63.884
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 4.581,
+                "actual": 4.580868204471711,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 4.58
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 60.237,
+                "actual": 60.23699272135472,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 60.236
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 16.498,
+                "actual": 16.497595488913227,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 16.497
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 3.242,
+                "actual": 3.2418700161284004,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 3.241
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 58.769,
+                "actual": 58.76888990566211,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 58.768
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 13.791,
+                "actual": 13.790830306600071,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 13.79
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 53.037,
+                "actual": 53.03673795486528,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 53.036
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 5.199,
+                "actual": 5.198853074975631,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 5.198
+              }
+            ],
+            "failure_count": 55,
+            "failed_rows_sha256": "333f9c544265dbe3695870dc5f428c9330b4b3bc8d07537e3c853fb2e002d5ae",
+            "failures_retained_complete": false
+          },
+          "4_decimal_then_three": {
+            "required": 116,
+            "matches": 111,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 5,
+            "failures": [
+              {
+                "field": "molecular_surface_volume",
+                "expected": 34.064,
+                "actual": 34.06351450977359,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 34.063
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 18.819,
+                "actual": 18.81946428046942,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 18.82
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 0.085,
+                "actual": 0.08549789074971192,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 0.086
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 0.003,
+                "actual": 0.0034797282494416493,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 0.004
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 0.097,
+                "actual": 0.0974676282196083,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 0.098
+              }
+            ],
+            "failure_count": 5,
+            "failed_rows_sha256": "58b392cf9be9b662429cc641a248a4d605c2f42f35bd748eec024890500f1843",
+            "failures_retained_complete": true
+          },
+          "5_decimal_then_three": {
+            "required": 116,
+            "matches": 115,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 1,
+            "failures": [
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 0.085,
+                "actual": 0.08549789074971192,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 0.086
+              }
+            ],
+            "failure_count": 1,
+            "failed_rows_sha256": "b3f991f156118badafae303ddc715891a4495d387e2bcb6b8b507e2931248814",
+            "failures_retained_complete": true
+          },
+          "6_decimal_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "7_decimal_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "historical_scientific_7_significant_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          }
+        }
+      },
+      {
+        "probe_angstrom": 1.4003,
+        "jobid": "j_6ac15ba9eb729",
+        "comparison_sha256": "b76657431f603241f1718cb9b2f226d9e1fa2491b619ae0f53e533228bab44eb",
+        "rules": {
+          "nearest_direct": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "truncate_three": {
+            "required": 116,
+            "matches": 58,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 58,
+            "failures": [
+              {
+                "field": "molecular_surface_volume",
+                "expected": 443.481,
+                "actual": 443.48051506638467,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 443.48
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 241.428,
+                "actual": 241.4279119666357,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 241.427
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 79.952,
+                "actual": 79.95189603431578,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 79.951
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 334.098,
+                "actual": 334.0978307214634,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 334.097
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 69.341,
+                "actual": 69.34066472405443,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 69.34
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 76.152,
+                "actual": 76.15191731836596,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 76.151
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 10.066,
+                "actual": 10.065758067125772,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 10.065
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 74.562,
+                "actual": 74.56160999271096,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 74.561
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 83.196,
+                "actual": 83.19553110471499,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 83.195
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 86.428,
+                "actual": 86.42789791685372,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 86.427
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 20.656,
+                "actual": 20.655830066731596,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 20.655
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 63.871,
+                "actual": 63.870602144067746,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 63.87
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 4.577,
+                "actual": 4.576735964383501,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 4.576
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 60.231,
+                "actual": 60.23066810584876,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 60.23
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 16.488,
+                "actual": 16.48770099897279,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 16.487
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 68.729,
+                "actual": 68.72880969234103,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 68.728
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 3.239,
+                "actual": 3.2385714865528517,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 3.238
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 13.783,
+                "actual": 13.782938549863694,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 13.782
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 53.03,
+                "actual": 53.029785590209094,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 53.029
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 5.199,
+                "actual": 5.198869107170758,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 5.198
+              }
+            ],
+            "failure_count": 58,
+            "failed_rows_sha256": "750a2dba69fe9622aa602a56a8682ecdfc8909a147c353bf5439181e554dd490",
+            "failures_retained_complete": false
+          },
+          "4_decimal_then_three": {
+            "required": 116,
+            "matches": 110,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 6,
+            "failures": [
+              {
+                "field": "molecular_surface_area",
+                "expected": 83.196,
+                "actual": 83.19553110471499,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 83.195
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 34.677,
+                "actual": 34.67745317177403,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 34.678
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 18.812,
+                "actual": 18.81154121327783,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 18.811
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 27.546,
+                "actual": 27.546486541794618,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 27.547
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 28.228,
+                "actual": 28.22846047722601,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 28.229
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 0.045,
+                "actual": 0.04454114397626996,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 0.044
+              }
+            ],
+            "failure_count": 6,
+            "failed_rows_sha256": "38e1f9577e52d7528d06df33138c4d06b2740d68a25a6f33aa95699f6db893b4",
+            "failures_retained_complete": true
+          },
+          "5_decimal_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "6_decimal_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "7_decimal_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "historical_scientific_7_significant_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          }
+        }
+      },
+      {
+        "probe_angstrom": 1.399999,
+        "jobid": "j_6ac15fdfe6f5b",
+        "comparison_sha256": "0f6dd3bf97873331793b9a5e42b941f8007772406579b11c1cc6f1b8889c237a",
+        "rules": {
+          "nearest_direct": {
+            "required": 116,
+            "matches": 115,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 0.004,
+                "actual": 0.0034998372609419404,
+                "tolerance": 0.0005000100000000001,
+                "passed": false,
+                "exported": 0.003
+              }
+            ],
+            "failure_count": 1,
+            "failed_rows_sha256": "1093ad52ec37bcf8cae8b5b339508ee3355d58772cae8649023da7451335adcd",
+            "failures_retained_complete": true
+          },
+          "truncate_three": {
+            "required": 116,
+            "matches": 53,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 62,
+            "failures": [
+              {
+                "field": "solvent_accessible_area",
+                "expected": 158.326,
+                "actual": 158.32552234255954,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 158.325
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 133.802,
+                "actual": 133.80176406093335,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 133.801
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 443.516,
+                "actual": 443.51566053035054,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 443.515
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 144.228,
+                "actual": 144.22752840006896,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 144.227
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 334.113,
+                "actual": 334.112642532674,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 334.112
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 90.25,
+                "actual": 90.24990823564752,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 90.249
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 22.534,
+                "actual": 22.533735371872922,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 22.533
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 76.162,
+                "actual": 76.1618753082844,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 76.161
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 10.073,
+                "actual": 10.072538385263261,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 10.072
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 30.857,
+                "actual": 30.85650387052769,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 30.856
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 83.191,
+                "actual": 83.19072764626833,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 83.19
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 7.791,
+                "actual": 7.790516953556017,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 7.79
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 20.672,
+                "actual": 20.671995908040014,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 20.671
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 63.892,
+                "actual": 63.891776595519204,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 63.891
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 4.583,
+                "actual": 4.582955802095459,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 4.582
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 16.503,
+                "actual": 16.502593622205303,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 16.502
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 68.752,
+                "actual": 68.75181858677134,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 68.751
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 3.244,
+                "actual": 3.2435365257191746,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 3.243
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 13.795,
+                "actual": 13.794816644530066,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 13.794
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 2.835,
+                "actual": 2.8346338940393956,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 2.834
+              }
+            ],
+            "failure_count": 63,
+            "failed_rows_sha256": "a8c697665141cd5bfa93b534d71a948435016161923ab6d870069f1a8425cfa5",
+            "failures_retained_complete": false
+          },
+          "4_decimal_then_three": {
+            "required": 116,
+            "matches": 110,
+            "explained_raw_failures": 1,
+            "introduced_raw_pass_failures": 6,
+            "failures": [
+              {
+                "field": "solvent_accessible_area",
+                "expected": 144.228,
+                "actual": 144.22752840006896,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 144.227
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 10.073,
+                "actual": 10.072538385263261,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 10.072
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 7.791,
+                "actual": 7.790516953556017,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 7.79
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 20.943,
+                "actual": 20.943489121055933,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 20.944
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 0.199,
+                "actual": 0.19945734995924536,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 0.2
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 0.01,
+                "actual": 0.009536055360593987,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 0.009
+              }
+            ],
+            "failure_count": 6,
+            "failed_rows_sha256": "c52eb48dc8f71b29735cb4c2c7b69a475e4bff48012a0e6b14ffb01ec162963d",
+            "failures_retained_complete": true
+          },
+          "5_decimal_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 1,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "6_decimal_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 1,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "7_decimal_then_three": {
+            "required": 116,
+            "matches": 115,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 0.004,
+                "actual": 0.0034998372609419404,
+                "tolerance": 0.0005000100000000001,
+                "passed": false,
+                "exported": 0.003
+              }
+            ],
+            "failure_count": 1,
+            "failed_rows_sha256": "1093ad52ec37bcf8cae8b5b339508ee3355d58772cae8649023da7451335adcd",
+            "failures_retained_complete": true
+          },
+          "historical_scientific_7_significant_then_three": {
+            "required": 116,
+            "matches": 114,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 1,
+            "failures": [
+              {
+                "field": "solvent_accessible_area",
+                "expected": 144.228,
+                "actual": 144.22752840006896,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 144.227
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 0.004,
+                "actual": 0.0034998372609419404,
+                "tolerance": 0.0005000100000000001,
+                "passed": false,
+                "exported": 0.003
+              }
+            ],
+            "failure_count": 2,
+            "failed_rows_sha256": "c18c4d0d3ab66e9313ebbed37e5b0a6945f80a4f24b5ab4bdfa221b5cabebbcc",
+            "failures_retained_complete": true
+          }
+        }
+      },
+      {
+        "probe_angstrom": 1.400001,
+        "jobid": "j_6ac15fe08c966",
+        "comparison_sha256": "0f6dd3bf97873331793b9a5e42b941f8007772406579b11c1cc6f1b8889c237a",
+        "rules": {
+          "nearest_direct": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "truncate_three": {
+            "required": 116,
+            "matches": 65,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 51,
+            "failures": [
+              {
+                "field": "molecular_surface_area",
+                "expected": 291.29,
+                "actual": 291.28982087571416,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 291.289
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 241.535,
+                "actual": 241.53458494818912,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 241.534
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 334.113,
+                "actual": 334.1125444949148,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 334.112
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 90.25,
+                "actual": 90.24987019810251,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 90.249
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 22.534,
+                "actual": 22.533632235181887,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 22.533
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 76.162,
+                "actual": 76.16180966900293,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 76.161
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 83.191,
+                "actual": 83.19076036653644,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 83.19
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 20.672,
+                "actual": 20.671888477173596,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 20.671
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 63.892,
+                "actual": 63.8916356969078,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 63.891
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 4.583,
+                "actual": 4.58291445816443,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 4.582
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 68.752,
+                "actual": 68.75166547386735,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 68.751
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 3.244,
+                "actual": 3.2435035206284866,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 3.243
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 13.795,
+                "actual": 13.794737700623987,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 13.794
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 62.855,
+                "actual": 62.85496536543003,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 62.854
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 2.835,
+                "actual": 2.834606304681514,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 2.834
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 5.199,
+                "actual": 5.1988450920193365,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 5.198
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 2.751,
+                "actual": 2.7506055411660064,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 2.75
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 11.099,
+                "actual": 11.098720892177793,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 11.098
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 6.808,
+                "actual": 6.807814280328452,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 6.807
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 1.125,
+                "actual": 1.1248306231566585,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 1.124
+              }
+            ],
+            "failure_count": 51,
+            "failed_rows_sha256": "d0cfe89bae884acc7cd4003a9ddcf550dd1b19f67525565d62d042fcd8e9684e",
+            "failures_retained_complete": false
+          },
+          "4_decimal_then_three": {
+            "required": 116,
+            "matches": 106,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 10,
+            "failures": [
+              {
+                "field": "solvent_accessible_area",
+                "expected": 16.502,
+                "actual": 16.50249464003943,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 16.503
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 41.775,
+                "actual": 41.77545703201675,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 41.776
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 53.229,
+                "actual": 53.229464172015824,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 53.23
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 0.768,
+                "actual": 0.7675149110885464,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 0.767
+              },
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 0.003,
+                "actual": 0.003499438358244511,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 0.004
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 28.925,
+                "actual": 28.924514215583166,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 28.924
+              },
+              {
+                "field": "solvent_accessible_area",
+                "expected": 0.01,
+                "actual": 0.00952857631271642,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 0.009
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 13.154,
+                "actual": 13.154483652215085,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 13.155
+              },
+              {
+                "field": "molecular_surface_area",
+                "expected": 26.383,
+                "actual": 26.383461995851217,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 26.384
+              },
+              {
+                "field": "molecular_surface_volume",
+                "expected": 6.373,
+                "actual": 6.372542717552595,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 6.372
+              }
+            ],
+            "failure_count": 10,
+            "failed_rows_sha256": "18ad564aa2694e16695cf273c5d5023a122d7a89fa80edca139402c6b0ee0b80",
+            "failures_retained_complete": true
+          },
+          "5_decimal_then_three": {
+            "required": 116,
+            "matches": 115,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 1,
+            "failures": [
+              {
+                "field": "solvent_accessible_volume",
+                "expected": 0.003,
+                "actual": 0.003499438358244511,
+                "tolerance": 0.0005000100000000001,
+                "passed": true,
+                "exported": 0.004
+              }
+            ],
+            "failure_count": 1,
+            "failed_rows_sha256": "fa2ddf516bf5c5d0b96361ad61e5a232108c4bd5c40bb279bb62a4ad6834f82a",
+            "failures_retained_complete": true
+          },
+          "6_decimal_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "7_decimal_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          },
+          "historical_scientific_7_significant_then_three": {
+            "required": 116,
+            "matches": 116,
+            "explained_raw_failures": 0,
+            "introduced_raw_pass_failures": 0,
+            "failures": [],
+            "failure_count": 0,
+            "failed_rows_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "failures_retained_complete": true
+          }
+        }
+      }
+    ],
+    "original_corpus": {
+      "nearest_direct": {
+        "required": 14916,
+        "matches": 14910,
+        "explained_raw_failures": 0,
+        "introduced_raw_pass_failures": 1,
+        "failures": [
+          {
+            "actual": 8.39850000235757,
+            "expected": 8.398,
+            "field": "molecular_surface_area",
+            "passed": true,
+            "tolerance": 0.0005000100000000001,
+            "case": "1okm",
+            "server_id": 40,
+            "exported": 8.399
+          },
+          {
+            "actual": 0.0034996378073546275,
+            "expected": 0.004,
+            "field": "solvent_accessible_volume",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "1mrg",
+            "server_id": 22,
+            "exported": 0.003
+          },
+          {
+            "actual": 0.6854994934777379,
+            "expected": 0.686,
+            "field": "solvent_accessible_volume",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "1psn",
+            "server_id": 13,
+            "exported": 0.685
+          },
+          {
+            "actual": 18.094500169312916,
+            "expected": 18.094,
+            "field": "solvent_accessible_volume",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "1ypi",
+            "server_id": 6,
+            "exported": 18.095
+          },
+          {
+            "actual": 299.2764954437975,
+            "expected": 299.277,
+            "field": "solvent_accessible_area",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "1fbp",
+            "server_id": 3,
+            "exported": 299.276
+          },
+          {
+            "actual": 36.26650173333687,
+            "expected": 36.266,
+            "field": "solvent_accessible_volume",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "2fbp",
+            "server_id": 11,
+            "exported": 36.267
+          }
+        ],
+        "failure_count": 6,
+        "failed_rows_sha256": "b2f7f97fc892b8ab4d0e28b185d0ae9d68996476351b7bc93587bc80dcec3f33",
+        "failures_retained_complete": true
+      },
+      "truncate_three": {
+        "required": 14916,
+        "matches": 7684,
+        "explained_raw_failures": 2,
+        "introduced_raw_pass_failures": 7229,
+        "failures": [
+          {
+            "field": "molecular_surface_area",
+            "expected": 36.668,
+            "actual": 36.667606662919965,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1crn",
+            "server_id": 1,
+            "exported": 36.667
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 72.861,
+            "actual": 72.86067734910027,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1rop",
+            "server_id": 1,
+            "exported": 72.86
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 0.992,
+            "actual": 0.991735202458901,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1rop",
+            "server_id": 1,
+            "exported": 0.991
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 1.401,
+            "actual": 1.4009458827254067,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1rop",
+            "server_id": 2,
+            "exported": 1.4
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 25.521,
+            "actual": 25.520582844977135,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1rop",
+            "server_id": 2,
+            "exported": 25.52
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 0.884,
+            "actual": 0.8837901050791455,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1rop",
+            "server_id": 3,
+            "exported": 0.883
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 17.941,
+            "actual": 17.940534444282935,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1rop",
+            "server_id": 3,
+            "exported": 17.94
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 4.252,
+            "actual": 4.251829526080158,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2pk4",
+            "server_id": 1,
+            "exported": 4.251
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 0.782,
+            "actual": 0.7817893085773058,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2pk4",
+            "server_id": 2,
+            "exported": 0.781
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 29.955,
+            "actual": 29.95480370701366,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2pk4",
+            "server_id": 2,
+            "exported": 29.954
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 1.03,
+            "actual": 1.029821806979001,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2pk4",
+            "server_id": 4,
+            "exported": 1.029
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 38.945,
+            "actual": 38.94486612241245,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2pk4",
+            "server_id": 4,
+            "exported": 38.944
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 14.37,
+            "actual": 14.369992015418259,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2pk4",
+            "server_id": 6,
+            "exported": 14.369
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 171.16,
+            "actual": 171.15965657141322,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3phv",
+            "server_id": 1,
+            "exported": 171.159
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 282.947,
+            "actual": 282.9465609232642,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3phv",
+            "server_id": 1,
+            "exported": 282.946
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 70.022,
+            "actual": 70.02191695057932,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3phv",
+            "server_id": 2,
+            "exported": 70.021
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 129.112,
+            "actual": 129.111779399454,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3phv",
+            "server_id": 2,
+            "exported": 129.111
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 37.002,
+            "actual": 37.00173555623828,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3phv",
+            "server_id": 2,
+            "exported": 37.001
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 174.68,
+            "actual": 174.67997729274975,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3phv",
+            "server_id": 2,
+            "exported": 174.679
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 42.608,
+            "actual": 42.60768261223939,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3phv",
+            "server_id": 3,
+            "exported": 42.607
+          }
+        ],
+        "failure_count": 7232,
+        "failed_rows_sha256": "26f8aeb110f303527c3c89755359e11151cb309d2ebd81e9591daf721c697848",
+        "failures_retained_complete": false
+      },
+      "4_decimal_then_three": {
+        "required": 14916,
+        "matches": 14172,
+        "explained_raw_failures": 1,
+        "introduced_raw_pass_failures": 740,
+        "failures": [
+          {
+            "field": "molecular_surface_volume",
+            "expected": 20.656,
+            "actual": 20.656466606068427,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1crn",
+            "server_id": 1,
+            "exported": 20.657
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 5.257,
+            "actual": 5.257464131506218,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2pk4",
+            "server_id": 2,
+            "exported": 5.258
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 0.0,
+            "actual": 0.0004764204439600128,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2pk4",
+            "server_id": 6,
+            "exported": 0.001
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 0.854,
+            "actual": 0.854452887397712,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3phv",
+            "server_id": 6,
+            "exported": 0.855
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 0.002,
+            "actual": 0.00246795066508243,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3phv",
+            "server_id": 11,
+            "exported": 0.003
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 0.066,
+            "actual": 0.06647020559571182,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3phv",
+            "server_id": 12,
+            "exported": 0.067
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 136.33,
+            "actual": 136.330473222883,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "8rat",
+            "server_id": 1,
+            "exported": 136.331
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 1.471,
+            "actual": 1.4705055236096574,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "8rat",
+            "server_id": 7,
+            "exported": 1.47
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 16.897,
+            "actual": 16.896537643402116,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "8rat",
+            "server_id": 12,
+            "exported": 16.896
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 0.749,
+            "actual": 0.7494697184286832,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1stp",
+            "server_id": 4,
+            "exported": 0.75
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 8.459,
+            "actual": 8.459470460634229,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1rob",
+            "server_id": 5,
+            "exported": 8.46
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 0.252,
+            "actual": 0.25247422524221896,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1rob",
+            "server_id": 11,
+            "exported": 0.253
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 8.853,
+            "actual": 8.853463913001267,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2lyz",
+            "server_id": 6,
+            "exported": 8.854
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 1.32,
+            "actual": 1.3204896569430216,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2lyz",
+            "server_id": 7,
+            "exported": 1.321
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 0.094,
+            "actual": 0.09446615143121995,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2lyz",
+            "server_id": 9,
+            "exported": 0.095
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 12.496,
+            "actual": 12.495531386710006,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2lyz",
+            "server_id": 12,
+            "exported": 12.495
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 27.612,
+            "actual": 27.612488766056245,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1ifb",
+            "server_id": 5,
+            "exported": 27.613
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 5.783,
+            "actual": 5.782510015953854,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2ifb",
+            "server_id": 12,
+            "exported": 5.782
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 37.955,
+            "actual": 37.95549616492656,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2ifb",
+            "server_id": 13,
+            "exported": 37.956
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 0.003,
+            "actual": 0.003475848024749484,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2ifb",
+            "server_id": 14,
+            "exported": 0.004
+          }
+        ],
+        "failure_count": 744,
+        "failed_rows_sha256": "d7f5876291905ed06a09e3124057bf22f5e70ac46ccf00cb20a57875f3e0a82d",
+        "failures_retained_complete": false
+      },
+      "5_decimal_then_three": {
+        "required": 14916,
+        "matches": 14835,
+        "explained_raw_failures": 1,
+        "introduced_raw_pass_failures": 77,
+        "failures": [
+          {
+            "field": "molecular_surface_area",
+            "expected": 37.955,
+            "actual": 37.95549616492656,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2ifb",
+            "server_id": 13,
+            "exported": 37.956
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 0.014,
+            "actual": 0.013500895844483551,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1snc",
+            "server_id": 14,
+            "exported": 0.013
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 19.829,
+            "actual": 19.82850045415454,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1hfc",
+            "server_id": 16,
+            "exported": 19.828
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 0.378,
+            "actual": 0.37849690190117435,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1brq",
+            "server_id": 18,
+            "exported": 0.379
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 52.369,
+            "actual": 52.368500361412174,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1a6u",
+            "server_id": 4,
+            "exported": 52.368
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 14.371,
+            "actual": 14.370500481678928,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1srf",
+            "server_id": 19,
+            "exported": 14.37
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 12.199,
+            "actual": 12.198502812590448,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1mtw",
+            "server_id": 25,
+            "exported": 12.198
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 220.741,
+            "actual": 220.74050141903996,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2ctv",
+            "server_id": 3,
+            "exported": 220.74
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 10.331,
+            "actual": 10.331495685712836,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1a6w",
+            "server_id": 17,
+            "exported": 10.332
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 2.588,
+            "actual": 2.587503260729628,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1inc",
+            "server_id": 10,
+            "exported": 2.587
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 128.567,
+            "actual": 128.56650186433313,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1bmq",
+            "server_id": 3,
+            "exported": 128.566
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 54.945,
+            "actual": 54.94549573931166,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1bmq",
+            "server_id": 5,
+            "exported": 54.946
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 51.652,
+            "actual": 51.651500762335154,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1bmq",
+            "server_id": 21,
+            "exported": 51.651
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 17.632,
+            "actual": 17.63150136092364,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1ahc",
+            "server_id": 20,
+            "exported": 17.631
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 134.651,
+            "actual": 134.65050475935365,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "4ca2",
+            "server_id": 2,
+            "exported": 134.65
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 3.106,
+            "actual": 3.1064951846463695,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "4ca2",
+            "server_id": 6,
+            "exported": 3.107
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 32.177,
+            "actual": 32.17749728941352,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3tms",
+            "server_id": 12,
+            "exported": 32.178
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 22.926,
+            "actual": 22.92550353754037,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3tms",
+            "server_id": 12,
+            "exported": 22.925
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 70.705,
+            "actual": 70.7054990289234,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1djb",
+            "server_id": 4,
+            "exported": 70.706
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 19.12,
+            "actual": 19.119503498476824,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1djb",
+            "server_id": 21,
+            "exported": 19.119
+          }
+        ],
+        "failure_count": 81,
+        "failed_rows_sha256": "ce975bb61fb3cc96851ef08ecfe72420e26b07609e31f6d2082c9863f0983f91",
+        "failures_retained_complete": false
+      },
+      "6_decimal_then_three": {
+        "required": 14916,
+        "matches": 14903,
+        "explained_raw_failures": 1,
+        "introduced_raw_pass_failures": 9,
+        "failures": [
+          {
+            "field": "molecular_surface_volume",
+            "expected": 19.829,
+            "actual": 19.82850045415454,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1hfc",
+            "server_id": 16,
+            "exported": 19.828
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 52.369,
+            "actual": 52.368500361412174,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1a6u",
+            "server_id": 4,
+            "exported": 52.368
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 14.371,
+            "actual": 14.370500481678928,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1srf",
+            "server_id": 19,
+            "exported": 14.37
+          },
+          {
+            "field": "solvent_accessible_area",
+            "expected": 3.06,
+            "actual": 3.0604999264269583,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1cdo",
+            "server_id": 33,
+            "exported": 3.061
+          },
+          {
+            "field": "solvent_accessible_volume",
+            "expected": 0.02,
+            "actual": 0.019500486821673935,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1g1f",
+            "server_id": 29,
+            "exported": 0.019
+          },
+          {
+            "actual": 8.39850000235757,
+            "expected": 8.398,
+            "field": "molecular_surface_area",
+            "passed": true,
+            "tolerance": 0.0005000100000000001,
+            "case": "1okm",
+            "server_id": 40,
+            "exported": 8.399
+          },
+          {
+            "actual": 0.6854994934777379,
+            "expected": 0.686,
+            "field": "solvent_accessible_volume",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "1psn",
+            "server_id": 13,
+            "exported": 0.685
+          },
+          {
+            "actual": 27.627499653082097,
+            "expected": 27.627,
+            "field": "molecular_surface_volume",
+            "passed": true,
+            "tolerance": 0.0005000100000000001,
+            "case": "1phc",
+            "server_id": 18,
+            "exported": 27.628
+          },
+          {
+            "actual": 18.094500169312916,
+            "expected": 18.094,
+            "field": "solvent_accessible_volume",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "1ypi",
+            "server_id": 6,
+            "exported": 18.095
+          },
+          {
+            "actual": 13.860499510081045,
+            "expected": 13.86,
+            "field": "solvent_accessible_area",
+            "passed": true,
+            "tolerance": 0.0005000100000000001,
+            "case": "1acj",
+            "server_id": 21,
+            "exported": 13.861
+          },
+          {
+            "actual": 299.2764954437975,
+            "expected": 299.277,
+            "field": "solvent_accessible_area",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "1fbp",
+            "server_id": 3,
+            "exported": 299.276
+          },
+          {
+            "actual": 0.11249958664364845,
+            "expected": 0.112,
+            "field": "solvent_accessible_area",
+            "passed": true,
+            "tolerance": 0.0005000100000000001,
+            "case": "1fbp",
+            "server_id": 81,
+            "exported": 0.113
+          },
+          {
+            "actual": 36.26650173333687,
+            "expected": 36.266,
+            "field": "solvent_accessible_volume",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "2fbp",
+            "server_id": 11,
+            "exported": 36.267
+          }
+        ],
+        "failure_count": 13,
+        "failed_rows_sha256": "521b72b430996d3081e2e4fd18d7623d470dcd49f3d15afc2bc0d53324f35db8",
+        "failures_retained_complete": true
+      },
+      "7_decimal_then_three": {
+        "required": 14916,
+        "matches": 14910,
+        "explained_raw_failures": 0,
+        "introduced_raw_pass_failures": 1,
+        "failures": [
+          {
+            "actual": 8.39850000235757,
+            "expected": 8.398,
+            "field": "molecular_surface_area",
+            "passed": true,
+            "tolerance": 0.0005000100000000001,
+            "case": "1okm",
+            "server_id": 40,
+            "exported": 8.399
+          },
+          {
+            "actual": 0.0034996378073546275,
+            "expected": 0.004,
+            "field": "solvent_accessible_volume",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "1mrg",
+            "server_id": 22,
+            "exported": 0.003
+          },
+          {
+            "actual": 0.6854994934777379,
+            "expected": 0.686,
+            "field": "solvent_accessible_volume",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "1psn",
+            "server_id": 13,
+            "exported": 0.685
+          },
+          {
+            "actual": 18.094500169312916,
+            "expected": 18.094,
+            "field": "solvent_accessible_volume",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "1ypi",
+            "server_id": 6,
+            "exported": 18.095
+          },
+          {
+            "actual": 299.2764954437975,
+            "expected": 299.277,
+            "field": "solvent_accessible_area",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "1fbp",
+            "server_id": 3,
+            "exported": 299.276
+          },
+          {
+            "actual": 36.26650173333687,
+            "expected": 36.266,
+            "field": "solvent_accessible_volume",
+            "passed": false,
+            "tolerance": 0.0005000100000000001,
+            "case": "2fbp",
+            "server_id": 11,
+            "exported": 36.267
+          }
+        ],
+        "failure_count": 6,
+        "failed_rows_sha256": "b2f7f97fc892b8ab4d0e28b185d0ae9d68996476351b7bc93587bc80dcec3f33",
+        "failures_retained_complete": true
+      },
+      "historical_scientific_7_significant_then_three": {
+        "required": 14916,
+        "matches": 14806,
+        "explained_raw_failures": 0,
+        "introduced_raw_pass_failures": 105,
+        "failures": [
+          {
+            "field": "molecular_surface_area",
+            "expected": 136.33,
+            "actual": 136.330473222883,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "8rat",
+            "server_id": 1,
+            "exported": 136.331
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 37.955,
+            "actual": 37.95549616492656,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2ifb",
+            "server_id": 13,
+            "exported": 37.956
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 19.829,
+            "actual": 19.82850045415454,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1hfc",
+            "server_id": 16,
+            "exported": 19.828
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 190.652,
+            "actual": 190.65151043258655,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3ptb",
+            "server_id": 2,
+            "exported": 190.651
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 167.16,
+            "actual": 167.16048140628342,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1a6u",
+            "server_id": 1,
+            "exported": 167.161
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 52.369,
+            "actual": 52.368500361412174,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1a6u",
+            "server_id": 4,
+            "exported": 52.368
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 190.205,
+            "actual": 190.20451042197794,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1srf",
+            "server_id": 3,
+            "exported": 190.204
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 14.371,
+            "actual": 14.370500481678928,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1srf",
+            "server_id": 19,
+            "exported": 14.37
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 264.174,
+            "actual": 264.1744857544892,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1mtw",
+            "server_id": 4,
+            "exported": 264.175
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 12.199,
+            "actual": 12.198502812590448,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1mtw",
+            "server_id": 25,
+            "exported": 12.198
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 220.741,
+            "actual": 220.74050141903996,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "2ctv",
+            "server_id": 3,
+            "exported": 220.74
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 10.331,
+            "actual": 10.331495685712836,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1a6w",
+            "server_id": 17,
+            "exported": 10.332
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 262.65,
+            "actual": 262.6495264986844,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1inc",
+            "server_id": 4,
+            "exported": 262.649
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 119.628,
+            "actual": 119.62847953896468,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1inc",
+            "server_id": 11,
+            "exported": 119.629
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 128.567,
+            "actual": 128.56650186433313,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1bmq",
+            "server_id": 3,
+            "exported": 128.566
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 54.945,
+            "actual": 54.94549573931166,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1bmq",
+            "server_id": 5,
+            "exported": 54.946
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 51.652,
+            "actual": 51.651500762335154,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1bmq",
+            "server_id": 21,
+            "exported": 51.651
+          },
+          {
+            "field": "molecular_surface_volume",
+            "expected": 17.632,
+            "actual": 17.63150136092364,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "1ahc",
+            "server_id": 20,
+            "exported": 17.631
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 134.651,
+            "actual": 134.65050475935365,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "4ca2",
+            "server_id": 2,
+            "exported": 134.65
+          },
+          {
+            "field": "molecular_surface_area",
+            "expected": 32.177,
+            "actual": 32.17749728941352,
+            "tolerance": 0.0005000100000000001,
+            "passed": true,
+            "case": "3tms",
+            "server_id": 12,
+            "exported": 32.178
+          }
+        ],
+        "failure_count": 110,
+        "failed_rows_sha256": "9b0d9b5e9372878ccddfcfbbdcd186ae5d9fab8f2a2749dd81b61b75e2d518ea",
+        "failures_retained_complete": false
+      }
+    },
+    "private_full_replay_sha256": "30711dea2014c4f4329b341aae9fdbea711efd088151deccbb7a9240633ca920"
+  },
+  "web_measure_schema": [
+    {
+      "variant": "baseline",
+      "sha256": "aa799b18f336339b7c8ccacc8da04a5b2ad863d43e205c8c104a2fa9bc65afaf",
+      "regions": 29,
+      "record_keys": [
+        "area",
+        "atoms",
+        "id",
+        "vol"
+      ],
+      "target_volume_angstrom3": "0.004"
+    },
+    {
+      "variant": "near_origin",
+      "sha256": "aa799b18f336339b7c8ccacc8da04a5b2ad863d43e205c8c104a2fa9bc65afaf",
+      "regions": 29,
+      "record_keys": [
+        "area",
+        "atoms",
+        "id",
+        "vol"
+      ],
+      "target_volume_angstrom3": "0.004"
+    },
+    {
+      "variant": "shifted",
+      "sha256": "aa799b18f336339b7c8ccacc8da04a5b2ad863d43e205c8c104a2fa9bc65afaf",
+      "regions": 29,
+      "record_keys": [
+        "area",
+        "atoms",
+        "id",
+        "vol"
+      ],
+      "target_volume_angstrom3": "0.004"
+    }
+  ],
+  "archive_recovery": {
+    "collision_corrected": true,
+    "original_download_sha256_recovered": true,
+    "superseded_fine_comparison_invalid": true,
+    "new_jobs_submitted_during_recovery": false,
+    "corrected_archive_paths": [
+      "/tmp/opencastp-1mrg-probe-fine/j_6ac15fdfe6f5b.zip",
+      "/tmp/opencastp-1mrg-probe-fine/j_6ac15fe08c966.zip"
+    ],
+    "explanation": "The initial runner rounded probe values to four decimals in filenames; the second fine job overwrote the first. Existing exact original receipts were recovered under unique job IDs and both probe cohorts were recalculated with fail-closed receipt and archive-member identity checks."
+  },
+  "collector_sha256": {
+    "build_opencastp_historical_assembly.py.txt": "bee7b8469fa86608378694680e1550064d03564028e18a839cf9070eaea19a68",
+    "opencastp_historical_assembly_compare.py.txt": "c6f9ea2553ccfac550ec935c6e70eeaa5fcbbdedd0c3a8722b8430a7f025ff91",
+    "opencastp_reader_floor_controls.py.txt": "7cb65d1e5d65405ea18ad2ed19358ed7fa4a7291110f296a32d3db570030c825",
+    "opencastp_probe_boundary_control.py.txt": "b77e122c5276e732062d22682e0558c60357c17ac44b29a0be562c502cec3a3c",
+    "opencastp_probe_fine_control.py.txt": "4752d906b3b365eae84507e3569f676e1fe6dcb85ba682406c152759deebf43c",
+    "opencastp_recover_fine_archives.py.txt": "9841f97f9ec0c721aca3cfff9bca5d1e4f12b7b3c8bc7a1312a6af61f19a0b9c",
+    "opencastp_probe_boundary_compare.py.txt": "f1cc912b9d31dab7956631289658cdd8ba518c054ee793c49545aa7c4de2f3c4",
+    "opencastp_probe_precision_replay.py.txt": "d7d61c0a0001dcff82e9c2b9ea074bcd03180e00bfbc436c03f5b644307c7529",
+    "opencastp_live_measure_read.py.txt": "cb1d18afc5641373fc348a0ff15510d14842d559f151103cb9f6b0c1ee0d1ceb",
+    "opencastp_assemble_probe_assembly.py.txt": "33d7ea519dafd982c313eb3a9d5ba66ae4c6b0c3979d40a8639e14edc5b51273"
+  },
+  "limitations": [
+    "No modern server source recovered",
+    "C domains, inputs, dispatch and visibility callbacks remain native/shared; no full historical reader or pipeline execution",
+    "Five probes are replicates of existing 1MRG, not new molecular benchmark systems",
+    "Exported geometry equality is bounded by server display precision",
+    "Six-decimal formatting is a conditional local hypothesis and fails the full corpus",
+    "No new CASTp3 jobs or independent individual multi-mouth server oracle"
+  ]
+}

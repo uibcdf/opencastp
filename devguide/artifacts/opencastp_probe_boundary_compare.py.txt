@@ -1,0 +1,99 @@
+"""Fresh public OpenCASTp calculations against completed probe-control jobs."""
+
+import hashlib
+import json
+import pickle
+import subprocess
+import sys
+import time
+from importlib import metadata
+from pathlib import Path
+from zipfile import ZipFile
+
+import numpy as np
+import pyunitwizard as puw
+
+ROOT=Path('/home/diego/repos@uibcdf/opencastp')
+sys.path.insert(0,str(ROOT))
+from devtools.audit_castp_orthospheres import compare_spheres
+from devtools.compare_castp_servers import compare_regions, read_archive
+from opencastp import analyze
+
+
+def key(record):
+    return record['feature_type'],tuple(sorted(record['atom_indices']))
+
+
+def main():
+    state_path=Path(sys.argv[1])
+    state=json.loads(state_path.read_text())
+    assert state['completed']
+    frozen_path=Path('/tmp/opencastp_all_metric_1mrg_geometry.pickle')
+    old=pickle.loads(frozen_path.read_bytes())
+    raw_radii=np.round(old.atom_radii-1.4,2)
+    assert np.max(np.abs(raw_radii+1.4-old.atom_radii))<1e-14
+    report=dict(completed=False,complete_server_equivalence=False,
+                scope='fresh public analyze calculations on frozen prepared coordinate/base-radius inputs for all 1MRG probe controls',
+                source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+                python=sys.version.split()[0],versions={n:metadata.version(n) for n in ('opencastp','numpy','scipy','pyunitwizard')},
+                collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                geometry_cache_sha256=hashlib.sha256(frozen_path.read_bytes()).hexdigest(),
+                native_geometry_and_filtration_rebuilt=True,molecular_preparation_shared=True,
+                archive_receipt_and_job_identity_verified=True,
+                production_source_changed=False,units={'length':'angstrom','area':'angstrom**2','volume':'angstrom**3'},
+                server_submission=state,variants=[])
+    output=state_path.parent/'comparison.json'
+    for job in state['jobs']:
+        started=time.monotonic()
+        path=Path(job['result_path'])
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == job['result_sha256'], 'Archive receipt does not match this job'
+        with ZipFile(path) as archive:
+            payloads = [name for name in archive.namelist() if name != 'README.txt']
+            assert payloads and all(Path(name).name.startswith(job['jobid'] + '.') for name in payloads), 'Archive belongs to a different server job'
+        _pdb,expected=read_archive(path)
+        result=analyze(old.atom_coordinates,raw_radii,length_unit='angstrom',probe_radius=job['probe_angstrom'],
+                       atom_indices=old.atom_indices_map,pocket_definition='castp3',mouth_measurement_policy='castp3')
+        comparison=compare_regions(expected,result.features)
+        with ZipFile(path) as archive:
+            bulbs=json.loads(archive.read(next(n for n in archive.namelist() if n.endswith('.bulb.json'))))
+        by_key={key(f):f for f in result.features}
+        sphere_rows=[]
+        for target in expected:
+            feature=by_key.get(key(target))
+            if feature is None:
+                sphere_rows.append(dict(passed=False,server_id=target['server_id'],reason='region missing'))
+                continue
+            indices=feature['tetrahedron_indices']
+            native=np.column_stack((result.geometry.mesh.simplex_centers[indices],
+                                    np.sqrt(result.geometry.mesh.simplex_power_values[indices])))
+            exported=np.array([[*(s['c'][axis] for axis in 'xyz'),s['r']]
+                               for s in bulbs[target['server_id']-1]],dtype=float).reshape((-1,4))
+            entry=compare_spheres(exported,native)
+            entry['server_id']=target['server_id']
+            entry['max_coordinate_error_angstrom']=max((p['center_max_absolute_error_angstrom'] for p in entry['pairs']),default=0)
+            entry['max_radius_error_angstrom']=max((p['radius_absolute_error_angstrom'] for p in entry['pairs']),default=0)
+            del entry['pairs']
+            sphere_rows.append(entry)
+        target=next(r for r in expected if set(r['atom_indices'])=={1261,1496,1612,1797,1834})
+        native=by_key[key(target)]
+        volume=float(puw.get_value(native['solvent_accessible_volume'],to_unit='angstrom**3'))
+        row=dict(probe_angstrom=job['probe_angstrom'],jobid=job['jobid'],comparison=comparison,
+                 target_server_id=target['server_id'],target_server_metrics=target['metrics'],
+                 target_native_volume_angstrom3=volume,
+                 target_direct_three_decimal=f'{volume:.3f}',
+                 target_prior_four_decimal_numpy=f'{np.round(float(f"{volume:.4f}"),3):.3f}',
+                 orthospheres=dict(passed=all(r['passed'] for r in sphere_rows),
+                                  matched_spheres=sum(r.get('matched_spheres',0) for r in sphere_rows),regions=sphere_rows),
+                 archive_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),seconds=time.monotonic()-started)
+        report['variants'].append(row)
+        output.write_text(json.dumps(report,indent=2)+'\n')
+        print(job['probe_angstrom'],'regions',comparison['exact_memberships'],comparison['server_regions'],
+              'scalars',comparison['matched_scalars'],comparison['required_scalars'],
+              'additional',comparison['matched_additional_descriptors'],comparison['required_additional_descriptors'],
+              'target',target['metrics']['solvent_accessible_volume'],volume,'spheres',row['orthospheres']['passed'],flush=True)
+    report['completed']=True
+    output.write_text(json.dumps(report,indent=2)+'\n')
+
+
+if __name__=='__main__':
+    main()

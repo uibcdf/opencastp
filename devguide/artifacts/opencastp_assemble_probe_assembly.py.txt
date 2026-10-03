@@ -1,0 +1,109 @@
+"""Publish input-free summaries and exact own-code collector snapshots."""
+
+import hashlib
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path('/home/diego/repos@uibcdf/opencastp')
+ARTIFACTS = ROOT / 'devguide/artifacts'
+
+
+def read(path):
+    return json.loads(Path(path).read_text())
+
+
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def main():
+    historical_path = Path('/tmp/opencastp_historical_assembly_comparison.json')
+    historical = read(historical_path)
+    assert historical['completed']
+    summary = {k: v for k, v in historical.items() if k != 'cases'}
+    summary.update(required_scalars=4 * historical['regions'], required_additional=2 * historical['regions'],
+                   additional_matches=sum(row['fields'][field]['raw_server_passed'] for case in historical['cases'] for row in case['rows'] for field in ('length', 'corners')),
+                   private_full_comparison_sha256=digest(historical_path),
+                   cases=[{k: v for k, v in case.items() if k != 'rows'} for case in historical['cases']],
+                   failed_fields=[dict(case=case['case'], server_id=row['server_id'], field=field, **values)
+                                  for case in historical['cases'] for row in case['rows']
+                                  for field, values in row['fields'].items() if not values['raw_server_passed']])
+    controls = []
+    source_context = []
+    for label in ('boundary', 'fine'):
+        path = Path(f'/tmp/opencastp-1mrg-probe-{label}/comparison.json')
+        data = read(path)
+        assert data['completed'] and data['archive_receipt_and_job_identity_verified']
+        source_context.append({**{k: v for k, v in data.items() if k not in ('variants', 'server_submission')},
+                               'private_full_comparison_sha256': digest(path),
+                               'server_submission': data['server_submission']})
+        for row in data['variants']:
+            comp = row['comparison']
+            controls.append(dict(probe_angstrom=row['probe_angstrom'], jobid=row['jobid'],
+                                 archive_sha256=row['archive_sha256'], archive_receipt_and_job_identity_verified=True,
+                                 geometry_and_filtration_rebuilt=data['native_geometry_and_filtration_rebuilt'],
+                                 exact_regions=comp['exact_memberships'], required_regions=comp['server_regions'],
+                                 scalar_matches=comp['matched_scalars'], required_scalars=comp['required_scalars'],
+                                 additional_matches=comp['matched_additional_descriptors'], required_additional=comp['required_additional_descriptors'],
+                                 target_server_id=row['target_server_id'], target_server_volume_angstrom3=float(row['target_server_metrics']['solvent_accessible_volume']),
+                                 target_server_metrics=row['target_server_metrics'], target_native_volume_angstrom3=row['target_native_volume_angstrom3'],
+                                 orthospheres_passed=row['orthospheres']['passed'], orthospheres=row['orthospheres']['matched_spheres'],
+                                 max_exported_center_error_angstrom=max(r['max_coordinate_error_angstrom'] for r in row['orthospheres']['regions']),
+                                 max_exported_radius_error_angstrom=max(r['max_radius_error_angstrom'] for r in row['orthospheres']['regions']),
+                                 failed_fields=[dict(server_id=region['server_id'], **metric) for region in comp['regions'] for metric in region['metrics'] if not metric['passed']],
+                                 seconds=row['seconds']))
+    replay_path = Path('/tmp/opencastp_probe_precision_replay.json')
+    replay = read(replay_path)
+    replay['private_full_replay_sha256'] = digest(replay_path)
+    for rules in [replay['original_corpus'], *[row['rules'] for row in replay['probe_controls']]]:
+        for rule in rules.values():
+            rule['failure_count'] = len(rule['failures'])
+            rule['failed_rows_sha256'] = hashlib.sha256(json.dumps(rule['failures'], sort_keys=True).encode()).hexdigest()
+            rule['failures_retained_complete'] = len(rule['failures']) <= 20
+            rule['failures'] = rule['failures'][:20]
+    fine = read('/tmp/opencastp-1mrg-probe-fine/jobs.json')
+    web = []
+    for label in ('baseline', 'near_origin', 'shifted'):
+        path = Path(f'/tmp/opencastp-1mrg-rigid-controls/{label}_measure.json')
+        data = read(path)
+        web.append(dict(variant=label, sha256=digest(path), regions=len(data),
+                        record_keys=sorted(data[0]), target_volume_angstrom3=data[21]['vol']))
+    sources = ('build_opencastp_historical_assembly.py', 'opencastp_historical_assembly_compare.py',
+               'opencastp_reader_floor_controls.py', 'opencastp_probe_boundary_control.py', 'opencastp_probe_fine_control.py',
+               'opencastp_recover_fine_archives.py', 'opencastp_probe_boundary_compare.py', 'opencastp_probe_precision_replay.py',
+               'opencastp_live_measure_read.py', 'opencastp_assemble_probe_assembly.py')
+    snapshots = {}
+    for name in sources:
+        source = Path('/tmp') / name
+        target = ARTIFACTS / (name + '.txt')
+        target.write_bytes(source.read_bytes())
+        snapshots[target.name] = digest(target)
+    reader = read('/tmp/opencastp_reader_floor_controls.json')
+    assert reader['completed']
+    report = dict(completed=True, complete_server_equivalence=False, production_source_changed=False,
+                  assembled_utc=datetime.now(timezone.utc).isoformat(),
+                  scope='five new CASTpFold probe jobs, original C assembly on seven frozen native systems, conditional reader materialization and formatting replay',
+                  original_corpus_verdict_unchanged=True,
+                  original_corpus=dict(distinct_inputs=89, exact_regions=3729, scalar_matches=14911, required_scalars=14916,
+                                       additional_matches=26103, required_additional=26103, complete_cases=84),
+                  historical_assembly=summary, historical_reader_materialization=reader,
+                  probe_controls=controls, probe_execution_context=source_context, formatting_replay=replay,
+                  web_measure_schema=web,
+                  archive_recovery=dict(collision_corrected=fine['archive_filename_collision_corrected'],
+                                        original_download_sha256_recovered=all(job['recovery_archive_sha256_identical'] for job in fine['jobs']),
+                                        superseded_fine_comparison_invalid=True, new_jobs_submitted_during_recovery=False,
+                                        corrected_archive_paths=[job['result_path'] for job in fine['jobs']],
+                                        explanation='The initial runner rounded probe values to four decimals in filenames; the second fine job overwrote the first. Existing exact original receipts were recovered under unique job IDs and both probe cohorts were recalculated with fail-closed receipt and archive-member identity checks.'),
+                  collector_sha256=snapshots,
+                  limitations=['No modern server source recovered', 'C domains, inputs, dispatch and visibility callbacks remain native/shared; no full historical reader or pipeline execution',
+                               'Five probes are replicates of existing 1MRG, not new molecular benchmark systems',
+                               'Exported geometry equality is bounded by server display precision',
+                               'Six-decimal formatting is a conditional local hypothesis and fails the full corpus',
+                               'No new CASTp3 jobs or independent individual multi-mouth server oracle'])
+    (ARTIFACTS / '1mrg_probe_assembly_controls_2026_10_03.json').write_text(json.dumps(report, indent=2) + '\n')
+    print('Published input-free evidence:', len(controls), 'completed probe jobs;', len(snapshots), 'own-code snapshots')
+
+
+if __name__ == '__main__':
+    main()

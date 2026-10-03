@@ -1,0 +1,73 @@
+"""Probe the historical reader's floor conversion on the five residual domains."""
+
+import ctypes as C
+import hashlib
+import json
+import pickle
+import sys
+import subprocess
+from importlib import metadata
+from pathlib import Path
+
+import numpy as np
+
+sys.path.insert(0,'/tmp')
+from opencastp_historical_assembly_compare import H0,H1,CCW,P,I
+from opencastp._core.exact import castp1_fixed_point_array
+from opencastp._core.geometry import _weighted_hidden0,_weighted_hidden1
+
+
+def main():
+    lib=C.CDLL('/tmp/opencastp_historical_assembly/assembly.so')
+    lib.diagnostic_initialize.argtypes=[C.c_int,P,P,H0,H1,CCW]
+    lib.diagnostic_region.argtypes=[C.c_int,I,I,P]
+    report=dict(completed=False,complete_server_equivalence=False,
+                scope='source-derived lia_ffpload floor plus optional Alf_coord float32 materialization; fixed five native residual domains and original predicates',
+                source_path='/home/diego/repos@uibcdf/Alphashape/castp/alpha-4.1-src/lia/aux.c',
+                source_sha256=hashlib.sha256(Path('/home/diego/repos@uibcdf/Alphashape/castp/alpha-4.1-src/lia/aux.c').read_bytes()).hexdigest(),
+                collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                assembly_collector_sha256=hashlib.sha256(Path('/tmp/opencastp_historical_assembly_compare.py').read_bytes()).hexdigest(),
+                full_historical_pipeline_executed=False,production_source_changed=False,comparison_tolerance=.00050001,cases=[])
+    report.update(python=sys.version.split()[0],
+                  source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd='/home/diego/repos@uibcdf/opencastp',text=True).strip(),
+                  versions={name:metadata.version(name) for name in ('opencastp','numpy','scipy')},
+                  units={'length':'angstrom','area':'angstrom**2','volume':'angstrom**3'},
+                  existing_fixed_point_helper_sha256=hashlib.sha256(Path('/home/diego/repos@uibcdf/opencastp/src/opencastp/_core/exact.py').read_bytes()).hexdigest(),
+                  private_cache_sha256={name:hashlib.sha256(Path(f'/tmp/opencastp_residual_{name}.pickle').read_bytes()).hexdigest()
+                                        for name in ('1mrg','1psn','1ypi','1fbp','2fbp')})
+    for name in ('1mrg','1psn','1ypi','1fbp','2fbp'):
+        s=pickle.loads(Path(f'/tmp/opencastp_residual_{name}.pickle').read_bytes())
+        points,radii=s['coordinates'],s['radii'];weights=radii*radii
+        h0=H0(lambda i,j:int(_weighted_hidden0(points[i],float(weights[i]),points[j],float(weights[j]))!=0))
+        h1=H1(lambda i,j,k:int(_weighted_hidden1(points[[i,j]],weights[[i,j]],points[k],float(weights[k]))!=0))
+        ccw=CCW(lambda i,j,k,l:int(np.linalg.det(np.array([points[j]-points[i],points[k]-points[i],points[l]-points[i]]))<0))
+        kinds=np.array([('tetrahedron','vertex','edge','face').index(t[0]) for t in s['terms']],dtype=np.int32)
+        atoms=np.array([[*t[1],0] if len(t[1])==3 else t[1] for t in s['terms']],dtype=np.int32)
+        p_fixed=np.asarray(castp1_fixed_point_array(points,decimals=5,source_decimals=-1),dtype=np.int64)
+        r_fixed=np.asarray(castp1_fixed_point_array(radii,decimals=5,source_decimals=-1),dtype=np.int64)
+        p_floor=p_fixed/1e5;r_floor=r_fixed/1e5
+        scale=np.float32(1e-5)
+        variants=(('baseline',points,radii),('coordinates_floor5',p_floor,radii),
+                  ('radii_floor5',points,r_floor),('both_floor5',p_floor,r_floor),
+                  ('floor5_then_alf_float32',(scale*p_fixed.astype(np.float32)).astype(float),
+                   (scale*np.sqrt((r_fixed*r_fixed).astype(np.float32))).astype(float)))
+        row={k:v for k,v in s['case'].items() if k not in ('terms',)}
+        row['variants']=[]
+        for label,p,r in variants:
+            p=np.ascontiguousarray(p);r=np.ascontiguousarray(r)
+            lib.diagnostic_initialize(len(r),p.ctypes.data_as(P),r.ctypes.data_as(P),h0,h1,ccw)
+            result=np.zeros(6)
+            lib.diagnostic_region(len(kinds),kinds.ctypes.data_as(I),atoms.ctypes.data_as(I),result.ctypes.data_as(P))
+            actual=result[0 if row['field']=='volume_sa' else 2]
+            row['variants'].append(dict(variant=label,actual=float(actual),raw_passed=bool(abs(actual-row['expected'])<=report['comparison_tolerance']),
+                                        max_coordinate_change_angstrom=float(np.max(np.abs(p-points))),
+                                        max_radius_change_angstrom=float(np.max(np.abs(r-radii))),
+                                        corrections=lib.diagnostic_corrections(),warnings=lib.diagnostic_warnings()))
+        report['cases'].append(row)
+        print(name,[(v['variant'],v['actual'],v['raw_passed']) for v in row['variants']],flush=True)
+    report['completed']=True
+    Path('/tmp/opencastp_reader_floor_controls.json').write_text(json.dumps(report,indent=2)+'\n')
+
+
+if __name__=='__main__':
+    main()

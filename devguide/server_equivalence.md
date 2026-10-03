@@ -351,3 +351,26 @@ regions, printed metrics, additional descriptors and 365 exported orthospheres.
 They reproduce the unresolved 0.004 volume. Simple float32 coordinate
 materialization does not fix it. The original five residuals remain open,
 with no production change, proven server bug or qualified equivalence recipe.
+
+
+## Probe boundaries and original C regional assembly — 2026-10-03
+
+The [probe/assembly checkpoint](1mrg_probe_assembly_controls_2026_10_03.md) adds five completed CASTpFold probe
+controls on the same 1MRG input: all 145 region memberships, 1015 additional
+descriptors and 1825 exported orthospheres match; 579/580 regional scalars pass.
+Distinct job receipts were verified after correcting a private collector ZIP
+filename collision; the superseded fine comparison is invalid. A six-decimal
+intermediate formatting candidate matches every printed scalar in these five
+controls, but explains only one original corpus residual and introduces nine
+failures on originally passing values. It is a local hypothesis, not a public
+compatibility policy or proof of the server's internal rounding.
+
+Unchanged original C regional correction bodies plus metric primitives retain
+the same five failures on 384 frozen native regions (1531/1536 scalars), with
+all 768 intersection-length/corner values matching. Reader-floor controls fix
+at most two isolated targets; no variant fixes all five. Domains, inputs and
+visibility remain shared, and the full historical pipeline was not executed.
+The original 89-system gate is unchanged at 14911/14916 scalars, with #6 open.
+No numerical source, native defaults, radii or tolerances changed. The next gate
+is discriminating probe quantization from intermediate measurement/export
+precision, followed by full-panel validation of any joint explanation.

@@ -1,0 +1,38 @@
+"""Read documented web-viewer measure JSON for the three existing jobs."""
+
+import hashlib
+import json
+from pathlib import Path
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+
+DIRECTORY = Path('/tmp/opencastp-1mrg-rigid-controls')
+
+
+def main():
+    state = json.loads((DIRECTORY / 'jobs.json').read_text())
+    observations = []
+    for job in state['jobs']:
+        jobid = job['jobid']
+        url = f'https://cfold.bme.uic.edu/castpfold/data/tmppdb/{jobid}/tmp/{jobid}.measure.json'
+        row = dict(variant=job['variant'], jobid=jobid, url=url)
+        try:
+            request = Request(url, headers={'User-Agent': 'TopoMT CASTp provider', 'Accept': 'application/json'})
+            with urlopen(request, timeout=20) as response:
+                body = response.read(5 * 1024 * 1024 + 1)
+                row.update(status=response.status, content_type=response.headers.get('Content-Type'), bytes=len(body))
+            assert len(body) <= 5 * 1024 * 1024
+            data = json.loads(body)
+            path = DIRECTORY / f'{job["variant"]}_measure.json'
+            path.write_bytes(body)
+            row.update(valid_json=True, path=str(path), sha256=hashlib.sha256(body).hexdigest(),
+                       root_type=type(data).__name__, preview=str(data)[:1400])
+        except (HTTPError, URLError, ValueError) as exc:
+            row.update(valid_json=False, error_type=type(exc).__name__, error=str(exc))
+        observations.append(row)
+        print(row, flush=True)
+    Path('/tmp/opencastp_web_measure_observations.json').write_text(json.dumps(observations, indent=2) + '\n')
+
+
+if __name__ == '__main__':
+    main()

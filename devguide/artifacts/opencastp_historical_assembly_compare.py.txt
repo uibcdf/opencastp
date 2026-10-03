@@ -1,0 +1,115 @@
+"""Compare original regional assembly and SA/MS primitives on fixed domains."""
+
+import ctypes as C
+import hashlib
+import json
+import pickle
+import subprocess
+import sys
+import time
+from importlib import metadata
+from pathlib import Path
+
+import numpy as np
+
+ROOT=Path('/home/diego/repos@uibcdf/opencastp')
+sys.path.insert(0,str(ROOT))
+from devtools.compare_castp_servers import read_archive
+from opencastp._core import volbl
+from opencastp._core.components import build_castp_feature_records
+from opencastp._core.geometry import _weighted_hidden0, _weighted_hidden1
+
+H0=C.CFUNCTYPE(C.c_int,C.c_int,C.c_int)
+H1=C.CFUNCTYPE(C.c_int,C.c_int,C.c_int,C.c_int)
+CCW=C.CFUNCTYPE(C.c_int,C.c_int,C.c_int,C.c_int,C.c_int)
+P=C.POINTER(C.c_double)
+I=C.POINTER(C.c_int)
+FIELDS=(('volume_sa','solvent_accessible_volume'),('volume_ms','molecular_surface_volume'),
+        ('area_sa','solvent_accessible_area'),('area_ms','molecular_surface_area'),
+        ('length','intersection_length'),('corners','corner_count'))
+
+
+def calls_for_region(geometry,indices):
+    rows=[]
+    for index in indices:
+        atoms=list(map(int,geometry.mesh.simplex_atom_indices[index]))
+        rows.append((0,atoms))
+        for position,atom in enumerate(atoms):
+            if volbl._vertex_in_complex(geometry,atom,geometry.base_rank):
+                rows.append((1,[atom,*[other for p,other in enumerate(atoms) if p!=position]]))
+        i,j,k,l=atoms
+        for ordered in ((i,j,k,l),(i,k,j,l),(i,l,j,k),(j,k,i,l),(j,l,i,k),(k,l,i,j)):
+            if volbl._edge_in_complex(geometry,*ordered[:2],geometry.base_rank):
+                rows.append((2,ordered))
+        for ordered in ((i,j,k),(j,i,l),(k,j,l),(i,k,l)):
+            if volbl._face_in_complex(geometry,*ordered,geometry.base_rank):
+                rows.append((3,(*ordered,0)))
+    return np.array([r[0] for r in rows],dtype=np.int32),np.array([r[1] for r in rows],dtype=np.int32)
+
+
+def main():
+    lib=C.CDLL('/tmp/opencastp_historical_assembly/assembly.so')
+    lib.diagnostic_initialize.argtypes=[C.c_int,P,P,H0,H1,CCW]
+    lib.diagnostic_region.argtypes=[C.c_int,I,I,P]
+    report=dict(completed=False,complete_server_equivalence=False,
+                scope='unchanged historical region assembly and all SA/MS primitives on seven fixed native domains',
+                full_historical_pipeline_executed=False,domains_predicates_and_inputs_shared=True,
+                production_source_changed=False,
+                source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+                python=sys.version.split()[0],versions={n:metadata.version(n) for n in ('opencastp','numpy','scipy')},
+                collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                build=json.loads(Path('/tmp/opencastp_historical_assembly/build.json').read_text()),
+                comparison_tolerance=.00050001,units={'length':'angstrom','area':'angstrom**2','volume':'angstrom**3'},cases=[])
+    output=Path('/tmp/opencastp_historical_assembly_comparison.json')
+    for name in ('1stp','8rat','1mrg','1psn','1ypi','1fbp','2fbp'):
+        started=time.monotonic()
+        cache=Path(f'/tmp/opencastp_all_metric_{name}_geometry.pickle')
+        archive=Path('/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server')/f'{name}.zip'
+        g=pickle.loads(cache.read_bytes())
+        _pdb,targets=read_archive(archive)
+        features=build_castp_feature_records(g,1.4,pocket_definition='castp3')
+        by_atoms={tuple(t['atom_indices']):t for t in targets}
+        assert len(features)==len(targets)
+        points=np.ascontiguousarray(g.atom_coordinates,dtype=float)
+        radii=np.ascontiguousarray(g.atom_radii,dtype=float)
+        weights=radii*radii
+        h0=H0(lambda i,j:int(_weighted_hidden0(points[i],float(weights[i]),points[j],float(weights[j]))!=0))
+        h1=H1(lambda i,j,k:int(_weighted_hidden1(points[[i,j]],weights[[i,j]],points[k],float(weights[k]))!=0))
+        ccw=CCW(lambda i,j,k,l:int(np.linalg.det(np.array([points[j]-points[i],points[k]-points[i],points[l]-points[i]]))<0))
+        lib.diagnostic_initialize(len(radii),points.ctypes.data_as(P),radii.ctypes.data_as(P),h0,h1,ccw)
+        context=volbl._metric_context_from_geometry(g)
+        rows=[]
+        for feature in features:
+            target=by_atoms[tuple(sorted(feature['atom_indices']))]
+            indices=tuple(feature['tetrahedron_indices'])
+            kinds,atoms=calls_for_region(g,indices)
+            historical=np.zeros(6)
+            lib.diagnostic_region(len(kinds),kinds.ctypes.data_as(I),atoms.ctypes.data_as(I),historical.ctypes.data_as(P))
+            native=volbl._measure_void_component(g,context,simplex_indices=indices,input_rank=g.base_rank,cusp=False)
+            fields={}
+            for position,(own,server) in enumerate(FIELDS):
+                expected=float((target['metrics'] if position<4 else target['additional_metrics'])[server])
+                actual=float(historical[position]); current=float(getattr(native,own))
+                assert np.isfinite(actual)
+                fields[own]=dict(historical=actual,native=current,expected=expected,delta_from_native=actual-current,
+                                raw_server_passed=abs(actual-expected)<=report['comparison_tolerance'] if own!='corners' else actual==expected)
+                if position<4:
+                    fields[own].update(direct_three_decimal=f'{actual:.3f}',
+                                      historical_scientific_then_three_decimal=f'{float(f"{actual:.6e}"):.3f}')
+            rows.append(dict(server_id=target['server_id'],tetrahedra=len(indices),calls=len(kinds),fields=fields))
+        case=dict(case=name,regions=len(rows),rows=rows,corrections=lib.diagnostic_corrections(),warnings=lib.diagnostic_warnings(),
+                  archive_sha256=hashlib.sha256(archive.read_bytes()).hexdigest(),cache_sha256=hashlib.sha256(cache.read_bytes()).hexdigest(),
+                  strict_scalar_matches=sum(row['fields'][own]['raw_server_passed'] for row in rows for own,_ in FIELDS[:4]),
+                  max_scalar_difference_from_native=max(abs(row['fields'][own]['delta_from_native']) for row in rows for own,_ in FIELDS[:4]),
+                  seconds=time.monotonic()-started)
+        report['cases'].append(case)
+        output.write_text(json.dumps(report,indent=2)+'\n')
+        print(name,case['regions'],case['strict_scalar_matches'],case['max_scalar_difference_from_native'],case['corrections'],case['warnings'],flush=True)
+    report['completed']=True
+    report['regions']=sum(c['regions'] for c in report['cases'])
+    report['strict_scalar_matches']=sum(c['strict_scalar_matches'] for c in report['cases'])
+    output.write_text(json.dumps(report,indent=2)+'\n')
+
+
+if __name__=='__main__':
+    main()

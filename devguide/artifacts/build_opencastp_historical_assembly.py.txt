@@ -1,0 +1,110 @@
+"""Compile unchanged original region-assembly routines with private own glue."""
+
+import hashlib
+import json
+import subprocess
+from pathlib import Path
+
+ORIGINAL = Path('/home/diego/repos@uibcdf/Alphashape/castp/alpha-4.1-src/volbl')
+INCLUDE = Path('/home/diego/repos@uibcdf/Alphashape/castp/topomt_version/include')
+OUTPUT = Path('/tmp/opencastp_historical_assembly')
+
+BRIDGE = '''
+#include <stdlib.h>
+#include <string.h>
+#include "alf.h"
+#include "volbl.h"
+
+typedef struct { Vol_real sf,sf_ms,tv,tv_ms,of,of_ms; } Area_contrib;
+typedef struct { Vol_real sf,sf_ms,tv,tv_ms,of,of_ms; } Volume_contrib;
+#define CHECKING 4
+float Alpha = 0.0f;
+Balls *B = NULL;
+Vol_real *Radius = NULL;
+Vol_real Solvent_radius = 1.4;
+int cusp_flag = 0;
+int (*alf_hidden0)(int, int);
+int (*alf_hidden1)(int, int, int);
+static int (*ccw_callback)(int,int,int,int);
+static Area_contrib *Ac = NULL;
+static Volume_contrib *Vc = NULL;
+static Void_queue queue[2];
+static Void_queue *vq = queue;
+static Volbl_info vinfo;
+static FILE *corner_file = NULL;
+static int corrections, warnings;
+
+int sos_positive3(int i,int j,int k,int l) {return ccw_callback(i,j,k,l);}
+void volbl_warning(Vol_real v,char *where,char *name) {++warnings;}
+Vol_real volbl_correction(Vol_real v,Vol_real replacement,char *where,char *name)
+{++corrections;return replacement;}
+
+void diagnostic_initialize(int count,double *coordinates,double *radii,
+    int (*hidden0)(int,int),int (*hidden1)(int,int,int),int (*ccw)(int,int,int,int))
+{
+    free(B);free(Radius);free(Ac);free(Vc);
+    B=calloc(count,sizeof(Balls));Radius=calloc(count,sizeof(Vol_real));
+    Ac=calloc(count,sizeof(Area_contrib));Vc=calloc(count,sizeof(Volume_contrib));
+    for(int i=0;i<count;i++) {
+        B[i].x=coordinates[3*i];B[i].y=coordinates[3*i+1];B[i].z=coordinates[3*i+2];
+        B[i].w=radii[i];Radius[i]=radii[i];
+    }
+    alf_hidden0=hidden0;alf_hidden1=hidden1;ccw_callback=ccw;
+    if(corner_file) fclose(corner_file);
+    corner_file=tmpfile();if(!corner_file) abort();
+    corrections=warnings=0;
+}
+'''
+
+SUFFIX = '''
+void diagnostic_region(int count,int *kinds,int *atoms,double *output)
+{
+    memset(queue,0,sizeof(queue));
+    for(int n=0;n<count;n++) if(kinds[n]==0) {
+        int *a=atoms+4*n;
+        vq[1].Viv+=tetrahedron_volume(a[0],a[1],a[2],a[3]);
+    }
+    vq[1].Vv=vq[1].Vv_ms=vq[1].Viv;
+    for(int n=0;n<count;n++) {
+        int *a=atoms+4*n;
+        switch(kinds[n]) {
+          case 1:do_tetra_vertex(a[0],a[1],a[2],a[3],1,0);break;
+          case 2:do_tetra_edge(a[0],a[1],a[2],a[3],1,0);break;
+          case 3:do_tetra_triangle(a[0],a[1],a[2],1,0);break;
+        }
+    }
+    output[0]=vq[1].Vv;output[1]=vq[1].Vv_ms;
+    output[2]=vq[1].Av;output[3]=vq[1].Av_ms;
+    output[4]=vq[1].Lv;output[5]=vq[1].Cv;
+}
+int diagnostic_corrections(void) {return corrections;}
+int diagnostic_warnings(void) {return warnings;}
+'''
+
+
+def main():
+    OUTPUT.mkdir(exist_ok=True)
+    source=(ORIGINAL/'volbl.c').read_text()
+    start=source.index('void do_tetra_vertex (')
+    stop=source.index('/*************************** do_void_tetrahedron',start)
+    assembly=source[start:stop]
+    path=OUTPUT/'assembly_bridge.c'
+    path.write_text(BRIDGE+assembly+SUFFIX)
+    command=['gcc','-O2','-fPIC','-shared',f'-I{INCLUDE}',f'-I{ORIGINAL}',
+             str(path),str(ORIGINAL/'metric.c'),'-lm','-o',str(OUTPUT/'assembly.so')]
+    result=subprocess.run(command,text=True,capture_output=True)
+    print(result.stderr[:5000])
+    result.check_returncode()
+    report=dict(collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                original_assembly_slice_sha256=hashlib.sha256(assembly.encode()).hexdigest(),
+                original_source_sha256={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
+                  for p in (ORIGINAL/'volbl.c',ORIGINAL/'metric.c',ORIGINAL/'volbl.h')},
+                command=command,compiler=subprocess.check_output(['gcc','--version'],text=True).splitlines()[0],
+                binary_sha256=hashlib.sha256((OUTPUT/'assembly.so').read_bytes()).hexdigest(),
+                full_historical_pipeline_executed=False,original_assembly_functions_unchanged=True)
+    (OUTPUT/'build.json').write_text(json.dumps(report,indent=2)+'\n')
+    print('Compiled unchanged do_tetra_vertex/edge/triangle plus original metric.c.',flush=True)
+
+
+if __name__=='__main__':
+    main()

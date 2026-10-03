@@ -200,3 +200,14 @@ for the shared input spheres and domain. Three fresh CASTpFold jobs preserve
 the remaining volume discrepancy under coordinate translations. No production
 correction or exact-equivalence recipe follows from these controls; the five
 regional differences remain open.
+
+
+Five additional completed probe controls on 1MRG retain every region and exported
+orthosphere, while bracketing the tiny void's printed-volume transition.
+An intermediate six-decimal formatting candidate matches all their printed
+regional quantities but worsens the original 89-input corpus. Original C
+regional assembly also retains all five residuals. See the
+[probe/assembly evidence](https://github.com/uibcdf/opencastp/blob/main/devguide/1mrg_probe_assembly_controls_2026_10_03.md).
+These controls narrow the numerical investigation; complete server equivalence
+and a qualified public export recipe remain unavailable. Native radii and
+calculated precision are unchanged.

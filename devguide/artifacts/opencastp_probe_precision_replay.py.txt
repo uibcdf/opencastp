@@ -1,0 +1,50 @@
+"""Replay predeclared uniform formatting controls on retained metrics."""
+
+import hashlib
+import json
+import math
+from pathlib import Path
+
+artifacts = Path('/home/diego/repos@uibcdf/opencastp/devguide/artifacts')
+names = ('server_mouth_castp3_panel_2026_10_02.json', 'protein_heterogen_panel_2026_10_02.json', 'server_remaining_panel_2026_10_03.json')
+sources = [json.loads((artifacts / name).read_text()) for name in names]
+cases = [*sources[0]['cases'], *sources[1]['benchmarks']['atom']['cases'], *sources[2]['cases']]
+assert len(cases) == len({c['case'] for c in cases}) == 89
+
+def replay(rows):
+    rules = {
+        'nearest_direct': lambda x: float(f'{x:.3f}'),
+        'truncate_three': lambda x: math.trunc(x * 1000) / 1000,
+        **{f'{n}_decimal_then_three': lambda x, n=n: float(f'{float(f"{x:.{n}f}"):.3f}') for n in (4, 5, 6, 7)},
+        'historical_scientific_7_significant_then_three': lambda x: float(f'{float(f"{x:.6e}"):.3f}'),
+    }
+    out = {}
+    for name, rule in rules.items():
+        matches = [rule(row['actual']) == row['expected'] for row in rows]
+        out[name] = dict(required=len(rows), matches=sum(matches),
+                         explained_raw_failures=sum(not row['passed'] and match for row, match in zip(rows, matches)),
+                         introduced_raw_pass_failures=sum(row['passed'] and not match for row, match in zip(rows, matches)),
+                         failures=[{**row, 'exported': rule(row['actual'])} for row, match in zip(rows, matches) if not match])
+    return out
+
+report = dict(completed=True, complete_server_equivalence=False, production_source_changed=False,
+              scope='formatting replay only, not a fresh 89-input numerical calculation',
+              collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+              rule='Python nearest formatting: fixed decimal intermediate parsed as float, then nearest .3f; distinct from prior NumPy replay',
+              source_artifact_sha256={name: hashlib.sha256((artifacts / name).read_bytes()).hexdigest() for name in names},
+              original_cases=89, original_fields=14916, probe_controls=[])
+rows = [{**m, 'case': case['case'], 'server_id': region['server_id']}
+        for case in cases for region in case['regions'] for m in region['metrics']]
+assert len(rows) == 14916
+report['original_corpus'] = replay(rows)
+for state_name in ('boundary', 'fine'):
+    path = Path(f'/tmp/opencastp-1mrg-probe-{state_name}/comparison.json')
+    source = json.loads(path.read_text())
+    assert source['completed'] and source['archive_receipt_and_job_identity_verified']
+    for variant in source['variants']:
+        rows = [m for region in variant['comparison']['regions'] for m in region['metrics']]
+        report['probe_controls'].append(dict(probe_angstrom=variant['probe_angstrom'], jobid=variant['jobid'],
+                                            comparison_sha256=hashlib.sha256(path.read_bytes()).hexdigest(), rules=replay(rows)))
+Path('/tmp/opencastp_probe_precision_replay.json').write_text(json.dumps(report, indent=2) + '\n')
+for label, rules in [('original_corpus', report['original_corpus']), *[(v['probe_angstrom'], v['rules']) for v in report['probe_controls']]]:
+    print(label, {name: (r['matches'], r['required'], r['explained_raw_failures'], r['introduced_raw_pass_failures']) for name, r in rules.items()}, flush=True)

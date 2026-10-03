@@ -1,0 +1,53 @@
+"""Two finer probe controls, reusing the idempotent submission runner."""
+
+import hashlib
+import json
+import pickle
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+
+sys.path.insert(0,'/tmp')
+import opencastp_probe_boundary_control as runner
+from opencastp._core import volbl
+from opencastp._core.components import build_castp_feature_records
+
+runner.DIRECTORY=Path('/tmp/opencastp-1mrg-probe-fine')
+runner.STATE=runner.DIRECTORY/'jobs.json'
+
+
+def prepare():
+    assert not runner.STATE.exists(), 'An existing experiment must not be overwritten'
+    runner.DIRECTORY.mkdir(exist_ok=True)
+    g=pickle.loads(Path('/tmp/opencastp_all_metric_1mrg_geometry.pickle').read_bytes())
+    feature=next(f for f in build_castp_feature_records(g,1.4,pocket_definition='castp3')
+                 if set(f['atom_indices'])=={1261,1496,1612,1797,1834})
+    base=volbl._metric_context_from_geometry(g)
+    jobs=[]
+    for probe in (1.399999,1.400001):
+        radii=np.round(g.atom_radii-1.4,2)+probe
+        context=volbl.VolblMetricContext(base.coordinates,radii,weights=radii,solvent_radius=probe,
+                                        hidden0=base.hidden0,hidden1=base.hidden1,ccw=base.ccw)
+        metric=volbl._measure_void_component(g,context,simplex_indices=tuple(feature['tetrahedron_indices']),
+                                            input_rank=g.base_rank,cusp=False)
+        value=metric.volume_sa
+        jobs.append(dict(probe_angstrom=probe,path=str(runner.INPUT),status='prepared',submission_attempted=False,
+                         conditional_fixed_domain_volume_angstrom3=value,direct_three_decimal_prediction=f'{value:.3f}',
+                         five_decimal_then_three_prediction=f'{float(f"{value:.5f}"):.3f}',
+                         six_decimal_then_three_prediction=f'{float(f"{value:.6f}"):.3f}'))
+    report=dict(completed=False,complete_server_equivalence=False,
+                scope='two predeclared fine CASTpFold probes to discriminate input quantization and decimal export near 1MRG/22',
+                prepared_utc=datetime.now(timezone.utc).isoformat(),
+                collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                submission_runner_sha256=hashlib.sha256(Path(runner.__file__).read_bytes()).hexdigest(),
+                input_sha256=hashlib.sha256(runner.INPUT.read_bytes()).hexdigest(),
+                predictions_share_fixed_domains_and_predicates=True,jobs=jobs)
+    runner.save(report)
+    print([(j['probe_angstrom'],j['conditional_fixed_domain_volume_angstrom3'],j['direct_three_decimal_prediction'],
+            j['five_decimal_then_three_prediction'],j['six_decimal_then_three_prediction']) for j in jobs],flush=True)
+
+
+if __name__=='__main__':
+    {'prepare':prepare,'submit':runner.submit,'poll':runner.poll}[sys.argv[1]]()

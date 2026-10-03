@@ -141,3 +141,12 @@ with warnings treated as errors pass. TopoMT's changed benchmark inventory
 passes its two reporting-protocol tests and index verification; its numerical
 engine was not rerun or changed in this slice. Hosted CI is a separate gate;
 ordinary push coverage does not certify the deferred full Python matrix.
+
+
+## Later checkpoint
+
+The [probe and original regional assembly controls](1mrg_probe_assembly_controls_2026_10_03.md)
+execute the previously pending original C regional correction bodies on shared
+native domains; the full historical reader/pipeline remains unexecuted. Five
+new completed probe jobs support a conditional six-decimal hypothesis locally
+and reject its uniform whole-corpus adoption. The original failures remain open.

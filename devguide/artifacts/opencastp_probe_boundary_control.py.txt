@@ -1,0 +1,108 @@
+"""Discriminate regional export near the 1MRG/22 volume boundary."""
+
+import hashlib
+import json
+import pickle
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+from zipfile import is_zipfile
+from io import BytesIO
+
+import numpy as np
+
+sys.path.insert(0, '/home/diego/repos@uibcdf/topomt')
+sys.path.insert(0, '/home/diego/repos@uibcdf/opencastp')
+from topomt.third_party.castp3.servers.castpfold import CastpFoldClient
+from opencastp._core import volbl
+from opencastp._core.components import build_castp_feature_records
+
+DIRECTORY = Path('/tmp/opencastp-1mrg-probe-boundary')
+STATE = DIRECTORY / 'jobs.json'
+INPUT = Path('/tmp/opencastp-1mrg-rigid-controls/1mrg_baseline.pdb')
+
+
+def save(report):
+    STATE.write_text(json.dumps(report, indent=2) + '\n')
+
+
+def prepare():
+    assert not STATE.exists(), 'An existing experiment must not be overwritten'
+    DIRECTORY.mkdir(exist_ok=True)
+    geometry = pickle.loads(Path('/tmp/opencastp_all_metric_1mrg_geometry.pickle').read_bytes())
+    feature = next(f for f in build_castp_feature_records(geometry, 1.4, pocket_definition='castp3')
+                   if set(f['atom_indices']) == {1261,1496,1612,1797,1834})
+    base = volbl._metric_context_from_geometry(geometry)
+    original = volbl._measure_void_component(geometry, base,
+                  simplex_indices=tuple(feature['tetrahedron_indices']), input_rank=geometry.base_rank, cusp=False)
+    jobs = []
+    for probe in (1.3999, 1.4001, 1.4003):
+        radii = np.round(geometry.atom_radii - 1.4, 2) + probe
+        context = volbl.VolblMetricContext(base.coordinates, radii, weights=radii,
+                    solvent_radius=probe, hidden0=base.hidden0, hidden1=base.hidden1, ccw=base.ccw)
+        metric = volbl._measure_void_component(geometry, context,
+                    simplex_indices=tuple(feature['tetrahedron_indices']), input_rank=geometry.base_rank, cusp=False)
+        value = metric.volume_sa
+        jobs.append(dict(probe_angstrom=probe, path=str(INPUT), status='prepared', submission_attempted=False,
+                         conditional_fixed_domain_volume_angstrom3=value,
+                         direct_three_decimal_prediction=f'{value:.3f}',
+                         prior_four_decimal_numpy_prediction=f'{np.round(float(f"{value:.4f}"),3):.3f}'))
+    report = dict(completed=False, complete_server_equivalence=False,
+                  scope='three bounded CASTpFold probe controls on identical prepared 1MRG PDB; predeclared export predictions',
+                  prepared_utc=datetime.now(timezone.utc).isoformat(),
+                  collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                  input_sha256=hashlib.sha256(INPUT.read_bytes()).hexdigest(),
+                  predictions_share_fixed_domains_and_predicates=True,
+                  baseline_volume_angstrom3=original.volume_sa, jobs=jobs)
+    save(report)
+    print([(j['probe_angstrom'],j['conditional_fixed_domain_volume_angstrom3'],j['direct_three_decimal_prediction'],j['prior_four_decimal_numpy_prediction']) for j in jobs], flush=True)
+
+
+def submit():
+    report = json.loads(STATE.read_text())
+    client = CastpFoldClient(timeout=30)
+    for job in report['jobs']:
+        if job['submission_attempted']:
+            continue
+        job.update(submission_attempted=True, status='submission_started', submitted_utc=datetime.now(timezone.utc).isoformat())
+        save(report)
+        try:
+            jobid = client.submit(job['path'], probe_radius=job['probe_angstrom'], email='N/A')
+            job.update(jobid=jobid, status='submitted_pending', result_url=client.download_url_template.format(jobid=jobid))
+        except (HTTPError,URLError,RuntimeError,ValueError) as exc:
+            job.update(status='submission_failed', error_type=type(exc).__name__, error=str(exc))
+        save(report)
+        print(job['probe_angstrom'], job['status'], job.get('jobid',job.get('error')), flush=True)
+
+
+def poll():
+    report = json.loads(STATE.read_text())
+    client = CastpFoldClient(timeout=30)
+    for job in report['jobs']:
+        if job['status'] != 'submitted_pending':
+            continue
+        observation = dict(polled_utc=datetime.now(timezone.utc).isoformat())
+        try:
+            with urlopen(Request(job['result_url'], headers=client.headers), timeout=20) as response:
+                body = response.read(10 * 1024 * 1024 + 1)
+                observation.update(http_status=response.status, bytes=len(body), content_type=response.headers.get('Content-Type'))
+            if len(body) <= 10 * 1024 * 1024 and is_zipfile(BytesIO(body)):
+                path = DIRECTORY / f'probe_{job["probe_angstrom"]:.4f}.zip'
+                path.write_bytes(body)
+                job.update(status='completed_zip', result_path=str(path), result_sha256=hashlib.sha256(body).hexdigest())
+                observation['valid_zip'] = True
+            else:
+                observation['valid_zip'] = False
+        except (HTTPError,URLError) as exc:
+            observation.update(error_type=type(exc).__name__, error=str(exc))
+        job.setdefault('polls',[]).append(observation)
+        save(report)
+        print(job['probe_angstrom'], job['status'], observation, flush=True)
+    report['completed'] = all(j['status']=='completed_zip' for j in report['jobs'])
+    save(report)
+
+
+if __name__ == '__main__':
+    {'prepare': prepare, 'submit': submit, 'poll': poll}[sys.argv[1]]()

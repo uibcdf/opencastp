@@ -1,0 +1,33 @@
+"""Recover existing job outputs with unique names and verify submission identity."""
+
+import hashlib
+import json
+from datetime import datetime, timezone
+from io import BytesIO
+from pathlib import Path
+from urllib.request import urlopen
+from zipfile import ZipFile
+
+state_path = Path('/tmp/opencastp-1mrg-probe-fine/jobs.json')
+state = json.loads(state_path.read_text())
+for job in state['jobs']:
+    with urlopen(job['result_url'], timeout=30) as response:
+        body = response.read(10 * 1024 * 1024 + 1)
+        assert response.status == 200
+    assert len(body) < 10 * 1024 * 1024
+    digest = hashlib.sha256(body).hexdigest()
+    assert digest == job['result_sha256'], 'Recovered archive differs from original download'
+    with ZipFile(BytesIO(body)) as archive:
+        names = archive.namelist()
+        payloads = [name for name in names if name != 'README.txt']
+        assert payloads and all(Path(name).name.startswith(job['jobid'] + '.') for name in payloads), names
+    path = state_path.parent / f'{job["jobid"]}.zip'
+    path.write_bytes(body)
+    job['superseded_colliding_result_path'] = job['result_path']
+    job['result_path'] = str(path)
+    job['recovered_utc'] = datetime.now(timezone.utc).isoformat()
+    job['recovery_archive_sha256_identical'] = True
+    print(job['probe_angstrom'], job['jobid'], digest, flush=True)
+state['archive_filename_collision_corrected'] = True
+state['recovery_collector_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+state_path.write_text(json.dumps(state, indent=2) + '\n')
