@@ -204,3 +204,97 @@ def test_residual_orthosphere_control_is_complete_only_for_its_five_regions():
             assert check["status"] == "compatible" and check["interior_atoms"] == 0
             assert check["center_max_absolute_error_angstrom"] <= 0.00005001
             assert check["radius_absolute_error_angstrom"] <= 0.00005001
+
+
+def test_input_materialization_controls_do_not_establish_server_equivalence():
+    report = json.loads(
+        (ARTIFACTS / "input_export_controls_2026_10_03.json").read_text()
+    )
+    assert report["completed"] and not report["complete_server_equivalence"]
+    assert report["python"] == "3.14.7"
+    assert report["source_commit"] == "4ffb6cbf3273a0cf22c42f700137ee96e2eead8a"
+    assert report["region_comparator_changed"] is False
+    for name, digest in report["collector_sha256"].items():
+        assert hashlib.sha256((ARTIFACTS / name).read_bytes()).hexdigest() == digest
+    for control in report["region_input_controls"]:
+        assert control["fixed_modern_domains_and_predicates"]
+        assert len(control["cases"]) == 5
+        variants = {row["variant"] for row in control["cases"][0]["variants"]}
+        assert len(variants) == 7
+        for variant in variants:
+            checks = [
+                next(row for row in case["variants"] if row["variant"] == variant)
+                for case in control["cases"]
+            ]
+            assert not all(row["passed"] for row in checks)
+            for case, row in zip(control["cases"], checks):
+                assert row["passed"] == (
+                    abs(row["actual"] - case["expected"]) <= 0.00050001
+                )
+        assert control["metric_unchanged"] == (control["vol_real"] == "double")
+
+
+def test_atom_export_candidate_preserves_strict_failures_and_unconfirmed_scope():
+    report = json.loads(
+        (ARTIFACTS / "input_export_controls_2026_10_03.json").read_text()
+    )
+    atoms = report["atom_contributions"]
+    assert (
+        atoms["scope"]
+        == "SA space-filling per-atom CHECKING values; not pocket contributions"
+    )
+    assert atoms["units"] == {"SA_Area": "angstrom**2", "SA_Volume": "angstrom**3"}
+    (case,) = atoms["cases"]
+    assert case["case"] == "1mrg" and case["atoms"] == 1932
+    assert case["tested"] == 3864 and case["passed"] == 3759
+    assert len(case["failed"]) == 105
+    for row in case["failed"]:
+        assert abs(row["actual"] - row["expected"]) > row["tolerance"]
+    export = case["quantization_diagnostic"]
+    assert export["matched"] == 3863 and export["required"] == 3864
+    assert export["explained_original_failures"] == 104
+    assert export["introduced_failures"] == 0
+    (remaining,) = export["failed"]
+    assert remaining["atom_id"] == 588 and remaining["field"] == "SA_Volume"
+    assert remaining["expected"] == 25.886 and remaining["diagnostic_export"] == 25.887
+    assert report["modern_export_source_recovered"] is False
+    c_control = report["atom588_metric_control"]
+    assert c_control["primitive_count"] == 66
+    assert c_control["corrections"] == c_control["warnings"] == 0
+    assert abs(c_control["c_volume_sa"] - c_control["native_volume_sa"]) < 1e-8
+    assert abs(c_control["c_volume_sa"] - 25.886) > 0.00050001
+    inputs = report["atom588_input_control"]
+    assert len(inputs["variants"]) == 7
+    assert not any(row["strict_passed"] for row in inputs["variants"])
+    assert {row["variant"] for row in inputs["variants"] if row["export_matches"]} == {
+        "coordinates_direct_float32",
+        "both_direct_float32",
+    }
+    panel = report["atom_materialization_panel"]
+    assert panel["completed"] and panel["atoms"] == 1932
+    assert panel["required_scalars"] == 3864
+    assert len(panel["variants"]) == 3
+    for row in panel["variants"]:
+        assert row["strict_matched"] < panel["required_scalars"]
+        assert (
+            row["export_matched"] + len(row["export_failures"])
+            == panel["required_scalars"]
+        )
+
+
+def test_live_output_inspection_rejects_html_even_with_http_200():
+    report = json.loads(
+        (ARTIFACTS / "input_export_controls_2026_10_03.json").read_text()
+    )
+    outputs = report["live_output_inspection"]
+    assert len(outputs) == 9
+    assert {row["case"] for row in outputs} == {"1mrg", "1psn", "1ypi"}
+    for row in outputs:
+        assert row["status"] == 200
+        if row["suffix"] == ".4.contrib":
+            assert row["html"] and not row["valid_data"]
+            assert row["bytes"] == 713
+        else:
+            assert not row["html"] and row["valid_data"]
+            assert row["same_bytes_as_archive"]
+            assert row["sha256"] == row["archive_sha256"]

@@ -69,7 +69,7 @@ absolute developer paths; adjust those paths when replaying elsewhere. In the
 molecular developer environment, run opencastp_residual_diagnostic.py first to
 rebuild the five private coordinate/term snapshots from the external ZIPs.
 Pickle inputs are trusted local outputs of that collector, not a public API.
-mpmath 1.3.0 is an explicitly used research-environment dependency; it is not
+mpmath 1.4.1 is the recorded research-environment dependency; it is not
 required by OpenCASTp's runtime or ordinary tests.
 
 Compile the separately provided original source and own bridge as recorded:

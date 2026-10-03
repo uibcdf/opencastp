@@ -1,0 +1,73 @@
+"""Compare source-derived historical input materialization on frozen SA domains."""
+
+import ctypes as C
+import json
+import math
+import pickle
+import sys
+from pathlib import Path
+
+import numpy as np
+
+sys.path.insert(0, '/home/diego/repos@uibcdf/opencastp/src')
+from opencastp._core.geometry import _weighted_hidden0, _weighted_hidden1
+
+H0 = C.CFUNCTYPE(C.c_int, C.c_int, C.c_int)
+H1 = C.CFUNCTYPE(C.c_int, C.c_int, C.c_int, C.c_int)
+CCW = C.CFUNCTYPE(C.c_int, C.c_int, C.c_int, C.c_int, C.c_int)
+P = C.POINTER(C.c_double)
+lib = C.CDLL('/tmp/opencastp_historical_metric.so')
+lib.diagnostic_initialize.argtypes = [C.c_int, P, P, H0, H1, CCW]
+lib.diagnostic_term.argtypes = [C.c_int, C.c_int, C.c_int, C.c_int, C.c_int, P]
+
+
+def evaluate(snapshot, coordinates, radii):
+    coordinates = np.ascontiguousarray(coordinates, dtype=np.float64)
+    radii = np.ascontiguousarray(radii, dtype=np.float64)
+    original = snapshot['coordinates']; weights = snapshot['radii'] ** 2
+    h0 = H0(lambda i, j: int(_weighted_hidden0(original[i], float(weights[i]), original[j], float(weights[j])) != 0))
+    h1 = H1(lambda i, j, k: int(_weighted_hidden1(original[[i, j]], weights[[i, j]], original[k], float(weights[k])) != 0))
+    ccw = CCW(lambda i, j, k, l: int(np.linalg.det(np.array([original[j]-original[i], original[k]-original[i], original[l]-original[i]])) < 0))
+    lib.diagnostic_initialize(len(radii), coordinates.ctypes.data_as(P), radii.ctypes.data_as(P), h0, h1, ccw)
+    terms = []
+    for kind, atoms, *_ in snapshot['terms']:
+        out = np.zeros(2); padded = [*atoms, 0] if len(atoms) == 3 else atoms
+        lib.diagnostic_term(['tetrahedron', 'vertex', 'edge', 'face'].index(kind), *padded, out.ctypes.data_as(P))
+        terms.append(out)
+    return {
+        'volume_sa': math.fsum(t[0] for t in terms),
+        'area_sa': math.fsum(t[1] for t in terms),
+        'corrections': lib.diagnostic_corrections(), 'warnings': lib.diagnostic_warnings(),
+        'max_coordinate_change_angstrom': float(np.max(np.abs(coordinates - original))),
+        'max_radius_change_angstrom': float(np.max(np.abs(radii - snapshot['radii']))),
+    }
+
+
+report = {'scope': 'fixed domains and original predicates; original C metric with materialized inputs', 'cases': []}
+for name in ('1mrg', '1psn', '1ypi', '1fbp', '2fbp'):
+    snapshot = pickle.loads(Path(f'/tmp/opencastp_residual_{name}.pickle').read_bytes())
+    points, radii = snapshot['coordinates'], snapshot['radii']
+    scale = np.float32(1e-5)
+    fixed_points = np.rint(points * 100000).astype(np.int64)
+    fixed_radii = np.rint(radii * 100000).astype(np.int64)
+    legacy_points = (scale * fixed_points.astype(np.float32)).astype(np.float64)
+    legacy_radii = (scale * np.sqrt((fixed_radii ** 2).astype(np.float32))).astype(np.float64)
+    variants = {
+        'baseline': (points, radii),
+        'coordinates_direct_float32': (points.astype(np.float32).astype(float), radii),
+        'radii_direct_float32': (points, radii.astype(np.float32).astype(float)),
+        'both_direct_float32': (points.astype(np.float32).astype(float), radii.astype(np.float32).astype(float)),
+        'coordinates_alf_get_coords_float32': (legacy_points, radii),
+        'radii_alf_get_coords_float32': (points, legacy_radii),
+        'both_alf_get_coords_float32': (legacy_points, legacy_radii),
+    }
+    row = {k:v for k,v in snapshot['case'].items() if k != 'terms'}
+    row['variants'] = []
+    for variant, (p, r) in variants.items():
+        value = evaluate(snapshot, p, r)
+        value['variant'] = variant
+        value['passes'] = abs(value[row['field']] - row['expected']) <= 0.00050001
+        row['variants'].append(value)
+    report['cases'].append(row)
+    print(name, [(v['variant'], v[row['field']], v['passes']) for v in row['variants']], flush=True)
+Path('/tmp/opencastp_input_materialization_probe.json').write_text(json.dumps(report, indent=2) + '\n')

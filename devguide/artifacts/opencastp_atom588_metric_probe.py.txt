@@ -1,0 +1,58 @@
+"""Compare compiled historical primitives for the unresolved atom 588 contribution."""
+
+import ctypes as C
+import hashlib
+import json
+import math
+import pickle
+import sys
+from pathlib import Path
+from zipfile import ZipFile
+
+import numpy as np
+
+from opencastp._core import volbl
+from opencastp._core.geometry import build_castp_geometry, _weighted_hidden0, _weighted_hidden1, ALF_VERTEX, ALF_EDGE, ALF_TRIANGLE, ALF_TETRA
+
+snapshot=pickle.loads(Path('/tmp/opencastp_residual_1mrg.pickle').read_bytes())
+geometry=build_castp_geometry(snapshot['coordinates'],snapshot['radii'],solvent_radius=1.4)
+Path('/tmp/opencastp_1mrg_geometry_314.pickle').write_bytes(pickle.dumps(geometry))
+with ZipFile('/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server/1mrg.zip') as arc:
+    pdb=arc.read(next(n for n in arc.namelist() if n.endswith('.pdb'))).decode()
+line=next(line for line in pdb.splitlines() if line.startswith('ATOM') and int(line[6:11])==588)
+point=np.array([float(line[a:b]) for a,b in [(30,38),(38,46),(46,54)]])
+(matches,)=np.flatnonzero(np.all(np.abs(geometry.atom_coordinates-point)<1e-12,axis=1))
+target=int(matches)
+context=volbl._metric_context_from_geometry(geometry)
+H0=C.CFUNCTYPE(C.c_int,C.c_int,C.c_int);H1=C.CFUNCTYPE(C.c_int,C.c_int,C.c_int,C.c_int);CCW=C.CFUNCTYPE(C.c_int,C.c_int,C.c_int,C.c_int,C.c_int);P=C.POINTER(C.c_double)
+lib=C.CDLL('/tmp/opencastp_historical_sf.so')
+lib.diagnostic_initialize.argtypes=[C.c_int,P,P,H0,H1,CCW]
+lib.diagnostic_sf_term.argtypes=[C.c_int,C.c_int,C.c_int,C.c_int,C.c_int,P]
+p=geometry.atom_coordinates;w=geometry.atom_radii**2
+h0=H0(lambda i,j:int(_weighted_hidden0(p[i],float(w[i]),p[j],float(w[j]))!=0))
+h1=H1(lambda i,j,k:int(_weighted_hidden1(p[[i,j]],w[[i,j]],p[k],float(w[k]))!=0))
+ccw=CCW(lambda i,j,k,l:int(np.linalg.det(np.array([p[j]-p[i],p[k]-p[i],p[l]-p[i]]))<0))
+lib.diagnostic_initialize(len(w),p.ctypes.data_as(P),geometry.atom_radii.ctypes.data_as(P),h0,h1,ccw)
+edges=volbl._edge_atoms_by_master_id(geometry);faces=volbl._face_atoms_by_master_id(geometry)
+rows=[]
+for rank in range(1,geometry.base_rank+1):
+    bounds=geometry.master_rank_offsets.get(rank)
+    if bounds is None:continue
+    for entry in geometry.master_entries[bounds[0]:bounds[1]]:
+        kind=int(entry.f_type)
+        if kind!=ALF_TETRA and not entry.is_first:continue
+        if kind==ALF_VERTEX:atoms=[int(entry.index)]
+        elif kind==ALF_EDGE:atoms=list(edges[int(entry.index)])
+        elif kind==ALF_TRIANGLE:atoms=list(faces[int(entry.index)])
+        else:atoms=list(map(int,geometry.mesh.simplex_atom_indices[int(entry.index)]))
+        if target not in atoms:continue
+        ordered=[target,*[a for a in atoms if a!=target]]
+        functions=[(context.ball_volume,context.ball_area),(context.cap_volume,context.cap_area),(context.cap2_volume,context.cap2_area),(context.cap3_volume,context.cap3_area)][len(atoms)-1]
+        sign=(-1)**(len(atoms)-1)
+        native=[sign*fn(*ordered) for fn in functions]
+        out=np.zeros(2)
+        lib.diagnostic_sf_term(len(atoms)-1,*[*ordered,*[0]*(4-len(ordered))],out.ctypes.data_as(P))
+        rows.append({'kind':kind,'native_volume_sa':native[0],'c_volume_sa':float(out[0]),'native_area_sa':native[1],'c_area_sa':float(out[1])})
+report={'case':'1mrg','atom_id':588,'scope':'one SA space-filling contribution; modern topology/native predicates reused','python':sys.version.split()[0],'expected_csv_volume_sa':25.886,'native_volume_sa':math.fsum(row['native_volume_sa'] for row in rows),'c_volume_sa':math.fsum(row['c_volume_sa'] for row in rows),'primitive_count':len(rows),'corrections':lib.diagnostic_corrections(),'warnings':lib.diagnostic_warnings(),'source_commit':'4ffb6cbf3273a0cf22c42f700137ee96e2eead8a','terms':rows}
+Path('/tmp/opencastp_atom588_metric_probe.json').write_text(json.dumps(report,indent=2)+'\n')
+print({k:v for k,v in report.items() if k!='terms'},flush=True)

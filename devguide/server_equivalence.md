@@ -254,3 +254,21 @@ the explicitly configured 1STP/8RAT molecular guards and two new evidence
 guards. Ruff lint/format, generated-index and warning-free Sphinx checks pass.
 One pre-existing developer Pint cache warning remains visible. These passing
 engineering checks do not change the five strict scalar failures.
+
+
+## Input and contribution export controls — 2026-10-03
+
+The new [bounded diagnostic](input_export_controls_2026_10_03.md) separately audits 1MRG's 3,864 SA
+space-filling atom contributions: 3,759 strict matches. A four-decimal
+intermediate export candidate reproduces 3,863 values, explaining 104/105
+strict discrepancies, but the modern export source remains unknown. Historical
+C primitives reproduce the unresolved atom 588. Uniform float32 coordinates
+can fix its candidate export while worsening the full-atom comparison; none
+of seven declared input conventions fixes all five region residuals.
+
+The same-job live PDB/pocInfo files for three residual inputs match the archived
+bytes; inspected raw contribution URLs return HTTP 200 HTML, not numerical
+data. No new calculations or production numerical changes were made. Existing
+region coverage remains 84/89 passing systems; per-atom and individual-mouth
+qualification remains incomplete. Controls run in Python 3.14.7 with installed
+editable OpenCASTp and TopoMT; previous 3.13 evidence keeps its original identity.

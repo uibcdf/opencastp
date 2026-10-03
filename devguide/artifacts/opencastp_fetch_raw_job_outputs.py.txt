@@ -1,0 +1,31 @@
+"""Inspect same-job public raw output files without submitting calculations."""
+
+import hashlib
+import json
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
+from pathlib import Path
+
+import requests
+
+JOBS={'1mrg':'j_69f0e8c225fa0','1psn':'j_69f1641fdc694','1ypi':'j_69f0e5ad8a858'}
+SUFFIXES=['.4.contrib','.pocInfo','.pdb']
+
+def fetch(pair):
+    name,suffix=pair; identifier=JOBS[name]
+    parent='/tmp/' if suffix!='.pdb' else '/'
+    url=f'https://cfold.bme.uic.edu/castpfold/data/tmppdb/{identifier}{parent}{identifier}{suffix}'
+    row={'case':name,'suffix':suffix,'url':url,'retrieved_utc':datetime.now(timezone.utc).isoformat()}
+    try:
+        response=requests.get(url,timeout=20)
+        row.update(status=response.status_code,bytes=len(response.content),sha256=hashlib.sha256(response.content).hexdigest())
+        row['html']=response.content.lstrip().lower().startswith((b'<!doctype html',b'<html'))
+        if response.ok and not row['html']:
+            Path(f'/tmp/opencastp_raw_{name}{suffix}').write_bytes(response.content)
+    except requests.RequestException as error: row['error_type']=type(error).__name__
+    return row
+
+with ThreadPoolExecutor(max_workers=3) as pool:
+    rows=list(pool.map(fetch,[(name,suffix) for name in JOBS for suffix in SUFFIXES]))
+Path('/tmp/opencastp_raw_output_retrieval.json').write_text(json.dumps({'cases':rows},indent=2)+'\n')
+print(json.dumps(rows,indent=2))

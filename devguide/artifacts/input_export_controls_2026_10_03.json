@@ -1,0 +1,2981 @@
+{
+  "completed": true,
+  "passed": false,
+  "complete_server_equivalence": false,
+  "assembled_utc": "2026-10-03T12:17:01.225334+00:00",
+  "python": "3.14.7",
+  "source_commit": "4ffb6cbf3273a0cf22c42f700137ee96e2eead8a",
+  "scope": "bounded SA input/export diagnostics; no production numerical change",
+  "region_comparator_changed": false,
+  "region_scalar_tolerance": 0.00050001,
+  "modern_export_source_recovered": false,
+  "producer_versions": {
+    "opencastp": "0.1.0+12.g4ffb6cb",
+    "topomt": "0.5.0+288.g9504291.dirty",
+    "numpy": "2.4.6",
+    "scipy": "1.18.1",
+    "pyunitwizard": "0.27.0"
+  },
+  "prepared_inputs_origin": "trusted local frozen snapshots from the preceding Python 3.13 diagnostic; recalculations here use Python 3.14.7",
+  "historical_pipeline_executed": false,
+  "region_input_controls": [
+    {
+      "vol_real": "double",
+      "metric_unchanged": true,
+      "fixed_modern_domains_and_predicates": true,
+      "assembly": "double-valued wrapper terms accumulated with math.fsum",
+      "cases": [
+        {
+          "case": "1mrg",
+          "field": "volume_sa",
+          "unit": "angstrom**3",
+          "expected": 0.004,
+          "variants": [
+            {
+              "variant": "baseline",
+              "actual": 0.003499637802392569,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "coordinates_direct_float32",
+              "actual": 0.0034996117407872576,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 3.784179696708634e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_direct_float32",
+              "actual": 0.0034996435575762666,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "both_direct_float32",
+              "actual": 0.0034996174961202664,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 3.784179696708634e-06,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "coordinates_alf_get_coords_float32",
+              "actual": 0.0034997728399318584,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 6.713867179541921e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_alf_get_coords_float32",
+              "actual": 0.0034996435575762666,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            },
+            {
+              "variant": "both_alf_get_coords_float32",
+              "actual": 0.003499778594700839,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 6.713867179541921e-06,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            }
+          ]
+        },
+        {
+          "case": "1psn",
+          "field": "volume_sa",
+          "unit": "angstrom**3",
+          "expected": 0.686,
+          "variants": [
+            {
+              "variant": "baseline",
+              "actual": 0.6854994934776033,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "coordinates_direct_float32",
+              "actual": 0.6854976263204133,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 1.83105469631073e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_direct_float32",
+              "actual": 0.6854997937540633,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "both_direct_float32",
+              "actual": 0.6854979265962308,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 1.83105469631073e-06,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "coordinates_alf_get_coords_float32",
+              "actual": 0.6854997228831637,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 3.051757815342171e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_alf_get_coords_float32",
+              "actual": 0.6854999691018736,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            },
+            {
+              "variant": "both_alf_get_coords_float32",
+              "actual": 0.6855001985072411,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 3.051757815342171e-06,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            }
+          ]
+        },
+        {
+          "case": "1ypi",
+          "field": "volume_sa",
+          "unit": "angstrom**3",
+          "expected": 18.094,
+          "variants": [
+            {
+              "variant": "baseline",
+              "actual": 18.094500169285364,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "coordinates_direct_float32",
+              "actual": 18.0944870830835,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 3.784179696708634e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_direct_float32",
+              "actual": 18.09450188938931,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "both_direct_float32",
+              "actual": 18.09448880318754,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 3.784179696708634e-06,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "coordinates_alf_get_coords_float32",
+              "actual": 18.094508296661015,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 6.103515630684342e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_alf_get_coords_float32",
+              "actual": 18.09450188938931,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            },
+            {
+              "variant": "both_alf_get_coords_float32",
+              "actual": 18.09451001676581,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 6.103515630684342e-06,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            }
+          ]
+        },
+        {
+          "case": "1fbp",
+          "field": "area_sa",
+          "unit": "angstrom**2",
+          "expected": 299.277,
+          "variants": [
+            {
+              "variant": "baseline",
+              "actual": 299.2764954437971,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "coordinates_direct_float32",
+              "actual": 299.2764602127131,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 7.568359364995558e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_direct_float32",
+              "actual": 299.27650124813334,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "both_direct_float32",
+              "actual": 299.2764660170518,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 7.568359364995558e-06,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "coordinates_alf_get_coords_float32",
+              "actual": 299.2764560945637,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 1.0864257802722932e-05,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_alf_get_coords_float32",
+              "actual": 299.2765119172383,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            },
+            {
+              "variant": "both_alf_get_coords_float32",
+              "actual": 299.2764725680092,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 1.0864257802722932e-05,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            }
+          ]
+        },
+        {
+          "case": "2fbp",
+          "field": "volume_sa",
+          "unit": "angstrom**3",
+          "expected": 36.266,
+          "variants": [
+            {
+              "variant": "baseline",
+              "actual": 36.26650173327073,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "coordinates_direct_float32",
+              "actual": 36.266477292086485,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 3.784179696708634e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_direct_float32",
+              "actual": 36.26650107974999,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "both_direct_float32",
+              "actual": 36.26647663856513,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 3.784179696708634e-06,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "coordinates_alf_get_coords_float32",
+              "actual": 36.26650370903865,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 6.65283201328748e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_alf_get_coords_float32",
+              "actual": 36.26650889275782,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            },
+            {
+              "variant": "both_alf_get_coords_float32",
+              "actual": 36.26651086852239,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 0,
+              "max_coordinate_change_angstrom": 6.65283201328748e-06,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "vol_real": "float",
+      "metric_unchanged": false,
+      "fixed_modern_domains_and_predicates": true,
+      "assembly": "double-valued wrapper terms accumulated with math.fsum",
+      "cases": [
+        {
+          "case": "1mrg",
+          "field": "volume_sa",
+          "unit": "angstrom**3",
+          "expected": 0.004,
+          "variants": [
+            {
+              "variant": "baseline",
+              "actual": 0.0036868195939123716,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 72,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "coordinates_direct_float32",
+              "actual": 0.0036868195939123716,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 72,
+              "max_coordinate_change_angstrom": 3.784179696708634e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_direct_float32",
+              "actual": 0.0036868195939123716,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 72,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "both_direct_float32",
+              "actual": 0.0036868195939123716,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 72,
+              "max_coordinate_change_angstrom": 3.784179696708634e-06,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "coordinates_alf_get_coords_float32",
+              "actual": 0.004310274985380946,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 67,
+              "max_coordinate_change_angstrom": 6.713867179541921e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_alf_get_coords_float32",
+              "actual": 0.0036868195939123716,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 72,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            },
+            {
+              "variant": "both_alf_get_coords_float32",
+              "actual": 0.004310274985380946,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 67,
+              "max_coordinate_change_angstrom": 6.713867179541921e-06,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            }
+          ]
+        },
+        {
+          "case": "1psn",
+          "field": "volume_sa",
+          "unit": "angstrom**3",
+          "expected": 0.686,
+          "variants": [
+            {
+              "variant": "baseline",
+              "actual": 0.6854544459458962,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 7,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "coordinates_direct_float32",
+              "actual": 0.6854544459458962,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 7,
+              "max_coordinate_change_angstrom": 1.83105469631073e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_direct_float32",
+              "actual": 0.6854544459458962,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 7,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "both_direct_float32",
+              "actual": 0.6854544459458962,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 7,
+              "max_coordinate_change_angstrom": 1.83105469631073e-06,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "coordinates_alf_get_coords_float32",
+              "actual": 0.685388852157846,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 35,
+              "max_coordinate_change_angstrom": 3.051757815342171e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_alf_get_coords_float32",
+              "actual": 0.6854710071326622,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 7,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            },
+            {
+              "variant": "both_alf_get_coords_float32",
+              "actual": 0.685392205899072,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 35,
+              "max_coordinate_change_angstrom": 3.051757815342171e-06,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            }
+          ]
+        },
+        {
+          "case": "1ypi",
+          "field": "volume_sa",
+          "unit": "angstrom**3",
+          "expected": 18.094,
+          "variants": [
+            {
+              "variant": "baseline",
+              "actual": 18.091965665384045,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 197,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "coordinates_direct_float32",
+              "actual": 18.091965665384045,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 197,
+              "max_coordinate_change_angstrom": 3.784179696708634e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_direct_float32",
+              "actual": 18.091965665384045,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 197,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "both_direct_float32",
+              "actual": 18.091965665384045,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 197,
+              "max_coordinate_change_angstrom": 3.784179696708634e-06,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "coordinates_alf_get_coords_float32",
+              "actual": 18.09484914268664,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 177,
+              "max_coordinate_change_angstrom": 6.103515630684342e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_alf_get_coords_float32",
+              "actual": 18.091965665384045,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 197,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            },
+            {
+              "variant": "both_alf_get_coords_float32",
+              "actual": 18.09484914268664,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 177,
+              "max_coordinate_change_angstrom": 6.103515630684342e-06,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            }
+          ]
+        },
+        {
+          "case": "1fbp",
+          "field": "area_sa",
+          "unit": "angstrom**2",
+          "expected": 299.277,
+          "variants": [
+            {
+              "variant": "baseline",
+              "actual": 299.2767638526305,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 1713,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "coordinates_direct_float32",
+              "actual": 299.2767638526305,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 1713,
+              "max_coordinate_change_angstrom": 7.568359364995558e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_direct_float32",
+              "actual": 299.2767638526305,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 1713,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "both_direct_float32",
+              "actual": 299.2767638526305,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 1713,
+              "max_coordinate_change_angstrom": 7.568359364995558e-06,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "coordinates_alf_get_coords_float32",
+              "actual": 299.2765861164041,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 1628,
+              "max_coordinate_change_angstrom": 1.0864257802722932e-05,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_alf_get_coords_float32",
+              "actual": 299.276763566354,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 1713,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            },
+            {
+              "variant": "both_alf_get_coords_float32",
+              "actual": 299.2765592255546,
+              "passed": true,
+              "corrections": 0,
+              "warnings": 1628,
+              "max_coordinate_change_angstrom": 1.0864257802722932e-05,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            }
+          ]
+        },
+        {
+          "case": "2fbp",
+          "field": "volume_sa",
+          "unit": "angstrom**3",
+          "expected": 36.266,
+          "variants": [
+            {
+              "variant": "baseline",
+              "actual": 36.26707777118296,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 310,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "coordinates_direct_float32",
+              "actual": 36.26707777118296,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 310,
+              "max_coordinate_change_angstrom": 3.784179696708634e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_direct_float32",
+              "actual": 36.26707777118296,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 310,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "both_direct_float32",
+              "actual": 36.26707777118296,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 310,
+              "max_coordinate_change_angstrom": 3.784179696708634e-06,
+              "max_radius_change_angstrom": 1.0490417468034252e-07
+            },
+            {
+              "variant": "coordinates_alf_get_coords_float32",
+              "actual": 36.26681927316032,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 408,
+              "max_coordinate_change_angstrom": 6.65283201328748e-06,
+              "max_radius_change_angstrom": 0.0
+            },
+            {
+              "variant": "radii_alf_get_coords_float32",
+              "actual": 36.26709740662184,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 312,
+              "max_coordinate_change_angstrom": 0.0,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            },
+            {
+              "variant": "both_alf_get_coords_float32",
+              "actual": 36.26687069455552,
+              "passed": false,
+              "corrections": 0,
+              "warnings": 408,
+              "max_coordinate_change_angstrom": 6.65283201328748e-06,
+              "max_radius_change_angstrom": 1.6212463371800823e-07
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "atom_contributions": {
+    "scope": "SA space-filling per-atom CHECKING values; not pocket contributions",
+    "complete_server_equivalence": false,
+    "source_commit": "4ffb6cbf3273a0cf22c42f700137ee96e2eead8a",
+    "python": "3.14.7",
+    "versions": {
+      "numpy": "2.4.6",
+      "scipy": "1.18.1",
+      "pyunitwizard": "0.27.0",
+      "opencastp": "0.1.0+12.g4ffb6cb"
+    },
+    "cases": [
+      {
+        "case": "1mrg",
+        "atoms": 1932,
+        "tested": 3864,
+        "passed": 3759,
+        "failed": [
+          {
+            "atom_id": 24,
+            "field": "SA_Volume",
+            "actual": 61.71651606600338,
+            "expected": 61.716,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 29,
+            "field": "SA_Volume",
+            "actual": 28.938538718501103,
+            "expected": 28.938,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 40,
+            "field": "SA_Volume",
+            "actual": 13.494507333546293,
+            "expected": 13.494,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 50,
+            "field": "SA_Volume",
+            "actual": 58.8014623387061,
+            "expected": 58.802,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 66,
+            "field": "SA_Volume",
+            "actual": 12.578509112966245,
+            "expected": 12.578,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 101,
+            "field": "SA_Volume",
+            "actual": 11.865499362312383,
+            "expected": 11.866,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 102,
+            "field": "SA_Volume",
+            "actual": 31.376540997939728,
+            "expected": 31.376,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 108,
+            "field": "SA_Volume",
+            "actual": 20.192528769102978,
+            "expected": 20.192,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 118,
+            "field": "SA_Volume",
+            "actual": 10.040520133386138,
+            "expected": 10.04,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 146,
+            "field": "SA_Volume",
+            "actual": 27.702509283655353,
+            "expected": 27.702,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 163,
+            "field": "SA_Volume",
+            "actual": 23.716535705874733,
+            "expected": 23.716,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 168,
+            "field": "SA_Volume",
+            "actual": 6.331489187689475,
+            "expected": 6.332,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 178,
+            "field": "SA_Volume",
+            "actual": 8.909478816643041,
+            "expected": 8.91,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 314,
+            "field": "SA_Volume",
+            "actual": 47.6325427409357,
+            "expected": 47.632,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 316,
+            "field": "SA_Volume",
+            "actual": 17.795454365516463,
+            "expected": 17.796,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 341,
+            "field": "SA_Volume",
+            "actual": 9.054503579612451,
+            "expected": 9.054,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 366,
+            "field": "SA_Volume",
+            "actual": 10.90852753271193,
+            "expected": 10.908,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 457,
+            "field": "SA_Volume",
+            "actual": 24.57949271230239,
+            "expected": 24.58,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 475,
+            "field": "SA_Volume",
+            "actual": 27.71545856452404,
+            "expected": 27.716,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 557,
+            "field": "SA_Volume",
+            "actual": 36.76050873601287,
+            "expected": 36.76,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 588,
+            "field": "SA_Volume",
+            "actual": 25.886550350920732,
+            "expected": 25.886,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 591,
+            "field": "SA_Volume",
+            "actual": 16.744516932488512,
+            "expected": 16.744,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 657,
+            "field": "SA_Volume",
+            "actual": 42.223479881892715,
+            "expected": 42.224,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 670,
+            "field": "SA_Volume",
+            "actual": 36.17052640255189,
+            "expected": 36.17,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 718,
+            "field": "SA_Volume",
+            "actual": 10.781454447505503,
+            "expected": 10.782,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 730,
+            "field": "SA_Volume",
+            "actual": 5.323481978844393,
+            "expected": 5.324,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 767,
+            "field": "SA_Volume",
+            "actual": 10.097461124131994,
+            "expected": 10.098,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 802,
+            "field": "SA_Volume",
+            "actual": 39.18454429455526,
+            "expected": 39.184,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 843,
+            "field": "SA_Volume",
+            "actual": 3.6265305676843314,
+            "expected": 3.626,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 860,
+            "field": "SA_Volume",
+            "actual": 41.6214522905664,
+            "expected": 41.622,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 877,
+            "field": "SA_Volume",
+            "actual": 27.75348773527781,
+            "expected": 27.754,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 883,
+            "field": "SA_Volume",
+            "actual": 6.307473251309716,
+            "expected": 6.308,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 949,
+            "field": "SA_Volume",
+            "actual": 9.919472228899043,
+            "expected": 9.92,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 980,
+            "field": "SA_Volume",
+            "actual": 17.300517661769835,
+            "expected": 17.3,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 982,
+            "field": "SA_Volume",
+            "actual": 58.919496285723454,
+            "expected": 58.92,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1041,
+            "field": "SA_Volume",
+            "actual": 11.40747687627283,
+            "expected": 11.408,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1042,
+            "field": "SA_Volume",
+            "actual": 24.71148227034879,
+            "expected": 24.712,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1053,
+            "field": "SA_Volume",
+            "actual": 34.87250559997007,
+            "expected": 34.872,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1081,
+            "field": "SA_Volume",
+            "actual": 12.247460720818703,
+            "expected": 12.248,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1141,
+            "field": "SA_Volume",
+            "actual": 23.44746061282214,
+            "expected": 23.448,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1185,
+            "field": "SA_Volume",
+            "actual": 62.71850253325183,
+            "expected": 62.718,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1193,
+            "field": "SA_Volume",
+            "actual": 7.0045097339510525,
+            "expected": 7.004,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1202,
+            "field": "SA_Volume",
+            "actual": 24.674510367521858,
+            "expected": 24.674,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1205,
+            "field": "SA_Volume",
+            "actual": 11.54051185513991,
+            "expected": 11.54,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1208,
+            "field": "SA_Volume",
+            "actual": 23.698546870430444,
+            "expected": 23.698,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1217,
+            "field": "SA_Volume",
+            "actual": 6.892520227968527,
+            "expected": 6.892,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1226,
+            "field": "SA_Area",
+            "actual": 1.894972417507097,
+            "expected": 1.9,
+            "tolerance": 0.00500001,
+            "passed": false
+          },
+          {
+            "atom_id": 1230,
+            "field": "SA_Volume",
+            "actual": 32.710484903542415,
+            "expected": 32.711,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1279,
+            "field": "SA_Volume",
+            "actual": 7.655464049833845,
+            "expected": 7.656,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1284,
+            "field": "SA_Volume",
+            "actual": 9.405454027869835,
+            "expected": 9.406,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1325,
+            "field": "SA_Volume",
+            "actual": 9.837495645228524,
+            "expected": 9.838,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1328,
+            "field": "SA_Volume",
+            "actual": 40.20453992875429,
+            "expected": 40.204,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1331,
+            "field": "SA_Volume",
+            "actual": 9.845494503056134,
+            "expected": 9.846,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1358,
+            "field": "SA_Volume",
+            "actual": 22.75548643352942,
+            "expected": 22.756,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1369,
+            "field": "SA_Volume",
+            "actual": 19.14349426842999,
+            "expected": 19.144,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1396,
+            "field": "SA_Volume",
+            "actual": 8.838504177609849,
+            "expected": 8.838,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1398,
+            "field": "SA_Area",
+            "actual": 3.34502037561482,
+            "expected": 3.34,
+            "tolerance": 0.00500001,
+            "passed": false
+          },
+          {
+            "atom_id": 1414,
+            "field": "SA_Volume",
+            "actual": 33.485493668791726,
+            "expected": 33.486,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1426,
+            "field": "SA_Volume",
+            "actual": 23.37454808261753,
+            "expected": 23.374,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1429,
+            "field": "SA_Volume",
+            "actual": 49.63145366424477,
+            "expected": 49.632,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1445,
+            "field": "SA_Volume",
+            "actual": 8.365455497749172,
+            "expected": 8.366,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1526,
+            "field": "SA_Volume",
+            "actual": 46.4645216775132,
+            "expected": 46.464,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1529,
+            "field": "SA_Volume",
+            "actual": 23.5194984236154,
+            "expected": 23.52,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1531,
+            "field": "SA_Volume",
+            "actual": 9.995497428740599,
+            "expected": 9.996,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1602,
+            "field": "SA_Volume",
+            "actual": 6.847459487601383,
+            "expected": 6.848,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1617,
+            "field": "SA_Volume",
+            "actual": 6.013477362843332,
+            "expected": 6.014,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1626,
+            "field": "SA_Volume",
+            "actual": 23.97946435723776,
+            "expected": 23.98,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1637,
+            "field": "SA_Volume",
+            "actual": 10.40147888338626,
+            "expected": 10.402,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1650,
+            "field": "SA_Volume",
+            "actual": 22.040507577550933,
+            "expected": 22.04,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1655,
+            "field": "SA_Volume",
+            "actual": 36.98746002743964,
+            "expected": 36.988,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1699,
+            "field": "SA_Volume",
+            "actual": 5.86346148145398,
+            "expected": 5.864,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1700,
+            "field": "SA_Volume",
+            "actual": 15.979469933157542,
+            "expected": 15.98,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1724,
+            "field": "SA_Volume",
+            "actual": 23.313490086104718,
+            "expected": 23.314,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1735,
+            "field": "SA_Volume",
+            "actual": 24.044549381785647,
+            "expected": 24.044,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1749,
+            "field": "SA_Area",
+            "actual": 4.114976012692541,
+            "expected": 4.12,
+            "tolerance": 0.00500001,
+            "passed": false
+          },
+          {
+            "atom_id": 1764,
+            "field": "SA_Volume",
+            "actual": 25.645491833017658,
+            "expected": 25.646,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1779,
+            "field": "SA_Volume",
+            "actual": 11.652528416529616,
+            "expected": 11.652,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1812,
+            "field": "SA_Volume",
+            "actual": 10.673459033357199,
+            "expected": 10.674,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1834,
+            "field": "SA_Volume",
+            "actual": 11.30946365277256,
+            "expected": 11.31,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1838,
+            "field": "SA_Volume",
+            "actual": 7.404518320084984,
+            "expected": 7.404,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1843,
+            "field": "SA_Volume",
+            "actual": 52.037480407750685,
+            "expected": 52.038,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1855,
+            "field": "SA_Volume",
+            "actual": 12.313493270879398,
+            "expected": 12.314,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1871,
+            "field": "SA_Volume",
+            "actual": 12.022541455949181,
+            "expected": 12.022,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1879,
+            "field": "SA_Volume",
+            "actual": 16.034457291016793,
+            "expected": 16.035,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1908,
+            "field": "SA_Area",
+            "actual": 28.36502941047557,
+            "expected": 28.36,
+            "tolerance": 0.00500001,
+            "passed": false
+          },
+          {
+            "atom_id": 1919,
+            "field": "SA_Volume",
+            "actual": 30.94452089447784,
+            "expected": 30.944,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1928,
+            "field": "SA_Volume",
+            "actual": 6.446505615838934,
+            "expected": 6.446,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1950,
+            "field": "SA_Volume",
+            "actual": 9.883460580905576,
+            "expected": 9.884,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 1992,
+            "field": "SA_Volume",
+            "actual": 8.875465741453617,
+            "expected": 8.876,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2004,
+            "field": "SA_Volume",
+            "actual": 8.961452813988192,
+            "expected": 8.962,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2028,
+            "field": "SA_Volume",
+            "actual": 31.90146142827343,
+            "expected": 31.902,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2086,
+            "field": "SA_Volume",
+            "actual": 12.326515714212666,
+            "expected": 12.326,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2106,
+            "field": "SA_Volume",
+            "actual": 34.426536347910115,
+            "expected": 34.426,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2146,
+            "field": "SA_Area",
+            "actual": 0.14501776617356033,
+            "expected": 0.14,
+            "tolerance": 0.00500001,
+            "passed": false
+          },
+          {
+            "atom_id": 2185,
+            "field": "SA_Volume",
+            "actual": 26.317457211136993,
+            "expected": 26.318,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2193,
+            "field": "SA_Area",
+            "actual": 5.6850247045708775,
+            "expected": 5.68,
+            "tolerance": 0.00500001,
+            "passed": false
+          },
+          {
+            "atom_id": 2209,
+            "field": "SA_Volume",
+            "actual": 9.248535407397098,
+            "expected": 9.248,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2247,
+            "field": "SA_Volume",
+            "actual": 9.530508167502324,
+            "expected": 9.53,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2249,
+            "field": "SA_Volume",
+            "actual": 6.409477853390987,
+            "expected": 6.41,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2263,
+            "field": "SA_Volume",
+            "actual": 9.444539976978454,
+            "expected": 9.444,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2265,
+            "field": "SA_Area",
+            "actual": 0.07499814494883138,
+            "expected": 0.08,
+            "tolerance": 0.00500001,
+            "passed": false
+          },
+          {
+            "atom_id": 2333,
+            "field": "SA_Volume",
+            "actual": 8.616540626304161,
+            "expected": 8.616,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2335,
+            "field": "SA_Volume",
+            "actual": 14.733466086099995,
+            "expected": 14.734,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2341,
+            "field": "SA_Volume",
+            "actual": 6.2714700241279004,
+            "expected": 6.272,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          },
+          {
+            "atom_id": 2346,
+            "field": "SA_Volume",
+            "actual": 31.783484152432628,
+            "expected": 31.784,
+            "tolerance": 0.0005000100000000001,
+            "passed": false
+          }
+        ],
+        "quantization_diagnostic": {
+          "rule": "printf four-decimal string then numpy round to two area/three volume decimals; empirical candidate, not recovered modern export source",
+          "matched": 3863,
+          "required": 3864,
+          "failed": [
+            {
+              "atom_id": 588,
+              "field": "SA_Volume",
+              "actual": 25.886550350920732,
+              "expected": 25.886,
+              "tolerance": 0.0005000100000000001,
+              "passed": false,
+              "diagnostic_export": 25.887,
+              "export_matches": false
+            }
+          ],
+          "explained_original_failures": 104,
+          "introduced_failures": 0
+        },
+        "source_sha256": {
+          "pdb": "1f2d801cc8e3862ffeb0d3564808856db3ab7ac2f199e46a96e55fa25c629f1f",
+          "csv": "dc31079357cbe573b2e191477c1ee57bc94a74071419badc9b681ca047bd17b9"
+        },
+        "simplex_counts": {
+          "1": 1932,
+          "2": 12727,
+          "3": 20505,
+          "4": 9699
+        },
+        "elapsed_seconds": 79.50558035541326,
+        "prepared_coordinate_sha256": "9472d554a75edead0c8b3668d9e6fd4ac09f320a3c433d761497aedfac97706f",
+        "prepared_expanded_radius_sha256": "9c93d7944cc5b65dd092e1cda0f82cea8f49bf7a46e27579678accc2f6c1e961",
+        "core_source_sha256": {
+          "src/opencastp/_core/geometry.py": "867f8200178ebd50d7356e2154c4224c821eac275aa5edfa441257352fe4b669",
+          "src/opencastp/_core/volbl.py": "6882062560926d795d74f7ab00bc81c36dbdd3afd396c3b0213c9813f848451c"
+        }
+      }
+    ],
+    "units": {
+      "SA_Area": "angstrom**2",
+      "SA_Volume": "angstrom**3"
+    }
+  },
+  "atom588_metric_control": {
+    "case": "1mrg",
+    "atom_id": 588,
+    "scope": "one SA space-filling contribution; modern topology/native predicates reused",
+    "python": "3.14.7",
+    "expected_csv_volume_sa": 25.886,
+    "native_volume_sa": 25.886550350920714,
+    "c_volume_sa": 25.886550350999595,
+    "primitive_count": 66,
+    "corrections": 0,
+    "warnings": 0,
+    "source_commit": "4ffb6cbf3273a0cf22c42f700137ee96e2eead8a",
+    "terms": [
+      {
+        "kind": 1,
+        "native_volume_sa": 147.81215216849037,
+        "c_volume_sa": 147.81215216849037,
+        "native_area_sa": 135.1940416175217,
+        "c_area_sa": 135.1940416175217
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -47.8849334181322,
+        "c_volume_sa": -47.8849334181322,
+        "native_area_sa": -51.4217402102215,
+        "c_area_sa": -51.4217402102215
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -33.709007485397095,
+        "c_volume_sa": -33.709007485397095,
+        "native_area_sa": -41.840071104700364,
+        "c_area_sa": -41.840071104700364
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -31.646652342272844,
+        "c_volume_sa": -31.646652342272844,
+        "native_area_sa": -40.3541054638903,
+        "c_area_sa": -40.3541054638903
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -33.42766410064011,
+        "c_volume_sa": -33.42766410064011,
+        "native_area_sa": -41.6391154852969,
+        "c_area_sa": -41.6391154852969
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 27.65562239447796,
+        "c_volume_sa": 27.655622394497524,
+        "native_area_sa": 34.09920159799164,
+        "c_area_sa": 34.09920159799164
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -32.956274065675686,
+        "c_volume_sa": -32.956274065675686,
+        "native_area_sa": -41.301201040768746,
+        "c_area_sa": -41.301201040768746
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 27.386707593500677,
+        "c_volume_sa": 27.386707593459594,
+        "native_area_sa": 33.92904473132933,
+        "c_area_sa": 33.92904473132933
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -25.785639293667735,
+        "c_volume_sa": -25.785639293667735,
+        "native_area_sa": -35.941173203026956,
+        "c_area_sa": -35.941173203026956
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 19.922777315331828,
+        "c_volume_sa": 19.922777315436534,
+        "native_area_sa": 28.373713981608507,
+        "c_area_sa": 28.3737139816085
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -24.769552134263503,
+        "c_volume_sa": -24.769552134263503,
+        "native_area_sa": -35.1418460854347,
+        "c_area_sa": -35.1418460854347
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 20.48410803666458,
+        "c_volume_sa": 20.484108036697023,
+        "native_area_sa": 29.10972623573067,
+        "c_area_sa": 29.109726235730673
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 5.713712982306354,
+        "c_volume_sa": 5.713712982311436,
+        "native_area_sa": 10.338516736988476,
+        "c_area_sa": 10.338516736988478
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 5.749491093074694,
+        "c_volume_sa": 5.7494910930850995,
+        "native_area_sa": 10.410571087277914,
+        "c_area_sa": 10.41057108727791
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 4.296130305370952,
+        "c_volume_sa": 4.296130305441251,
+        "native_area_sa": 7.857388525807102,
+        "c_area_sa": 7.857388525807095
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 4.271689571509551,
+        "c_volume_sa": 4.271689571458115,
+        "native_area_sa": 7.931600136831864,
+        "c_area_sa": 7.931600136831865
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -3.2548284231789486,
+        "c_volume_sa": -3.254828423135063,
+        "native_area_sa": -6.270457875678401,
+        "c_area_sa": -6.27045787567841
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -3.2236349320664397,
+        "c_volume_sa": -3.223634932145125,
+        "native_area_sa": -6.217156540558555,
+        "c_area_sa": -6.21715654055856
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 5.271070974092367,
+        "c_volume_sa": 5.27107097407338,
+        "native_area_sa": 9.874816361530117,
+        "c_area_sa": 9.874816361530117
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -3.0932330170509807,
+        "c_volume_sa": -3.0932330170411713,
+        "native_area_sa": -6.120326731648027,
+        "c_area_sa": -6.12032673164802
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -19.39843122145664,
+        "c_volume_sa": -19.39843122145664,
+        "native_area_sa": -30.694725242291533,
+        "c_area_sa": -30.694725242291533
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 16.937556816154316,
+        "c_volume_sa": 16.93755681618206,
+        "native_area_sa": 26.419909640963905,
+        "c_area_sa": 26.419909640963912
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -16.319452540295096,
+        "c_volume_sa": -16.319452540295096,
+        "native_area_sa": -27.930109022868656,
+        "c_area_sa": -27.930109022868656
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 13.564483609359998,
+        "c_volume_sa": 13.564483609308164,
+        "native_area_sa": 23.20759912974026,
+        "c_area_sa": 23.20759912974028
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 3.863221415642551,
+        "c_volume_sa": 3.863221415647426,
+        "native_area_sa": 7.6910899255771294,
+        "c_area_sa": 7.691089925577131
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -2.423312145357665,
+        "c_volume_sa": -2.4233121453208177,
+        "native_area_sa": -5.1104880368485315,
+        "c_area_sa": -5.1104880368485315
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 4.521984221579581,
+        "c_volume_sa": 4.521984221569305,
+        "native_area_sa": 9.557252959450079,
+        "c_area_sa": 9.557252959450077
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -3.5072404810947555,
+        "c_volume_sa": -3.507240481091039,
+        "native_area_sa": -7.426208763488639,
+        "c_area_sa": -7.426208763488652
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 3.672969457790666,
+        "c_volume_sa": 3.672969457764459,
+        "native_area_sa": 7.916893502060745,
+        "c_area_sa": 7.916893502060741
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -3.0172869768970645,
+        "c_volume_sa": -3.017286976830125,
+        "native_area_sa": -6.497619567983445,
+        "c_area_sa": -6.497619567983445
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -12.057751606493198,
+        "c_volume_sa": -12.057751606493198,
+        "native_area_sa": -23.7242138666595,
+        "c_area_sa": -23.7242138666595
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 3.6867461667226236,
+        "c_volume_sa": 3.686746166693585,
+        "native_area_sa": 8.240478454358746,
+        "c_area_sa": 8.240478454358755
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 3.391962572872088,
+        "c_volume_sa": 3.3919625728465386,
+        "native_area_sa": 7.9896633818343785,
+        "c_area_sa": 7.989663381834375
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -2.4142359123608843,
+        "c_volume_sa": -2.4142359123141306,
+        "native_area_sa": -5.851369036889247,
+        "c_area_sa": -5.85136903688925
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 4.763043526524267,
+        "c_volume_sa": 4.763043526538574,
+        "native_area_sa": 10.953976281898065,
+        "c_area_sa": 10.953976281898065
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 3.6260891439469383,
+        "c_volume_sa": 3.6260891439388923,
+        "native_area_sa": 8.46990837644773,
+        "c_area_sa": 8.469908376447734
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 1.9320971122278563,
+        "c_volume_sa": 1.9320971122375081,
+        "native_area_sa": 4.8550595565865615,
+        "c_area_sa": 4.855059556586566
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -1.863952472564178,
+        "c_volume_sa": -1.8639524725937469,
+        "native_area_sa": -4.690824912391221,
+        "c_area_sa": -4.690824912391225
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -9.35517526653346,
+        "c_volume_sa": -9.35517526653346,
+        "native_area_sa": -20.72414911907598,
+        "c_area_sa": -20.72414911907598
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 7.8332853821894854,
+        "c_volume_sa": 7.833285382186954,
+        "native_area_sa": 16.9514404927999,
+        "c_area_sa": 16.951440492799904
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 6.8806332097196155,
+        "c_volume_sa": 6.880633209734123,
+        "native_area_sa": 14.964436837556793,
+        "c_area_sa": 14.964436837556793
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -6.600973843408298,
+        "c_volume_sa": -6.600973843468752,
+        "native_area_sa": -14.262574189768543,
+        "c_area_sa": -14.262574189768532
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -0.8178353808453219,
+        "c_volume_sa": -0.8178353808467943,
+        "native_area_sa": -2.517315920529927,
+        "c_area_sa": -2.517315920529928
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -0.6130856728515941,
+        "c_volume_sa": -0.6130856728362022,
+        "native_area_sa": -1.9681498605302754,
+        "c_area_sa": -1.9681498605302776
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 2.025255562673301,
+        "c_volume_sa": 2.025255562654258,
+        "native_area_sa": 5.845292534136304,
+        "c_area_sa": 5.845292534136304
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -1.7413074832505142,
+        "c_volume_sa": -1.7413074832436197,
+        "native_area_sa": -4.938053937418655,
+        "c_area_sa": -4.938053937418658
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -5.050050515452757,
+        "c_volume_sa": -5.050050515452757,
+        "native_area_sa": -14.992281782001807,
+        "c_area_sa": -14.992281782001807
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 3.47546824702152,
+        "c_volume_sa": 3.4754682470257237,
+        "native_area_sa": 10.610720361325548,
+        "c_area_sa": 10.610720361325544
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 2.3155916939763577,
+        "c_volume_sa": 2.3155916939861507,
+        "native_area_sa": 7.413430831281431,
+        "c_area_sa": 7.413430831281428
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -1.2103956128486397,
+        "c_volume_sa": -1.2103956128515356,
+        "native_area_sa": -4.1895796269379,
+        "c_area_sa": -4.189579626937904
+      },
+      {
+        "kind": 2,
+        "native_volume_sa": -7.323998014223699,
+        "c_volume_sa": -7.323998014223699,
+        "native_area_sa": -18.21162544115395,
+        "c_area_sa": -18.21162544115395
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 1.9352876887010255,
+        "c_volume_sa": 1.9352876887063615,
+        "native_area_sa": 6.142349563029508,
+        "c_area_sa": 6.142349563029514
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 6.622353673938127,
+        "c_volume_sa": 6.622353673959434,
+        "native_area_sa": 15.758649113533172,
+        "c_area_sa": 15.758649113533174
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -1.2933963226617624,
+        "c_volume_sa": -1.2933963227193785,
+        "native_area_sa": -3.891001472820176,
+        "c_area_sa": -3.891001472820185
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 3.9514068229108243,
+        "c_volume_sa": 3.951406822910323,
+        "native_area_sa": 11.187829647825843,
+        "c_area_sa": 11.187829647825847
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -3.6692650965882234,
+        "c_volume_sa": -3.669265096606915,
+        "native_area_sa": -10.035245073756702,
+        "c_area_sa": -10.035245073756695
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 0.7916379124216764,
+        "c_volume_sa": 0.791637912405825,
+        "native_area_sa": 3.2441137827106825,
+        "c_area_sa": 3.2441137827106825
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -0.5543824533978832,
+        "c_volume_sa": -0.5543824534030573,
+        "native_area_sa": -2.42682637766013,
+        "c_area_sa": -2.426826377660129
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 4.979926394680149,
+        "c_volume_sa": 4.979926394652368,
+        "native_area_sa": 12.220517915325171,
+        "c_area_sa": 12.220517915325154
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -4.928212295715878,
+        "c_volume_sa": -4.928212295655938,
+        "native_area_sa": -11.980658898918605,
+        "c_area_sa": -11.980658898918605
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 0.7461803276393821,
+        "c_volume_sa": 0.7461803276330761,
+        "native_area_sa": 3.57381146013185,
+        "c_area_sa": 3.573811460131857
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -0.29728519738119075,
+        "c_volume_sa": -0.2972851973792756,
+        "native_area_sa": -1.575320277816009,
+        "c_area_sa": -1.5753202778160116
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 0.1182743565691099,
+        "c_volume_sa": 0.1182743565876635,
+        "native_area_sa": 1.0027818389481116,
+        "c_area_sa": 1.0027818389481151
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -0.11114928144266027,
+        "c_volume_sa": -0.11114928144932118,
+        "native_area_sa": -0.9321956256696398,
+        "c_area_sa": -0.9321956256696318
+      },
+      {
+        "kind": 3,
+        "native_volume_sa": 0.11918297035939263,
+        "c_volume_sa": 0.11918297035231257,
+        "native_area_sa": 0.9879876339585651,
+        "c_area_sa": 0.9879876339585598
+      },
+      {
+        "kind": 4,
+        "native_volume_sa": -0.11195536405256956,
+        "c_volume_sa": -0.11195536403578854,
+        "native_area_sa": -0.9029866307584187,
+        "c_area_sa": -0.9029866307584213
+      }
+    ]
+  },
+  "atom588_input_control": {
+    "case": "1mrg",
+    "atom_id": 588,
+    "expected_volume_sa_angstrom3": 25.886,
+    "scope": "one atom; unchanged historical C SA primitives, fixed modern topology/predicates",
+    "python": "3.14.7",
+    "versions": {
+      "numpy": "2.4.6",
+      "scipy": "1.18.1",
+      "opencastp": "0.1.0+12.g4ffb6cb"
+    },
+    "source_commit": "4ffb6cbf3273a0cf22c42f700137ee96e2eead8a",
+    "complete_server_equivalence": false,
+    "primitive_count": 66,
+    "variants": [
+      {
+        "variant": "baseline",
+        "volume_sa_angstrom3": 25.886550350999595,
+        "strict_passed": false,
+        "diagnostic_export": 25.887,
+        "export_matches": false,
+        "corrections": 0,
+        "warnings": 0
+      },
+      {
+        "variant": "coordinates_direct_float32",
+        "volume_sa_angstrom3": 25.886545949269944,
+        "strict_passed": false,
+        "diagnostic_export": 25.886,
+        "export_matches": true,
+        "corrections": 0,
+        "warnings": 0
+      },
+      {
+        "variant": "radii_direct_float32",
+        "volume_sa_angstrom3": 25.88655044418368,
+        "strict_passed": false,
+        "diagnostic_export": 25.887,
+        "export_matches": false,
+        "corrections": 0,
+        "warnings": 0
+      },
+      {
+        "variant": "both_direct_float32",
+        "volume_sa_angstrom3": 25.886546042340484,
+        "strict_passed": false,
+        "diagnostic_export": 25.886,
+        "export_matches": true,
+        "corrections": 0,
+        "warnings": 0
+      },
+      {
+        "variant": "coordinates_alf_get_coords_float32",
+        "volume_sa_angstrom3": 25.886562663386403,
+        "strict_passed": false,
+        "diagnostic_export": 25.887,
+        "export_matches": false,
+        "corrections": 0,
+        "warnings": 0
+      },
+      {
+        "variant": "radii_alf_get_coords_float32",
+        "volume_sa_angstrom3": 25.88655044418368,
+        "strict_passed": false,
+        "diagnostic_export": 25.887,
+        "export_matches": false,
+        "corrections": 0,
+        "warnings": 0
+      },
+      {
+        "variant": "both_alf_get_coords_float32",
+        "volume_sa_angstrom3": 25.886562756450616,
+        "strict_passed": false,
+        "diagnostic_export": 25.887,
+        "export_matches": false,
+        "corrections": 0,
+        "warnings": 0
+      }
+    ],
+    "prepared_coordinate_sha256": "9472d554a75edead0c8b3668d9e6fd4ac09f320a3c433d761497aedfac97706f",
+    "prepared_expanded_radius_sha256": "9c93d7944cc5b65dd092e1cda0f82cea8f49bf7a46e27579678accc2f6c1e961"
+  },
+  "atom_materialization_panel": {
+    "case": "1mrg",
+    "atoms": 1932,
+    "required_scalars": 3864,
+    "scope": "SA space-filling per-atom CHECKING; unchanged historical C primitives, fixed modern topology/predicates",
+    "units": {
+      "SA_Volume": "angstrom**3",
+      "SA_Area": "angstrom**2"
+    },
+    "source_commit": "4ffb6cbf3273a0cf22c42f700137ee96e2eead8a",
+    "python": "3.14.7",
+    "versions": {
+      "numpy": "2.4.6",
+      "scipy": "1.18.1",
+      "opencastp": "0.1.0+12.g4ffb6cb"
+    },
+    "complete_server_equivalence": false,
+    "completed": true,
+    "primitive_count": 127697,
+    "variants": [
+      {
+        "variant": "baseline",
+        "strict_matched": 3759,
+        "export_matched": 3863,
+        "export_failures": [
+          {
+            "atom_id": 588,
+            "field": "SA_Volume",
+            "actual": 25.886550350999602,
+            "expected": 25.886,
+            "diagnostic_export": 25.887,
+            "strict_passed": false
+          }
+        ],
+        "introduced_export_failures": 0,
+        "explained_original_failures": 104,
+        "corrections": 0,
+        "warnings": 0,
+        "elapsed_seconds": 129.018571279943
+      },
+      {
+        "variant": "coordinates_direct_float32",
+        "strict_matched": 3759,
+        "export_matched": 3823,
+        "export_failures": [
+          {
+            "atom_id": 74,
+            "field": "SA_Volume",
+            "actual": 21.663485851559464,
+            "expected": 21.663,
+            "diagnostic_export": 21.664,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 108,
+            "field": "SA_Volume",
+            "actual": 20.19257245491908,
+            "expected": 20.192,
+            "diagnostic_export": 20.193,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 118,
+            "field": "SA_Volume",
+            "actual": 10.040550168131439,
+            "expected": 10.04,
+            "diagnostic_export": 10.041,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 168,
+            "field": "SA_Volume",
+            "actual": 6.331441207813159,
+            "expected": 6.332,
+            "diagnostic_export": 6.331,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 314,
+            "field": "SA_Volume",
+            "actual": 47.63255912166339,
+            "expected": 47.632,
+            "diagnostic_export": 47.633,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 316,
+            "field": "SA_Volume",
+            "actual": 17.79541659036876,
+            "expected": 17.796,
+            "diagnostic_export": 17.795,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 358,
+            "field": "SA_Volume",
+            "actual": 24.094549565368297,
+            "expected": 24.095,
+            "diagnostic_export": 24.094,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 360,
+            "field": "SA_Volume",
+            "actual": 12.123455378908382,
+            "expected": 12.123,
+            "diagnostic_export": 12.124,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 466,
+            "field": "SA_Volume",
+            "actual": 25.305467906957134,
+            "expected": 25.305,
+            "diagnostic_export": 25.306,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 483,
+            "field": "SA_Volume",
+            "actual": 9.805450072636052,
+            "expected": 9.805,
+            "diagnostic_export": 9.806,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 521,
+            "field": "SA_Volume",
+            "actual": 40.16345881075573,
+            "expected": 40.163,
+            "diagnostic_export": 40.164,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 557,
+            "field": "SA_Volume",
+            "actual": 36.760626164067816,
+            "expected": 36.76,
+            "diagnostic_export": 36.761,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 572,
+            "field": "SA_Volume",
+            "actual": 65.34948331161861,
+            "expected": 65.349,
+            "diagnostic_export": 65.35,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 617,
+            "field": "SA_Volume",
+            "actual": 44.70054322346118,
+            "expected": 44.701,
+            "diagnostic_export": 44.7,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 718,
+            "field": "SA_Volume",
+            "actual": 10.781439995778756,
+            "expected": 10.782,
+            "diagnostic_export": 10.781,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 767,
+            "field": "SA_Volume",
+            "actual": 10.097444353104475,
+            "expected": 10.098,
+            "diagnostic_export": 10.097,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 789,
+            "field": "SA_Volume",
+            "actual": 1.7794534448160317,
+            "expected": 1.779,
+            "diagnostic_export": 1.78,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 860,
+            "field": "SA_Volume",
+            "actual": 41.62143647081222,
+            "expected": 41.622,
+            "diagnostic_export": 41.621,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 877,
+            "field": "SA_Volume",
+            "actual": 27.753449000722366,
+            "expected": 27.754,
+            "diagnostic_export": 27.753,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 970,
+            "field": "SA_Volume",
+            "actual": 31.12053727741954,
+            "expected": 31.121,
+            "diagnostic_export": 31.12,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 980,
+            "field": "SA_Volume",
+            "actual": 17.300556510872227,
+            "expected": 17.3,
+            "diagnostic_export": 17.301,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 982,
+            "field": "SA_Volume",
+            "actual": 58.919447435503564,
+            "expected": 58.92,
+            "diagnostic_export": 58.919,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1011,
+            "field": "SA_Area",
+            "actual": 20.905037735473925,
+            "expected": 20.91,
+            "diagnostic_export": 20.9,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 1099,
+            "field": "SA_Area",
+            "actual": 9.254971614681722,
+            "expected": 9.25,
+            "diagnostic_export": 9.26,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 1208,
+            "field": "SA_Volume",
+            "actual": 23.698562286485302,
+            "expected": 23.698,
+            "diagnostic_export": 23.699,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1429,
+            "field": "SA_Volume",
+            "actual": 49.63143288640489,
+            "expected": 49.632,
+            "diagnostic_export": 49.631,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1643,
+            "field": "SA_Volume",
+            "actual": 7.621451947151672,
+            "expected": 7.621,
+            "diagnostic_export": 7.622,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 1735,
+            "field": "SA_Volume",
+            "actual": 24.044576868124985,
+            "expected": 24.044,
+            "diagnostic_export": 24.045,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1802,
+            "field": "SA_Volume",
+            "actual": 6.739450728137243,
+            "expected": 6.739,
+            "diagnostic_export": 6.74,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 1821,
+            "field": "SA_Volume",
+            "actual": 22.66345082276073,
+            "expected": 22.663,
+            "diagnostic_export": 22.664,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 1834,
+            "field": "SA_Volume",
+            "actual": 11.309443616645744,
+            "expected": 11.31,
+            "diagnostic_export": 11.309,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1838,
+            "field": "SA_Volume",
+            "actual": 7.404566003854178,
+            "expected": 7.404,
+            "diagnostic_export": 7.405,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1908,
+            "field": "SA_Area",
+            "actual": 28.365056052106773,
+            "expected": 28.36,
+            "diagnostic_export": 28.37,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1993,
+            "field": "SA_Volume",
+            "actual": 26.855497453772692,
+            "expected": 26.855,
+            "diagnostic_export": 26.856,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 2004,
+            "field": "SA_Volume",
+            "actual": 8.961424034478755,
+            "expected": 8.962,
+            "diagnostic_export": 8.961,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 2063,
+            "field": "SA_Volume",
+            "actual": 9.029459012796561,
+            "expected": 9.029,
+            "diagnostic_export": 9.03,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 2088,
+            "field": "SA_Volume",
+            "actual": 5.596544217118542,
+            "expected": 5.597,
+            "diagnostic_export": 5.596,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 2106,
+            "field": "SA_Volume",
+            "actual": 34.42659077103551,
+            "expected": 34.426,
+            "diagnostic_export": 34.427,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 2136,
+            "field": "SA_Volume",
+            "actual": 54.57144724436912,
+            "expected": 54.572,
+            "diagnostic_export": 54.571,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 2149,
+            "field": "SA_Volume",
+            "actual": 32.70252416760221,
+            "expected": 32.703,
+            "diagnostic_export": 32.702,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 2185,
+            "field": "SA_Volume",
+            "actual": 26.317421804019496,
+            "expected": 26.318,
+            "diagnostic_export": 26.317,
+            "strict_passed": false
+          }
+        ],
+        "introduced_export_failures": 19,
+        "explained_original_failures": 83,
+        "corrections": 0,
+        "warnings": 0,
+        "elapsed_seconds": 124.93263847474009
+      },
+      {
+        "variant": "both_alf_get_coords_float32",
+        "strict_matched": 3752,
+        "export_matched": 3834,
+        "export_failures": [
+          {
+            "atom_id": 50,
+            "field": "SA_Volume",
+            "actual": 58.801447593315935,
+            "expected": 58.802,
+            "diagnostic_export": 58.801,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 67,
+            "field": "SA_Volume",
+            "actual": 28.797471165776006,
+            "expected": 28.797,
+            "diagnostic_export": 28.798,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 317,
+            "field": "SA_Volume",
+            "actual": 34.417451489618216,
+            "expected": 34.417,
+            "diagnostic_export": 34.418,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 358,
+            "field": "SA_Volume",
+            "actual": 24.094527839801813,
+            "expected": 24.095,
+            "diagnostic_export": 24.094,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 360,
+            "field": "SA_Volume",
+            "actual": 12.12345547609201,
+            "expected": 12.123,
+            "diagnostic_export": 12.124,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 521,
+            "field": "SA_Volume",
+            "actual": 40.16345122629829,
+            "expected": 40.163,
+            "diagnostic_export": 40.164,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 572,
+            "field": "SA_Volume",
+            "actual": 65.34945482542696,
+            "expected": 65.349,
+            "diagnostic_export": 65.35,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 588,
+            "field": "SA_Volume",
+            "actual": 25.886562756450616,
+            "expected": 25.886,
+            "diagnostic_export": 25.887,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 596,
+            "field": "SA_Volume",
+            "actual": 13.885461745508463,
+            "expected": 13.885,
+            "diagnostic_export": 13.886,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 758,
+            "field": "SA_Volume",
+            "actual": 10.046541687192175,
+            "expected": 10.047,
+            "diagnostic_export": 10.046,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 802,
+            "field": "SA_Volume",
+            "actual": 39.1845639532189,
+            "expected": 39.184,
+            "diagnostic_export": 39.185,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 838,
+            "field": "SA_Volume",
+            "actual": 31.704530820198496,
+            "expected": 31.705,
+            "diagnostic_export": 31.704,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 1088,
+            "field": "SA_Volume",
+            "actual": 24.439458908093787,
+            "expected": 24.439,
+            "diagnostic_export": 24.44,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 1120,
+            "field": "SA_Volume",
+            "actual": 46.39543005189349,
+            "expected": 46.396,
+            "diagnostic_export": 46.395,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1185,
+            "field": "SA_Volume",
+            "actual": 62.718570750431326,
+            "expected": 62.718,
+            "diagnostic_export": 62.719,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1279,
+            "field": "SA_Volume",
+            "actual": 7.655448347443537,
+            "expected": 7.656,
+            "diagnostic_export": 7.655,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1398,
+            "field": "SA_Area",
+            "actual": 3.3450854877975806,
+            "expected": 3.34,
+            "diagnostic_export": 3.35,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1429,
+            "field": "SA_Volume",
+            "actual": 49.6314361127007,
+            "expected": 49.632,
+            "diagnostic_export": 49.631,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1643,
+            "field": "SA_Volume",
+            "actual": 7.621450640356375,
+            "expected": 7.621,
+            "diagnostic_export": 7.622,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 1704,
+            "field": "SA_Volume",
+            "actual": 26.291475317653873,
+            "expected": 26.291,
+            "diagnostic_export": 26.292,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 1812,
+            "field": "SA_Volume",
+            "actual": 10.673438922873004,
+            "expected": 10.674,
+            "diagnostic_export": 10.673,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1879,
+            "field": "SA_Volume",
+            "actual": 16.034427126686765,
+            "expected": 16.035,
+            "diagnostic_export": 16.034,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 1980,
+            "field": "SA_Volume",
+            "actual": 26.56854907948104,
+            "expected": 26.569,
+            "diagnostic_export": 26.568,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 2092,
+            "field": "SA_Volume",
+            "actual": 69.13256857773115,
+            "expected": 69.132,
+            "diagnostic_export": 69.133,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 2118,
+            "field": "SA_Volume",
+            "actual": 27.062546817523156,
+            "expected": 27.063,
+            "diagnostic_export": 27.062,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 2143,
+            "field": "SA_Volume",
+            "actual": 10.888536238168756,
+            "expected": 10.889,
+            "diagnostic_export": 10.888,
+            "strict_passed": true
+          },
+          {
+            "atom_id": 2263,
+            "field": "SA_Volume",
+            "actual": 9.444550062405797,
+            "expected": 9.444,
+            "diagnostic_export": 9.445,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 2335,
+            "field": "SA_Volume",
+            "actual": 14.733433873352116,
+            "expected": 14.734,
+            "diagnostic_export": 14.733,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 2346,
+            "field": "SA_Volume",
+            "actual": 31.78344600254928,
+            "expected": 31.784,
+            "diagnostic_export": 31.783,
+            "strict_passed": false
+          },
+          {
+            "atom_id": 2365,
+            "field": "SA_Volume",
+            "actual": 54.99252704621497,
+            "expected": 54.993,
+            "diagnostic_export": 54.992,
+            "strict_passed": true
+          }
+        ],
+        "introduced_export_failures": 16,
+        "explained_original_failures": 98,
+        "corrections": 0,
+        "warnings": 0,
+        "elapsed_seconds": 128.43623692635447
+      }
+    ],
+    "prepared_coordinate_sha256": "9472d554a75edead0c8b3668d9e6fd4ac09f320a3c433d761497aedfac97706f",
+    "prepared_expanded_radius_sha256": "9c93d7944cc5b65dd092e1cda0f82cea8f49bf7a46e27579678accc2f6c1e961",
+    "pdb_sha256": "1f2d801cc8e3862ffeb0d3564808856db3ab7ac2f199e46a96e55fa25c629f1f",
+    "csv_sha256": "dc31079357cbe573b2e191477c1ee57bc94a74071419badc9b681ca047bd17b9"
+  },
+  "live_output_inspection": [
+    {
+      "case": "1mrg",
+      "suffix": ".4.contrib",
+      "url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_69f0e8c225fa0/tmp/j_69f0e8c225fa0.4.contrib",
+      "retrieved_utc": "2026-10-03T10:33:23.838765+00:00",
+      "status": 200,
+      "bytes": 713,
+      "sha256": "0f032b4f03af8a168aef3dbaa94b1207ba906bbbf818d376dfb9291adb1aa42c",
+      "html": true,
+      "valid_data": false
+    },
+    {
+      "case": "1mrg",
+      "suffix": ".pocInfo",
+      "url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_69f0e8c225fa0/tmp/j_69f0e8c225fa0.pocInfo",
+      "retrieved_utc": "2026-10-03T10:33:23.839601+00:00",
+      "status": 200,
+      "bytes": 1840,
+      "sha256": "2e3f26b3d5707c699a8e533710ca956a285f321f2839629b083c7520da18313a",
+      "html": false,
+      "valid_data": true,
+      "archive_sha256": "2e3f26b3d5707c699a8e533710ca956a285f321f2839629b083c7520da18313a",
+      "same_bytes_as_archive": true
+    },
+    {
+      "case": "1mrg",
+      "suffix": ".pdb",
+      "url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_69f0e8c225fa0/j_69f0e8c225fa0.pdb",
+      "retrieved_utc": "2026-10-03T10:33:23.841641+00:00",
+      "status": 200,
+      "bytes": 256122,
+      "sha256": "1f2d801cc8e3862ffeb0d3564808856db3ab7ac2f199e46a96e55fa25c629f1f",
+      "html": false,
+      "valid_data": true,
+      "archive_sha256": "1f2d801cc8e3862ffeb0d3564808856db3ab7ac2f199e46a96e55fa25c629f1f",
+      "same_bytes_as_archive": true
+    },
+    {
+      "case": "1psn",
+      "suffix": ".4.contrib",
+      "url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_69f1641fdc694/tmp/j_69f1641fdc694.4.contrib",
+      "retrieved_utc": "2026-10-03T10:33:24.229681+00:00",
+      "status": 200,
+      "bytes": 713,
+      "sha256": "0f032b4f03af8a168aef3dbaa94b1207ba906bbbf818d376dfb9291adb1aa42c",
+      "html": true,
+      "valid_data": false
+    },
+    {
+      "case": "1psn",
+      "suffix": ".pocInfo",
+      "url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_69f1641fdc694/tmp/j_69f1641fdc694.pocInfo",
+      "retrieved_utc": "2026-10-03T10:33:24.236357+00:00",
+      "status": 200,
+      "bytes": 2577,
+      "sha256": "37f584ca9de438a54777451867abb9cdf58a0dcf4f1538f823ee8f441464c965",
+      "html": false,
+      "valid_data": true,
+      "archive_sha256": "37f584ca9de438a54777451867abb9cdf58a0dcf4f1538f823ee8f441464c965",
+      "same_bytes_as_archive": true
+    },
+    {
+      "case": "1psn",
+      "suffix": ".pdb",
+      "url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_69f1641fdc694/j_69f1641fdc694.pdb",
+      "retrieved_utc": "2026-10-03T10:33:24.594794+00:00",
+      "status": 200,
+      "bytes": 241137,
+      "sha256": "a3589219de36c7b380fcceff8f87f2413f51a7fc04592f08e53a6354d2e5ace2",
+      "html": false,
+      "valid_data": true,
+      "archive_sha256": "a3589219de36c7b380fcceff8f87f2413f51a7fc04592f08e53a6354d2e5ace2",
+      "same_bytes_as_archive": true
+    },
+    {
+      "case": "1ypi",
+      "suffix": ".4.contrib",
+      "url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_69f0e5ad8a858/tmp/j_69f0e5ad8a858.4.contrib",
+      "retrieved_utc": "2026-10-03T10:33:24.599211+00:00",
+      "status": 200,
+      "bytes": 713,
+      "sha256": "0f032b4f03af8a168aef3dbaa94b1207ba906bbbf818d376dfb9291adb1aa42c",
+      "html": true,
+      "valid_data": false
+    },
+    {
+      "case": "1ypi",
+      "suffix": ".pocInfo",
+      "url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_69f0e5ad8a858/tmp/j_69f0e5ad8a858.pocInfo",
+      "retrieved_utc": "2026-10-03T10:33:24.608284+00:00",
+      "status": 200,
+      "bytes": 4687,
+      "sha256": "16556739a7393223b9210d770306b2e85fcec537c3054f29c4950a9aef8635c5",
+      "html": false,
+      "valid_data": true,
+      "archive_sha256": "16556739a7393223b9210d770306b2e85fcec537c3054f29c4950a9aef8635c5",
+      "same_bytes_as_archive": true
+    },
+    {
+      "case": "1ypi",
+      "suffix": ".pdb",
+      "url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_69f0e5ad8a858/j_69f0e5ad8a858.pdb",
+      "retrieved_utc": "2026-10-03T10:33:24.908946+00:00",
+      "status": 200,
+      "bytes": 361017,
+      "sha256": "64d2d25b2b1a6bed39918378dd25547b8ed0a8ceade763f64243125bb4eb403f",
+      "html": false,
+      "valid_data": true,
+      "archive_sha256": "64d2d25b2b1a6bed39918378dd25547b8ed0a8ceade763f64243125bb4eb403f",
+      "same_bytes_as_archive": true
+    }
+  ],
+  "collector_sha256": {
+    "opencastp_input_materialization_probe.py.txt": "fb87d2932fbe998da2f2615540dd219a152ce682e54150032dbbcf0caded64dc",
+    "opencastp_float_metric_probe.py.txt": "dcf47f61b8659c12db83f6dd38d08c38d33de3b070e2f696592e06e75ee633b7",
+    "opencastp_atom_contribution_probe.py.txt": "3f49886d9e4b5a27e2bc984a81fd35d8489220cf0fc465ea70346d127c5e9575",
+    "opencastp_atom588_metric_probe.py.txt": "4ce5792992e5af0dde568a0d9afcdc3a33a2bd5418246941753697400543e6c9",
+    "opencastp_historical_sf_bridge.c.txt": "11febb725fd587d309d92dea852d47081fb05253270a791af2b63cbb003ee24d",
+    "opencastp_atom588_materialization.py.txt": "6c039e3ee1a61b85c794abce16e4aab5a64428ca1dc60997ef67da458dc5a222",
+    "opencastp_sf_materialization_panel.py.txt": "69b2e03a5260dbeccc82d0bc8745ec81cdd5bbdd429fc9180f32a3c0509cd044",
+    "opencastp_fetch_raw_job_outputs.py.txt": "335c3abc9c7e26ca9f90a9f17999215ce35258c3210682f6ec709788328c1588",
+    "opencastp_input_export_assemble.py.txt": "b71be22e45bf852604201f13ecbee26ed38298d464e9ca923da660905786f176"
+  },
+  "historical_source_sha256": {
+    "alpha-4.1-src/volbl/metric.c": "fb5dc5659fdc2a5d0f8d19d7e5b3e74010225e5b16adf6da33a42105db2bfaf3",
+    "alpha-4.1-src/volbl/volbl.h": "17e2e604117ed369f679f3da687e8b98b51bc0630b5b37ada4ccbdc1a86c61e9",
+    "alpha-4.1-src/volbl/volbl.c": "ffecc76a09c654ace452bfd1baf14a785444929536c7ec1b6fd01088bb202591",
+    "alpha-4.1-src/volbl/pdb2alf.c": "5369db353fa89621d1890881e5f2620012a70253690ac4c73a60cacb7df9a130",
+    "alpha-4.1-src/mkalf/alf.c": "f4d840eb0aa048468ebe2d98a00e548f96341fd15044e29dfc89ceeac7da8829",
+    "topomt_version/include/alf.h": "b884129bd9908852aea22182a5afa84b27dbe98130eca5795f6356817e0f1377"
+  },
+  "modified_vol_real_header_sha256": "843647f6366405ede50297cc868dff1a062c5dae37c5121f1e23a09ab233cf54"
+}
