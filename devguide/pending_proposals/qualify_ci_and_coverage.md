@@ -75,3 +75,21 @@ All four real interpreter/installation/numerical/test cells executed; see
 under #5; the central CI review is partial, with no unobserved OS claim or
 executed PR claim. Coverage remains pending, and the published policy exception
 remains active under central #73. This theme therefore remains open.
+
+## Routine policy 1.5.4 adoption — 2026-10-03
+
+The maintainer authorized publication and adoption of policy-v1.5.4 under
+uibcdf/molsyssuite#39. The immutable tag points to central e459ea0; the
+component now calls that published gate and receives the byte-identical
+canonical guide through the suite synchronizer. Routine development uses
+Python 3.14. The existing full Python 3.11–3.14 matrices and skipped-commit
+recovery semantics are preserved; no public package is published here.
+Local conformance and changed-workflow Actionlint checks pass. Hosted
+policy and applicable routine checks are dispatched separately from skipped
+direct pushes; their exact commits and outcomes remain to be measured.
+
+The routine test interpreter moves to 3.14. The normal published policy
+job replaces the bounded admission bootstrap because this immutable snapshot
+registers OpenCASTp. Retire the central caller exception only after hosted
+policy success; uibcdf/molsyssuite#73 remains the general admission-design need.
+
