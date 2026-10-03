@@ -1,15 +1,12 @@
-name: MolSysSuite policy
-
+name: Qualify immutable admission gate
 on:
-  push:
-    branches: [main]
-    tags: ["*"]
-  pull_request:
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
-  policy:
-    uses: uibcdf/molsyssuite/.github/workflows/check-python-repository.yaml@policy-v1.5.4
+  unchanged-caller:
+    uses: uibcdf/molsyssuite/.github/workflows/check-python-repository.yaml@policy-v1.5.5
+  explicit-admission:
+    uses: uibcdf/molsyssuite/.github/workflows/check-python-repository.yaml@policy-v1.5.5
+    with:
+      admission_sha: 2a0b223afe78aa089ea27fb1042e4c85ca8f5921
