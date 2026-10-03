@@ -1,0 +1,65 @@
+"""Differentiate independently integrated volumes under uniform sphere growth."""
+
+import hashlib
+import json
+import pickle
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+
+ROOT=Path('/home/diego/repos@uibcdf/opencastp')
+sys.path.insert(0,str(ROOT))
+sys.path.insert(0,'/tmp')
+from devtools.section_volume_oracle import integrate_tetrahedron
+from opencastp_1mrg_section_controls import enclosure_from_vertices
+
+
+def main():
+    source=json.loads(Path('/tmp/opencastp_1mrg_section_controls.json').read_text())
+    g=pickle.loads(Path('/tmp/opencastp_all_metric_1mrg_geometry.pickle').read_bytes())
+    tetrahedra=[r['tetrahedron_index'] for r in source['variants'][0]['tetrahedra']]
+    report=dict(completed=False,complete_server_equivalence=False,
+                scope='1MRG/22 SA area via central finite differences of independently integrated sphere-complement volume; fixed tetrahedra',
+                collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                oracle_sha256=source['oracle_sha256'],volume_collector_sha256=source['collector_sha256'],
+                native_area_angstrom2=source['native_area_angstrom2'],server_area_angstrom2=source['server_area_angstrom2'],
+                python=source['python'],versions=source['versions'],source_commit=source['source_commit'],
+                geometry_cache_sha256=source['geometry_cache_sha256'],archive_sha256=source['archive_sha256'],
+                production_source_changed=False,error_bound_certified=False,derivatives=[])
+    output=Path('/tmp/opencastp_1mrg_area_section_controls.json')
+    for step in (.001,.0005,.00025):
+        start=time.monotonic()
+        sides=[]
+        for sign in (-1,1):
+            radii=g.atom_radii+sign*step
+            rows=[]
+            for index in tetrahedra:
+                vertices=g.mesh.simplex_atom_indices[index]
+                points=g.atom_coordinates[vertices]
+                enclosure,_power=enclosure_from_vertices(points,radii[vertices],1e-8)
+                rows.append(integrate_tetrahedron(points,g.atom_coordinates,radii,epsabs=1e-12,
+                                                  subdivisions=64,enclosure=enclosure))
+            sides.append(dict(sign=sign,volume_angstrom3=sum(r['volume'] for r in rows),
+                              estimated_absolute_error_angstrom3=sum(r['estimated_absolute_error'] for r in rows),
+                              messages=[m for r in rows for m in r['messages']],tetrahedra=rows))
+        area=(sides[0]['volume_angstrom3']-sides[1]['volume_angstrom3'])/(2*step)
+        item=dict(step_angstrom=step,area_angstrom2=area,
+                  estimated_quadrature_area_error_angstrom2=sum(s['estimated_absolute_error_angstrom3'] for s in sides)/(2*step),
+                  difference_from_native_angstrom2=area-source['native_area_angstrom2'],
+                  raw_server_passed=abs(area-source['server_area_angstrom2'])<=.00050001,
+                  sides=sides,seconds=time.monotonic()-start)
+        report['derivatives'].append(item)
+        output.write_text(json.dumps(report,indent=2)+'\n')
+        print({k:v for k,v in item.items() if k!='sides'},flush=True)
+    coarse,fine=report['derivatives'][-2:]
+    report['richardson_area_angstrom2']=(4*fine['area_angstrom2']-coarse['area_angstrom2'])/3
+    report['richardson_difference_from_native_angstrom2']=report['richardson_area_angstrom2']-source['native_area_angstrom2']
+    report['completed']=True
+    output.write_text(json.dumps(report,indent=2)+'\n')
+    print('richardson',report['richardson_area_angstrom2'],report['richardson_difference_from_native_angstrom2'],flush=True)
+
+
+if __name__=='__main__':
+    main()

@@ -1,0 +1,2078 @@
+{
+  "completed": true,
+  "complete_server_equivalence": false,
+  "numerical_production_source_changed": false,
+  "owner": "uibcdf/opencastp#6",
+  "units": {
+    "length": "angstrom",
+    "area": "angstrom**2",
+    "volume": "angstrom**3"
+  },
+  "interpretation": "Independent fixed-domain SA volume and area support the current native geometry; three live CASTpFold replicates preserve the unresolved printed 1MRG volume. No modern-server defect or export recipe is established.",
+  "collector_sha256": {
+    "section_volume_oracle.py.txt": "56ed3fd68f8fa68fec2971f1d3e76f14366f6f80a33068db6fcde438ddaa0616",
+    "1mrg_section_volume_runner.py.txt": "b81043410f3e5876762981ccd8f8d3d9f3fe1ea128971092ee9fd40f90b63a10",
+    "1mrg_section_area_runner.py.txt": "ff459e62382792e37671e8ada4a2c5ce7b24ddd63d6273dfb63c6077256283d1",
+    "1mrg_rigid_server_runner.py.txt": "d5c9c34a00a79f8a88991ada80445300590bb250fcfd7290f565f016301f5fd9",
+    "1mrg_rigid_comparison_runner.py.txt": "0534283dca41e0bbce9567676c61f92b934f3e90c57dda41b61603c23c9e9a3b",
+    "assemble_1mrg_section_controls.py.txt": "8229f93356b354ebd7ca189aefc75d841ae50478491d6edecaf385a07314ba1e"
+  },
+  "independent_volume": {
+    "completed": true,
+    "complete_server_equivalence": false,
+    "scope": "1MRG closed void 22 SA volume only; independent sphere-union complement in fixed native tetrahedra",
+    "source_commit": "fcc823c2a0a3e90c931f20ab58c8b5decc4c83b3",
+    "python": "3.14.7",
+    "versions": {
+      "opencastp": "0.1.0+12.g4ffb6cb",
+      "topomt": "0.5.0+288.g9504291.dirty",
+      "numpy": "2.4.6",
+      "scipy": "1.18.1"
+    },
+    "collector_sha256": "b81043410f3e5876762981ccd8f8d3d9f3fe1ea128971092ee9fd40f90b63a10",
+    "oracle_sha256": "56ed3fd68f8fa68fec2971f1d3e76f14366f6f80a33068db6fcde438ddaa0616",
+    "core_source_sha256": {
+      "src/opencastp/_core/volbl.py": "6882062560926d795d74f7ab00bc81c36dbdd3afd396c3b0213c9813f848451c",
+      "src/opencastp/_core/components.py": "425e428f20522d93709416fa6b362eb3d4e408a145d6d6b677ce60e961657da0"
+    },
+    "archive_sha256": "6f6a79a5a52e02e4ef878ec1e03276dff719bdc068876ea80f59ef7d275e6205",
+    "geometry_cache_sha256": "09371bdd2807a421510a4167857c1b96f0da96f198e29954ef6718a5224b65cb",
+    "preparation": "frozen ATOM/protein/peptide inputs; expanded castp3_protor radii; 1.4 angstrom probe",
+    "native_volume_angstrom3": 0.0034996378073546275,
+    "server_volume_angstrom3": 0.004,
+    "native_area_angstrom2": 0.199450255206024,
+    "server_area_angstrom2": 0.199,
+    "tetrahedra": 2,
+    "atom_ids": [
+      1261,
+      1496,
+      1612,
+      1797,
+      1834
+    ],
+    "comparison_tolerance_angstrom3": 0.00050001,
+    "production_source_changed": false,
+    "error_bound_certified": false,
+    "domains_and_sphere_inputs_shared": true,
+    "variants": [
+      {
+        "variant": "z_32",
+        "integration_axis": 2,
+        "epsabs": 1e-10,
+        "padding_angstrom": 1e-08,
+        "volume_angstrom3": 0.003499637801168008,
+        "estimated_absolute_error_angstrom3": 8.697890007962865e-11,
+        "difference_from_native_angstrom3": -6.186619359166423e-12,
+        "raw_server_passed": false,
+        "below_three_decimal_boundary": true,
+        "messages": [],
+        "tetrahedra": [
+          {
+            "volume": 0.003499637801168008,
+            "estimated_absolute_error": 8.697890007962865e-11,
+            "evaluations": 1659,
+            "positive_sections": 1015,
+            "subdivisions": 32,
+            "quadrature_intervals": 56,
+            "messages": [],
+            "error_bound_certified": false,
+            "enclosure_used": true,
+            "candidate_spheres": 8,
+            "tetrahedron_index": 3243,
+            "power_angstrom2": 0.35106790157065504
+          },
+          {
+            "volume": 0.0,
+            "estimated_absolute_error": 0.0,
+            "evaluations": 672,
+            "positive_sections": 0,
+            "subdivisions": 32,
+            "quadrature_intervals": 32,
+            "messages": [],
+            "error_bound_certified": false,
+            "enclosure_used": true,
+            "candidate_spheres": 6,
+            "tetrahedron_index": 3244,
+            "power_angstrom2": 0.1228916518589056
+          }
+        ],
+        "seconds": 4.226007818244398
+      },
+      {
+        "variant": "z_64_tight",
+        "integration_axis": 2,
+        "epsabs": 1e-12,
+        "padding_angstrom": 1e-08,
+        "volume_angstrom3": 0.003499637802087797,
+        "estimated_absolute_error_angstrom3": 3.8581486045205623e-13,
+        "difference_from_native_angstrom3": -5.2668303746061795e-12,
+        "raw_server_passed": false,
+        "below_three_decimal_boundary": true,
+        "messages": [],
+        "tetrahedra": [
+          {
+            "volume": 0.003499637802087797,
+            "estimated_absolute_error": 3.8581486045205623e-13,
+            "evaluations": 2625,
+            "positive_sections": 1407,
+            "subdivisions": 64,
+            "quadrature_intervals": 95,
+            "messages": [],
+            "error_bound_certified": false,
+            "enclosure_used": true,
+            "candidate_spheres": 8,
+            "tetrahedron_index": 3243,
+            "power_angstrom2": 0.35106790157065504
+          },
+          {
+            "volume": 0.0,
+            "estimated_absolute_error": 0.0,
+            "evaluations": 1344,
+            "positive_sections": 0,
+            "subdivisions": 64,
+            "quadrature_intervals": 64,
+            "messages": [],
+            "error_bound_certified": false,
+            "enclosure_used": true,
+            "candidate_spheres": 6,
+            "tetrahedron_index": 3244,
+            "power_angstrom2": 0.1228916518589056
+          }
+        ],
+        "seconds": 6.764516161754727
+      },
+      {
+        "variant": "x_32",
+        "integration_axis": 0,
+        "epsabs": 1e-10,
+        "padding_angstrom": 1e-08,
+        "volume_angstrom3": 0.0034996378008707797,
+        "estimated_absolute_error_angstrom3": 6.722685660668045e-11,
+        "difference_from_native_angstrom3": -6.483847746902027e-12,
+        "raw_server_passed": false,
+        "below_three_decimal_boundary": true,
+        "messages": [],
+        "tetrahedra": [
+          {
+            "volume": 0.0034996378008707797,
+            "estimated_absolute_error": 6.722685660668045e-11,
+            "evaluations": 1995,
+            "positive_sections": 1267,
+            "subdivisions": 32,
+            "quadrature_intervals": 65,
+            "messages": [],
+            "error_bound_certified": false,
+            "enclosure_used": true,
+            "candidate_spheres": 8,
+            "tetrahedron_index": 3243,
+            "power_angstrom2": 0.35106790157065504
+          },
+          {
+            "volume": 0.0,
+            "estimated_absolute_error": 0.0,
+            "evaluations": 714,
+            "positive_sections": 0,
+            "subdivisions": 32,
+            "quadrature_intervals": 34,
+            "messages": [],
+            "error_bound_certified": false,
+            "enclosure_used": true,
+            "candidate_spheres": 6,
+            "tetrahedron_index": 3244,
+            "power_angstrom2": 0.1228916518589056
+          }
+        ],
+        "seconds": 4.259018476121128
+      },
+      {
+        "variant": "y_32",
+        "integration_axis": 1,
+        "epsabs": 1e-10,
+        "padding_angstrom": 1e-08,
+        "volume_angstrom3": 0.00349963780061478,
+        "estimated_absolute_error_angstrom3": 7.640525586157744e-11,
+        "difference_from_native_angstrom3": -6.7398473954649596e-12,
+        "raw_server_passed": false,
+        "below_three_decimal_boundary": true,
+        "messages": [],
+        "tetrahedra": [
+          {
+            "volume": 0.00349963780061478,
+            "estimated_absolute_error": 7.640525586157744e-11,
+            "evaluations": 1575,
+            "positive_sections": 968,
+            "subdivisions": 32,
+            "quadrature_intervals": 54,
+            "messages": [],
+            "error_bound_certified": false,
+            "enclosure_used": true,
+            "candidate_spheres": 8,
+            "tetrahedron_index": 3243,
+            "power_angstrom2": 0.35106790157065504
+          },
+          {
+            "volume": 0.0,
+            "estimated_absolute_error": 0.0,
+            "evaluations": 714,
+            "positive_sections": 0,
+            "subdivisions": 32,
+            "quadrature_intervals": 34,
+            "messages": [],
+            "error_bound_certified": false,
+            "enclosure_used": true,
+            "candidate_spheres": 6,
+            "tetrahedron_index": 3244,
+            "power_angstrom2": 0.12289165185890383
+          }
+        ],
+        "seconds": 3.85585618019104
+      },
+      {
+        "variant": "z_wider_enclosure",
+        "integration_axis": 2,
+        "epsabs": 1e-10,
+        "padding_angstrom": 0.02,
+        "volume_angstrom3": 0.003499637802571413,
+        "estimated_absolute_error_angstrom3": 9.342954320411065e-11,
+        "difference_from_native_angstrom3": -4.783214622994247e-12,
+        "raw_server_passed": false,
+        "below_three_decimal_boundary": true,
+        "messages": [],
+        "tetrahedra": [
+          {
+            "volume": 0.003499637802571413,
+            "estimated_absolute_error": 9.342954320411065e-11,
+            "evaluations": 1659,
+            "positive_sections": 926,
+            "subdivisions": 32,
+            "quadrature_intervals": 56,
+            "messages": [],
+            "error_bound_certified": false,
+            "enclosure_used": true,
+            "candidate_spheres": 8,
+            "tetrahedron_index": 3243,
+            "power_angstrom2": 0.35106790157065504
+          },
+          {
+            "volume": 0.0,
+            "estimated_absolute_error": 0.0,
+            "evaluations": 672,
+            "positive_sections": 0,
+            "subdivisions": 32,
+            "quadrature_intervals": 32,
+            "messages": [],
+            "error_bound_certified": false,
+            "enclosure_used": true,
+            "candidate_spheres": 6,
+            "tetrahedron_index": 3244,
+            "power_angstrom2": 0.1228916518589056
+          }
+        ],
+        "seconds": 4.287244311533868
+      }
+    ]
+  },
+  "independent_area": {
+    "completed": true,
+    "complete_server_equivalence": false,
+    "scope": "1MRG/22 SA area via central finite differences of independently integrated sphere-complement volume; fixed tetrahedra",
+    "collector_sha256": "ff459e62382792e37671e8ada4a2c5ce7b24ddd63d6273dfb63c6077256283d1",
+    "oracle_sha256": "56ed3fd68f8fa68fec2971f1d3e76f14366f6f80a33068db6fcde438ddaa0616",
+    "volume_collector_sha256": "b81043410f3e5876762981ccd8f8d3d9f3fe1ea128971092ee9fd40f90b63a10",
+    "native_area_angstrom2": 0.199450255206024,
+    "server_area_angstrom2": 0.199,
+    "python": "3.14.7",
+    "versions": {
+      "opencastp": "0.1.0+12.g4ffb6cb",
+      "topomt": "0.5.0+288.g9504291.dirty",
+      "numpy": "2.4.6",
+      "scipy": "1.18.1"
+    },
+    "source_commit": "fcc823c2a0a3e90c931f20ab58c8b5decc4c83b3",
+    "geometry_cache_sha256": "09371bdd2807a421510a4167857c1b96f0da96f198e29954ef6718a5224b65cb",
+    "archive_sha256": "6f6a79a5a52e02e4ef878ec1e03276dff719bdc068876ea80f59ef7d275e6205",
+    "production_source_changed": false,
+    "error_bound_certified": false,
+    "derivatives": [
+      {
+        "step_angstrom": 0.001,
+        "area_angstrom2": 0.19946611215946913,
+        "estimated_quadrature_area_error_angstrom2": 7.427759735467988e-10,
+        "difference_from_native_angstrom2": 1.5856953445136934e-05,
+        "raw_server_passed": true,
+        "sides": [
+          {
+            "sign": -1,
+            "volume_angstrom3": 0.003702651287250641,
+            "estimated_absolute_error_angstrom3": 6.951632133747272e-13,
+            "messages": [],
+            "tetrahedra": [
+              {
+                "volume": 0.003702651287250641,
+                "estimated_absolute_error": 6.951632133747272e-13,
+                "evaluations": 2709,
+                "positive_sections": 1482,
+                "subdivisions": 64,
+                "quadrature_intervals": 97,
+                "messages": [],
+                "error_bound_certified": false,
+                "enclosure_used": true,
+                "candidate_spheres": 8
+              },
+              {
+                "volume": 0.0,
+                "estimated_absolute_error": 0.0,
+                "evaluations": 1344,
+                "positive_sections": 0,
+                "subdivisions": 64,
+                "quadrature_intervals": 64,
+                "messages": [],
+                "error_bound_certified": false,
+                "enclosure_used": true,
+                "candidate_spheres": 6
+              }
+            ]
+          },
+          {
+            "sign": 1,
+            "volume_angstrom3": 0.003303719062931703,
+            "estimated_absolute_error_angstrom3": 7.903887337188705e-13,
+            "messages": [],
+            "tetrahedra": [
+              {
+                "volume": 0.003303719062931703,
+                "estimated_absolute_error": 7.903887337188705e-13,
+                "evaluations": 2709,
+                "positive_sections": 1473,
+                "subdivisions": 64,
+                "quadrature_intervals": 97,
+                "messages": [],
+                "error_bound_certified": false,
+                "enclosure_used": true,
+                "candidate_spheres": 8
+              },
+              {
+                "volume": 0.0,
+                "estimated_absolute_error": 0.0,
+                "evaluations": 1344,
+                "positive_sections": 0,
+                "subdivisions": 64,
+                "quadrature_intervals": 64,
+                "messages": [],
+                "error_bound_certified": false,
+                "enclosure_used": true,
+                "candidate_spheres": 6
+              }
+            ]
+          }
+        ],
+        "seconds": 15.547820820473135
+      },
+      {
+        "step_angstrom": 0.0005,
+        "area_angstrom2": 0.19945421987945355,
+        "estimated_quadrature_area_error_angstrom2": 1.5488609122845292e-09,
+        "difference_from_native_angstrom2": 3.964673429557308e-06,
+        "raw_server_passed": true,
+        "sides": [
+          {
+            "sign": -1,
+            "volume_angstrom3": 0.003600251751745698,
+            "estimated_absolute_error_angstrom3": 9.288293866630972e-13,
+            "messages": [],
+            "tetrahedra": [
+              {
+                "volume": 0.003600251751745698,
+                "estimated_absolute_error": 9.288293866630972e-13,
+                "evaluations": 2205,
+                "positive_sections": 1124,
+                "subdivisions": 64,
+                "quadrature_intervals": 85,
+                "messages": [],
+                "error_bound_certified": false,
+                "enclosure_used": true,
+                "candidate_spheres": 8
+              },
+              {
+                "volume": 0.0,
+                "estimated_absolute_error": 0.0,
+                "evaluations": 1344,
+                "positive_sections": 0,
+                "subdivisions": 64,
+                "quadrature_intervals": 64,
+                "messages": [],
+                "error_bound_certified": false,
+                "enclosure_used": true,
+                "candidate_spheres": 6
+              }
+            ]
+          },
+          {
+            "sign": 1,
+            "volume_angstrom3": 0.0034007975318662443,
+            "estimated_absolute_error_angstrom3": 6.200315256214321e-13,
+            "messages": [],
+            "tetrahedra": [
+              {
+                "volume": 0.0034007975318662443,
+                "estimated_absolute_error": 6.200315256214321e-13,
+                "evaluations": 2709,
+                "positive_sections": 1412,
+                "subdivisions": 64,
+                "quadrature_intervals": 97,
+                "messages": [],
+                "error_bound_certified": false,
+                "enclosure_used": true,
+                "candidate_spheres": 8
+              },
+              {
+                "volume": 0.0,
+                "estimated_absolute_error": 0.0,
+                "evaluations": 1344,
+                "positive_sections": 0,
+                "subdivisions": 64,
+                "quadrature_intervals": 64,
+                "messages": [],
+                "error_bound_certified": false,
+                "enclosure_used": true,
+                "candidate_spheres": 6
+              }
+            ]
+          }
+        ],
+        "seconds": 14.941627181135118
+      },
+      {
+        "step_angstrom": 0.00025,
+        "area_angstrom2": 0.1994512462679546,
+        "estimated_quadrature_area_error_angstrom2": 2.9324495503478576e-09,
+        "difference_from_native_angstrom2": 9.910619306052748e-07,
+        "raw_server_passed": true,
+        "sides": [
+          {
+            "sign": -1,
+            "volume_angstrom3": 0.003549722323259424,
+            "estimated_absolute_error_angstrom3": 6.87653273391649e-13,
+            "messages": [],
+            "tetrahedra": [
+              {
+                "volume": 0.003549722323259424,
+                "estimated_absolute_error": 6.87653273391649e-13,
+                "evaluations": 2793,
+                "positive_sections": 1621,
+                "subdivisions": 64,
+                "quadrature_intervals": 99,
+                "messages": [],
+                "error_bound_certified": false,
+                "enclosure_used": true,
+                "candidate_spheres": 8
+              },
+              {
+                "volume": 0.0,
+                "estimated_absolute_error": 0.0,
+                "evaluations": 1344,
+                "positive_sections": 0,
+                "subdivisions": 64,
+                "quadrature_intervals": 64,
+                "messages": [],
+                "error_bound_certified": false,
+                "enclosure_used": true,
+                "candidate_spheres": 6
+              }
+            ]
+          },
+          {
+            "sign": 1,
+            "volume_angstrom3": 0.0034499967001254466,
+            "estimated_absolute_error_angstrom3": 7.785715017822798e-13,
+            "messages": [],
+            "tetrahedra": [
+              {
+                "volume": 0.0034499967001254466,
+                "estimated_absolute_error": 7.785715017822798e-13,
+                "evaluations": 2835,
+                "positive_sections": 1605,
+                "subdivisions": 64,
+                "quadrature_intervals": 100,
+                "messages": [],
+                "error_bound_certified": false,
+                "enclosure_used": true,
+                "candidate_spheres": 8
+              },
+              {
+                "volume": 0.0,
+                "estimated_absolute_error": 0.0,
+                "evaluations": 1344,
+                "positive_sections": 0,
+                "subdivisions": 64,
+                "quadrature_intervals": 64,
+                "messages": [],
+                "error_bound_certified": false,
+                "enclosure_used": true,
+                "candidate_spheres": 6
+              }
+            ]
+          }
+        ],
+        "seconds": 16.910450460389256
+      }
+    ],
+    "richardson_area_angstrom2": 0.19945025506412162,
+    "richardson_difference_from_native_angstrom2": -1.4190237873634715e-10
+  },
+  "live_translations": {
+    "completed": true,
+    "complete_server_equivalence": false,
+    "scope": "three fresh CASTpFold 1MRG translations; all region output fields paired by class/atom IDs",
+    "source_commit": "be30b78d2d784d7700f24bac2ee778eda871862c",
+    "python": "3.14.7",
+    "versions": {
+      "opencastp": "0.1.0+12.g4ffb6cb",
+      "topomt": "0.5.0+288.g9504291.dirty",
+      "numpy": "2.4.6",
+      "scipy": "1.18.1"
+    },
+    "collector_sha256": "0534283dca41e0bbce9567676c61f92b934f3e90c57dda41b61603c23c9e9a3b",
+    "server_submission": {
+      "completed": true,
+      "complete_server_equivalence": false,
+      "scope": "fresh CASTpFold rerun and integer-angstrom translations of identical 1MRG ATOM records",
+      "prepared_utc": "2026-10-03T16:22:07.820992+00:00",
+      "archive_sha256": "6f6a79a5a52e02e4ef878ec1e03276dff719bdc068876ea80f59ef7d275e6205",
+      "atoms": 2395,
+      "pdb_policy": "ATOM and TER records; append END; omit HETATM and unrelated headers",
+      "collector_sha256": "d5c9c34a00a79f8a88991ada80445300590bb250fcfd7290f565f016301f5fd9",
+      "jobs": [
+        {
+          "variant": "baseline",
+          "translation_angstrom": [
+            0,
+            0,
+            0
+          ],
+          "input_sha256": "e7806e77389a876d7b741115c838a10f40f85a6550a8b8d06c8c9b45333421d4",
+          "exact_milliangstrom_geometry_preserved": true,
+          "path": "/tmp/opencastp-1mrg-rigid-controls/1mrg_baseline.pdb",
+          "status": "completed_zip",
+          "submission_attempted": true,
+          "submitted_utc": "2026-10-03T16:23:58.395897+00:00",
+          "jobid": "j_6ac12c1f0ccb4",
+          "result_url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_6ac12c1f0ccb4/processed/j_6ac12c1f0ccb4.zip",
+          "result_path": "/tmp/opencastp-1mrg-rigid-controls/baseline_result.zip",
+          "result_sha256": "126d2ce5ee9d7b001ca4c162a5c050deba2e18eb1ac8762007aaeddd46aaf6ca",
+          "polls": [
+            {
+              "polled_utc": "2026-10-03T16:28:26.534195+00:00",
+              "http_status": 200,
+              "bytes": 107204,
+              "content_type": "application/zip",
+              "valid_zip": true
+            }
+          ]
+        },
+        {
+          "variant": "near_origin",
+          "translation_angstrom": [
+            -44,
+            -108,
+            5
+          ],
+          "input_sha256": "75ea34d56cfca87f22bfb0f9a989848a841c66f33230ee2a86603ada9122a81e",
+          "exact_milliangstrom_geometry_preserved": true,
+          "path": "/tmp/opencastp-1mrg-rigid-controls/1mrg_near_origin.pdb",
+          "status": "completed_zip",
+          "submission_attempted": true,
+          "submitted_utc": "2026-10-03T16:23:59.103524+00:00",
+          "jobid": "j_6ac12c1fa0333",
+          "result_url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_6ac12c1fa0333/processed/j_6ac12c1fa0333.zip",
+          "result_path": "/tmp/opencastp-1mrg-rigid-controls/near_origin_result.zip",
+          "result_sha256": "c121d7c87735aaa406c3d87eb15f860d74c3f31c7a75def40f91c793cd39b9f2",
+          "polls": [
+            {
+              "polled_utc": "2026-10-03T16:28:27.216041+00:00",
+              "http_status": 200,
+              "bytes": 106187,
+              "content_type": "application/zip",
+              "valid_zip": true
+            }
+          ]
+        },
+        {
+          "variant": "shifted",
+          "translation_angstrom": [
+            64,
+            -64,
+            32
+          ],
+          "input_sha256": "0977324cb3a069578bbff6f7888b0b35ee5656d189929138cd9b3ce2b4545df2",
+          "exact_milliangstrom_geometry_preserved": true,
+          "path": "/tmp/opencastp-1mrg-rigid-controls/1mrg_shifted.pdb",
+          "status": "completed_zip",
+          "submission_attempted": true,
+          "submitted_utc": "2026-10-03T16:23:59.709364+00:00",
+          "jobid": "j_6ac12c205bd51",
+          "result_url": "https://cfold.bme.uic.edu/castpfold/data/tmppdb/j_6ac12c205bd51/processed/j_6ac12c205bd51.zip",
+          "result_path": "/tmp/opencastp-1mrg-rigid-controls/shifted_result.zip",
+          "result_sha256": "d7471b0d75363182d67f010ebfdc16c942dad2e7d394fb41b9d4b3cb463325a4",
+          "polls": [
+            {
+              "polled_utc": "2026-10-03T16:28:27.835828+00:00",
+              "http_status": 200,
+              "bytes": 106671,
+              "content_type": "application/zip",
+              "valid_zip": true
+            }
+          ]
+        }
+      ]
+    },
+    "native_prepared_atoms": 1932,
+    "original_regions": 29,
+    "target_original_server_id": 22,
+    "target_atom_ids": [
+      1261,
+      1496,
+      1612,
+      1797,
+      1834
+    ],
+    "frozen_domain_predictions": true,
+    "production_source_changed": false,
+    "variants": [
+      {
+        "variant": "baseline",
+        "jobid": "j_6ac12c1f0ccb4",
+        "translation_angstrom": [
+          0,
+          0,
+          0
+        ],
+        "regions": 29,
+        "exact_archive_memberships": true,
+        "target_server_id": 22,
+        "target_metrics": {
+          "solvent_accessible_area": "0.199",
+          "molecular_surface_area": "31.214",
+          "solvent_accessible_volume": "0.004",
+          "molecular_surface_volume": "15.829"
+        },
+        "field_differences_from_archive": [],
+        "additional_field_differences_from_archive": [],
+        "predictions": {
+          "float64": {
+            "target_metrics": {
+              "solvent_accessible_area": 0.199450255206024,
+              "molecular_surface_area": 31.214112492126695,
+              "solvent_accessible_volume": 0.0034996378073546275,
+              "molecular_surface_volume": 15.828674090144467
+            },
+            "failed": [
+              {
+                "server_id": 22,
+                "field": "solvent_accessible_volume",
+                "actual": 0.0034996378073546275,
+                "expected": 0.004
+              }
+            ],
+            "required_fields": 116,
+            "paired_fields": 116,
+            "strict_matches": 115
+          },
+          "float32_coordinates": {
+            "target_metrics": {
+              "solvent_accessible_area": 0.19944968256109785,
+              "molecular_surface_area": 31.2141208069789,
+              "solvent_accessible_volume": 0.0034996117201336885,
+              "molecular_surface_volume": 15.828673630752892
+            },
+            "failed": [
+              {
+                "server_id": 1,
+                "field": "solvent_accessible_volume",
+                "actual": 133.8014883469164,
+                "expected": 133.802
+              },
+              {
+                "server_id": 1,
+                "field": "molecular_surface_volume",
+                "actual": 443.5154470018959,
+                "expected": 443.516
+              },
+              {
+                "server_id": 10,
+                "field": "molecular_surface_area",
+                "actual": 97.47742716797089,
+                "expected": 97.478
+              },
+              {
+                "server_id": 22,
+                "field": "solvent_accessible_volume",
+                "actual": 0.0034996117201336885,
+                "expected": 0.004
+              },
+              {
+                "server_id": 24,
+                "field": "molecular_surface_area",
+                "actual": 28.252443789920207,
+                "expected": 28.253
+              },
+              {
+                "server_id": 27,
+                "field": "molecular_surface_area",
+                "actual": 28.285472556727953,
+                "expected": 28.286
+              }
+            ],
+            "required_fields": 116,
+            "paired_fields": 116,
+            "strict_matches": 110
+          }
+        },
+        "archive_members": [
+          "j_6ac12c1f0ccb4.poc",
+          "j_6ac12c1f0ccb4.pocInfo",
+          "j_6ac12c1f0ccb4.mouth",
+          "j_6ac12c1f0ccb4.mouthInfo",
+          "j_6ac12c1f0ccb4.pdb",
+          "j_6ac12c1f0ccb4.4.contrib.csv",
+          "j_6ac12c1f0ccb4.bulb.json",
+          "README.txt"
+        ],
+        "csv_atoms": 1932,
+        "csv_ids_match_prepared": true,
+        "returned_atom_coordinates_match_upload": true,
+        "orthosphere_covariance": {
+          "passed": true,
+          "matched_spheres": 365,
+          "max_coordinate_error_angstrom": 0.0,
+          "max_radius_error_angstrom": 0.0,
+          "regions": [
+            {
+              "server_spheres": 84,
+              "native_spheres": 84,
+              "matched_spheres": 84,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 1
+            },
+            {
+              "server_spheres": 70,
+              "native_spheres": 70,
+              "matched_spheres": 70,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 2
+            },
+            {
+              "server_spheres": 26,
+              "native_spheres": 26,
+              "matched_spheres": 26,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 3
+            },
+            {
+              "server_spheres": 19,
+              "native_spheres": 19,
+              "matched_spheres": 19,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 4
+            },
+            {
+              "server_spheres": 20,
+              "native_spheres": 20,
+              "matched_spheres": 20,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 5
+            },
+            {
+              "server_spheres": 13,
+              "native_spheres": 13,
+              "matched_spheres": 13,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 6
+            },
+            {
+              "server_spheres": 16,
+              "native_spheres": 16,
+              "matched_spheres": 16,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 7
+            },
+            {
+              "server_spheres": 17,
+              "native_spheres": 17,
+              "matched_spheres": 17,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 8
+            },
+            {
+              "server_spheres": 4,
+              "native_spheres": 4,
+              "matched_spheres": 4,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 9
+            },
+            {
+              "server_spheres": 18,
+              "native_spheres": 18,
+              "matched_spheres": 18,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 10
+            },
+            {
+              "server_spheres": 8,
+              "native_spheres": 8,
+              "matched_spheres": 8,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 11
+            },
+            {
+              "server_spheres": 7,
+              "native_spheres": 7,
+              "matched_spheres": 7,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 12
+            },
+            {
+              "server_spheres": 4,
+              "native_spheres": 4,
+              "matched_spheres": 4,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 13
+            },
+            {
+              "server_spheres": 9,
+              "native_spheres": 9,
+              "matched_spheres": 9,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 14
+            },
+            {
+              "server_spheres": 11,
+              "native_spheres": 11,
+              "matched_spheres": 11,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 15
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 16
+            },
+            {
+              "server_spheres": 5,
+              "native_spheres": 5,
+              "matched_spheres": 5,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 17
+            },
+            {
+              "server_spheres": 9,
+              "native_spheres": 9,
+              "matched_spheres": 9,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 18
+            },
+            {
+              "server_spheres": 4,
+              "native_spheres": 4,
+              "matched_spheres": 4,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 19
+            },
+            {
+              "server_spheres": 3,
+              "native_spheres": 3,
+              "matched_spheres": 3,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 20
+            },
+            {
+              "server_spheres": 5,
+              "native_spheres": 5,
+              "matched_spheres": 5,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 21
+            },
+            {
+              "server_spheres": 2,
+              "native_spheres": 2,
+              "matched_spheres": 2,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 22
+            },
+            {
+              "server_spheres": 2,
+              "native_spheres": 2,
+              "matched_spheres": 2,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 23
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 24
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 25
+            },
+            {
+              "server_spheres": 2,
+              "native_spheres": 2,
+              "matched_spheres": 2,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 26
+            },
+            {
+              "server_spheres": 2,
+              "native_spheres": 2,
+              "matched_spheres": 2,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 27
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 28
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 29
+            }
+          ]
+        }
+      },
+      {
+        "variant": "near_origin",
+        "jobid": "j_6ac12c1fa0333",
+        "translation_angstrom": [
+          -44,
+          -108,
+          5
+        ],
+        "regions": 29,
+        "exact_archive_memberships": true,
+        "target_server_id": 22,
+        "target_metrics": {
+          "solvent_accessible_area": "0.199",
+          "molecular_surface_area": "31.214",
+          "solvent_accessible_volume": "0.004",
+          "molecular_surface_volume": "15.829"
+        },
+        "field_differences_from_archive": [],
+        "additional_field_differences_from_archive": [],
+        "predictions": {
+          "float64": {
+            "target_metrics": {
+              "solvent_accessible_area": 0.19945025520601423,
+              "molecular_surface_area": 31.21411249222557,
+              "solvent_accessible_volume": 0.003499637802095501,
+              "molecular_surface_volume": 15.82867409020162
+            },
+            "failed": [
+              {
+                "server_id": 22,
+                "field": "solvent_accessible_volume",
+                "actual": 0.003499637802095501,
+                "expected": 0.004
+              }
+            ],
+            "required_fields": 116,
+            "paired_fields": 116,
+            "strict_matches": 115
+          },
+          "float32_coordinates": {
+            "target_metrics": {
+              "solvent_accessible_area": 0.19945012996550737,
+              "molecular_surface_area": 31.21411015653005,
+              "solvent_accessible_volume": 0.003499634543621011,
+              "molecular_surface_volume": 15.828672654226434
+            },
+            "failed": [
+              {
+                "server_id": 10,
+                "field": "molecular_surface_area",
+                "actual": 97.47747241506895,
+                "expected": 97.478
+              },
+              {
+                "server_id": 22,
+                "field": "solvent_accessible_volume",
+                "actual": 0.003499634543621011,
+                "expected": 0.004
+              }
+            ],
+            "required_fields": 116,
+            "paired_fields": 116,
+            "strict_matches": 114
+          }
+        },
+        "archive_members": [
+          "j_6ac12c1fa0333.poc",
+          "j_6ac12c1fa0333.pocInfo",
+          "j_6ac12c1fa0333.mouth",
+          "j_6ac12c1fa0333.mouthInfo",
+          "j_6ac12c1fa0333.pdb",
+          "j_6ac12c1fa0333.4.contrib.csv",
+          "j_6ac12c1fa0333.bulb.json",
+          "README.txt"
+        ],
+        "csv_atoms": 1932,
+        "csv_ids_match_prepared": true,
+        "returned_atom_coordinates_match_upload": true,
+        "orthosphere_covariance": {
+          "passed": true,
+          "matched_spheres": 365,
+          "max_coordinate_error_angstrom": 7.105427357601002e-15,
+          "max_radius_error_angstrom": 0.0,
+          "regions": [
+            {
+              "server_spheres": 84,
+              "native_spheres": 84,
+              "matched_spheres": 84,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 1
+            },
+            {
+              "server_spheres": 70,
+              "native_spheres": 70,
+              "matched_spheres": 70,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 6.8833827526759706e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 2
+            },
+            {
+              "server_spheres": 26,
+              "native_spheres": 26,
+              "matched_spheres": 26,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 3
+            },
+            {
+              "server_spheres": 19,
+              "native_spheres": 19,
+              "matched_spheres": 19,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 4
+            },
+            {
+              "server_spheres": 20,
+              "native_spheres": 20,
+              "matched_spheres": 20,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 5
+            },
+            {
+              "server_spheres": 13,
+              "native_spheres": 13,
+              "matched_spheres": 13,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 6
+            },
+            {
+              "server_spheres": 16,
+              "native_spheres": 16,
+              "matched_spheres": 16,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 7
+            },
+            {
+              "server_spheres": 17,
+              "native_spheres": 17,
+              "matched_spheres": 17,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 8
+            },
+            {
+              "server_spheres": 4,
+              "native_spheres": 4,
+              "matched_spheres": 4,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 6.217248937900877e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 9
+            },
+            {
+              "server_spheres": 18,
+              "native_spheres": 18,
+              "matched_spheres": 18,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 6.661338147750939e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 10
+            },
+            {
+              "server_spheres": 8,
+              "native_spheres": 8,
+              "matched_spheres": 8,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 11
+            },
+            {
+              "server_spheres": 7,
+              "native_spheres": 7,
+              "matched_spheres": 7,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 6.217248937900877e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 12
+            },
+            {
+              "server_spheres": 4,
+              "native_spheres": 4,
+              "matched_spheres": 4,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 13
+            },
+            {
+              "server_spheres": 9,
+              "native_spheres": 9,
+              "matched_spheres": 9,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 6.217248937900877e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 14
+            },
+            {
+              "server_spheres": 11,
+              "native_spheres": 11,
+              "matched_spheres": 11,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 15
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 6.661338147750939e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 16
+            },
+            {
+              "server_spheres": 5,
+              "native_spheres": 5,
+              "matched_spheres": 5,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 5.329070518200751e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 17
+            },
+            {
+              "server_spheres": 9,
+              "native_spheres": 9,
+              "matched_spheres": 9,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 18
+            },
+            {
+              "server_spheres": 4,
+              "native_spheres": 4,
+              "matched_spheres": 4,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 19
+            },
+            {
+              "server_spheres": 3,
+              "native_spheres": 3,
+              "matched_spheres": 3,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 5.329070518200751e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 20
+            },
+            {
+              "server_spheres": 5,
+              "native_spheres": 5,
+              "matched_spheres": 5,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 21
+            },
+            {
+              "server_spheres": 2,
+              "native_spheres": 2,
+              "matched_spheres": 2,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 3.219646771412954e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 22
+            },
+            {
+              "server_spheres": 2,
+              "native_spheres": 2,
+              "matched_spheres": 2,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 3.552713678800501e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 23
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 2.9976021664879227e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 24
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 4.218847493575595e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 25
+            },
+            {
+              "server_spheres": 2,
+              "native_spheres": 2,
+              "matched_spheres": 2,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 4.440892098500626e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 26
+            },
+            {
+              "server_spheres": 2,
+              "native_spheres": 2,
+              "matched_spheres": 2,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 5.329070518200751e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 27
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 4.3298697960381105e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 28
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 5.329070518200751e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 29
+            }
+          ]
+        }
+      },
+      {
+        "variant": "shifted",
+        "jobid": "j_6ac12c205bd51",
+        "translation_angstrom": [
+          64,
+          -64,
+          32
+        ],
+        "regions": 29,
+        "exact_archive_memberships": true,
+        "target_server_id": 22,
+        "target_metrics": {
+          "solvent_accessible_area": "0.199",
+          "molecular_surface_area": "31.214",
+          "solvent_accessible_volume": "0.004",
+          "molecular_surface_volume": "15.829"
+        },
+        "field_differences_from_archive": [],
+        "additional_field_differences_from_archive": [],
+        "predictions": {
+          "float64": {
+            "target_metrics": {
+              "solvent_accessible_area": 0.19945025520602844,
+              "molecular_surface_area": 31.214112492283917,
+              "solvent_accessible_volume": 0.0034996377907516862,
+              "molecular_surface_volume": 15.828674090225682
+            },
+            "failed": [
+              {
+                "server_id": 22,
+                "field": "solvent_accessible_volume",
+                "actual": 0.0034996377907516862,
+                "expected": 0.004
+              }
+            ],
+            "required_fields": 116,
+            "paired_fields": 116,
+            "strict_matches": 115
+          },
+          "float32_coordinates": {
+            "target_metrics": {
+              "solvent_accessible_area": 0.19944627304690865,
+              "molecular_surface_area": 31.21404600867967,
+              "solvent_accessible_volume": 0.003499532428164809,
+              "molecular_surface_volume": 15.828628186604776
+            },
+            "failed": [
+              {
+                "server_id": 2,
+                "field": "molecular_surface_area",
+                "actual": 241.53445874658138,
+                "expected": 241.535
+              },
+              {
+                "server_id": 5,
+                "field": "solvent_accessible_volume",
+                "actual": 7.790506184277417,
+                "expected": 7.79
+              },
+              {
+                "server_id": 14,
+                "field": "molecular_surface_area",
+                "actual": 53.22944283356419,
+                "expected": 53.23
+              },
+              {
+                "server_id": 22,
+                "field": "solvent_accessible_volume",
+                "actual": 0.003499532428164809,
+                "expected": 0.004
+              },
+              {
+                "server_id": 24,
+                "field": "molecular_surface_area",
+                "actual": 28.25236263913863,
+                "expected": 28.253
+              }
+            ],
+            "required_fields": 116,
+            "paired_fields": 116,
+            "strict_matches": 111
+          }
+        },
+        "archive_members": [
+          "j_6ac12c205bd51.poc",
+          "j_6ac12c205bd51.pocInfo",
+          "j_6ac12c205bd51.mouth",
+          "j_6ac12c205bd51.mouthInfo",
+          "j_6ac12c205bd51.pdb",
+          "j_6ac12c205bd51.4.contrib.csv",
+          "j_6ac12c205bd51.bulb.json",
+          "README.txt"
+        ],
+        "csv_atoms": 1932,
+        "csv_ids_match_prepared": true,
+        "returned_atom_coordinates_match_upload": true,
+        "orthosphere_covariance": {
+          "passed": true,
+          "matched_spheres": 365,
+          "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+          "max_radius_error_angstrom": 0.0,
+          "regions": [
+            {
+              "server_spheres": 84,
+              "native_spheres": 84,
+              "matched_spheres": 84,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 1
+            },
+            {
+              "server_spheres": 70,
+              "native_spheres": 70,
+              "matched_spheres": 70,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 2
+            },
+            {
+              "server_spheres": 26,
+              "native_spheres": 26,
+              "matched_spheres": 26,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 3
+            },
+            {
+              "server_spheres": 19,
+              "native_spheres": 19,
+              "matched_spheres": 19,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 4
+            },
+            {
+              "server_spheres": 20,
+              "native_spheres": 20,
+              "matched_spheres": 20,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 5
+            },
+            {
+              "server_spheres": 13,
+              "native_spheres": 13,
+              "matched_spheres": 13,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 6
+            },
+            {
+              "server_spheres": 16,
+              "native_spheres": 16,
+              "matched_spheres": 16,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 7
+            },
+            {
+              "server_spheres": 17,
+              "native_spheres": 17,
+              "matched_spheres": 17,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 8
+            },
+            {
+              "server_spheres": 4,
+              "native_spheres": 4,
+              "matched_spheres": 4,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 9
+            },
+            {
+              "server_spheres": 18,
+              "native_spheres": 18,
+              "matched_spheres": 18,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 10
+            },
+            {
+              "server_spheres": 8,
+              "native_spheres": 8,
+              "matched_spheres": 8,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 11
+            },
+            {
+              "server_spheres": 7,
+              "native_spheres": 7,
+              "matched_spheres": 7,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 12
+            },
+            {
+              "server_spheres": 4,
+              "native_spheres": 4,
+              "matched_spheres": 4,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 13
+            },
+            {
+              "server_spheres": 9,
+              "native_spheres": 9,
+              "matched_spheres": 9,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 14
+            },
+            {
+              "server_spheres": 11,
+              "native_spheres": 11,
+              "matched_spheres": 11,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 15
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 16
+            },
+            {
+              "server_spheres": 5,
+              "native_spheres": 5,
+              "matched_spheres": 5,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 17
+            },
+            {
+              "server_spheres": 9,
+              "native_spheres": 9,
+              "matched_spheres": 9,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 18
+            },
+            {
+              "server_spheres": 4,
+              "native_spheres": 4,
+              "matched_spheres": 4,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 19
+            },
+            {
+              "server_spheres": 3,
+              "native_spheres": 3,
+              "matched_spheres": 3,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 20
+            },
+            {
+              "server_spheres": 5,
+              "native_spheres": 5,
+              "matched_spheres": 5,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 21
+            },
+            {
+              "server_spheres": 2,
+              "native_spheres": 2,
+              "matched_spheres": 2,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 22
+            },
+            {
+              "server_spheres": 2,
+              "native_spheres": 2,
+              "matched_spheres": 2,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 3.552713678800501e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 23
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 0.0,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 24
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 25
+            },
+            {
+              "server_spheres": 2,
+              "native_spheres": 2,
+              "matched_spheres": 2,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 1.4210854715202004e-14,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 26
+            },
+            {
+              "server_spheres": 2,
+              "native_spheres": 2,
+              "matched_spheres": 2,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 27
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 28
+            },
+            {
+              "server_spheres": 1,
+              "native_spheres": 1,
+              "matched_spheres": 1,
+              "missing": [],
+              "extra": [],
+              "tolerance_angstrom": 5.001e-05,
+              "passed": true,
+              "complete_server_equivalence": false,
+              "max_coordinate_error_angstrom": 7.105427357601002e-15,
+              "max_radius_error_angstrom": 0.0,
+              "server_id": 29
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

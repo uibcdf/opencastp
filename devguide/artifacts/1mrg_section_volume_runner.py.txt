@@ -1,0 +1,100 @@
+"""Independently integrate explicit sphere-complement volumes for 1MRG/22."""
+
+import hashlib
+import json
+import pickle
+import subprocess
+import sys
+import time
+from importlib import metadata
+from pathlib import Path
+
+import numpy as np
+
+ROOT=Path('/home/diego/repos@uibcdf/opencastp')
+sys.path.insert(0,str(ROOT))
+from devtools.compare_castp_servers import read_archive
+from devtools.section_volume_oracle import integrate_tetrahedron
+from opencastp._core import volbl
+from opencastp._core.components import build_castp_feature_records
+
+
+def enclosure_from_vertices(points,radii,padding):
+    """Enclose uncovered points using the vertex spheres' power interpolant.
+
+    For x=sum(lambda_i*p_i) in the tetrahedron, sum(lambda_i*power_i(x))
+    equals q-|x-c|^2. Outside all vertex balls every power is non-negative,
+    hence |x-c| <= sqrt(q). Center and q are computed here from the explicit
+    input vertices, not taken from native mesh centers or alpha predicates.
+    Floating-point evaluation with padding is a practical enclosure, not a
+    rigorously interval-certified computation.
+    """
+    origin=points.mean(axis=0)
+    local=points-origin
+    center=np.linalg.solve(2*(local[1:]-local[0]),
+                           np.sum(local[1:]**2,axis=1)-np.sum(local[0]**2)-radii[1:]**2+radii[0]**2)
+    power=float(np.sum((center-local[0])**2)-radii[0]**2)
+    assert power>0
+    radius=np.sqrt(power)+padding
+    return np.array([center+origin-radius,center+origin+radius]),power
+
+
+def main():
+    cache=Path('/tmp/opencastp_all_metric_1mrg_geometry.pickle')
+    archive=Path('/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server/1mrg.zip')
+    geometry=pickle.loads(cache.read_bytes())
+    _pdb,targets=read_archive(archive)
+    target=next(t for t in targets if t['server_id']==22)
+    feature=next(f for f in build_castp_feature_records(geometry,1.4,pocket_definition='castp3')
+                 if set(f['atom_indices'])==set(target['atom_indices']))
+    native=volbl.region_measurements(geometry,[tuple(feature['tetrahedron_indices'])],geometry.base_rank)[0]
+    report=dict(completed=False,complete_server_equivalence=False,
+                scope='1MRG closed void 22 SA volume only; independent sphere-union complement in fixed native tetrahedra',
+                source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+                python=sys.version.split()[0],versions={n:metadata.version(n) for n in ('opencastp','topomt','numpy','scipy')},
+                collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                oracle_sha256=hashlib.sha256((ROOT/'devtools/section_volume_oracle.py').read_bytes()).hexdigest(),
+                core_source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()
+                                    for p in (ROOT/'src/opencastp/_core/volbl.py',ROOT/'src/opencastp/_core/components.py')},
+                archive_sha256=hashlib.sha256(archive.read_bytes()).hexdigest(),
+                geometry_cache_sha256=hashlib.sha256(cache.read_bytes()).hexdigest(),
+                preparation='frozen ATOM/protein/peptide inputs; expanded castp3_protor radii; 1.4 angstrom probe',
+                native_volume_angstrom3=native.volume_sa,server_volume_angstrom3=float(target['metrics']['solvent_accessible_volume']),
+                native_area_angstrom2=native.area_sa,server_area_angstrom2=float(target['metrics']['solvent_accessible_area']),
+                tetrahedra=len(feature['tetrahedron_indices']),atom_ids=target['atom_indices'],
+                comparison_tolerance_angstrom3=.00050001,production_source_changed=False,
+                error_bound_certified=False,domains_and_sphere_inputs_shared=True,variants=[])
+    output=Path('/tmp/opencastp_1mrg_section_controls.json')
+    variants=(('z_32', (0,1,2),32,1e-10,1e-8),
+              ('z_64_tight', (0,1,2),64,1e-12,1e-8),
+              ('x_32', (1,2,0),32,1e-10,1e-8),
+              ('y_32', (2,0,1),32,1e-10,1e-8),
+              ('z_wider_enclosure', (0,1,2),32,1e-10,.02))
+    for label,order,subdivisions,epsabs,padding in variants:
+        started=time.monotonic()
+        coordinates=geometry.atom_coordinates[:,order]
+        rows=[]
+        for tetrahedron_index in feature['tetrahedron_indices']:
+            vertices=geometry.mesh.simplex_atom_indices[tetrahedron_index]
+            points=coordinates[vertices]
+            enclosure,power=enclosure_from_vertices(points,geometry.atom_radii[vertices],padding)
+            row=integrate_tetrahedron(points,coordinates,geometry.atom_radii,epsabs=epsabs,
+                                      subdivisions=subdivisions,enclosure=enclosure)
+            row.update(tetrahedron_index=int(tetrahedron_index),power_angstrom2=power)
+            rows.append(row)
+        total=float(sum(r['volume'] for r in rows))
+        item=dict(variant=label,integration_axis=order[2],epsabs=epsabs,padding_angstrom=padding,
+                  volume_angstrom3=total,estimated_absolute_error_angstrom3=sum(r['estimated_absolute_error'] for r in rows),
+                  difference_from_native_angstrom3=total-native.volume_sa,
+                  raw_server_passed=abs(total-report['server_volume_angstrom3'])<=report['comparison_tolerance_angstrom3'],
+                  below_three_decimal_boundary=total<.0035,
+                  messages=[m for r in rows for m in r['messages']],tetrahedra=rows,seconds=time.monotonic()-started)
+        report['variants'].append(item)
+        output.write_text(json.dumps(report,indent=2)+'\n')
+        print(label,{k:v for k,v in item.items() if k!='tetrahedra'},flush=True)
+    report['completed']=True
+    output.write_text(json.dumps(report,indent=2)+'\n')
+
+
+if __name__=='__main__':
+    main()

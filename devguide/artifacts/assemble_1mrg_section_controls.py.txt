@@ -1,0 +1,53 @@
+"""Retain executed collectors and input-free 1MRG geometric evidence."""
+
+import hashlib
+import json
+from pathlib import Path
+
+ROOT = Path('/home/diego/repos@uibcdf/opencastp')
+ARTIFACTS = ROOT / 'devguide/artifacts'
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def main():
+    volume = json.loads(Path('/tmp/opencastp_1mrg_section_controls.json').read_text())
+    area = json.loads(Path('/tmp/opencastp_1mrg_area_section_controls.json').read_text())
+    live = json.loads(Path('/tmp/opencastp_1mrg_rigid_comparison.json').read_text())
+    assert all(r['completed'] and not r['complete_server_equivalence'] for r in (volume, area, live))
+    sources = {
+        'section_volume_oracle.py.txt': ROOT / 'devtools/section_volume_oracle.py',
+        '1mrg_section_volume_runner.py.txt': Path('/tmp/opencastp_1mrg_section_controls.py'),
+        '1mrg_section_area_runner.py.txt': Path('/tmp/opencastp_1mrg_area_section_controls.py'),
+        '1mrg_rigid_server_runner.py.txt': Path('/tmp/opencastp_1mrg_rigid_server_control.py'),
+        '1mrg_rigid_comparison_runner.py.txt': Path('/tmp/opencastp_compare_1mrg_rigid_controls.py'),
+        'assemble_1mrg_section_controls.py.txt': Path(__file__),
+    }
+    hashes = {name: digest(path) for name, path in sources.items()}
+    assert hashes['section_volume_oracle.py.txt'] == volume['oracle_sha256'] == area['oracle_sha256']
+    assert hashes['1mrg_section_volume_runner.py.txt'] == volume['collector_sha256'] == area['volume_collector_sha256']
+    assert hashes['1mrg_section_area_runner.py.txt'] == area['collector_sha256']
+    assert hashes['1mrg_rigid_comparison_runner.py.txt'] == live['collector_sha256']
+    assert hashes['1mrg_rigid_server_runner.py.txt'] == live['server_submission']['collector_sha256']
+    for name, path in sources.items():
+        (ARTIFACTS / name).write_bytes(path.read_bytes())
+    report = dict(
+        completed=True,
+        complete_server_equivalence=False,
+        numerical_production_source_changed=False,
+        owner='uibcdf/opencastp#6',
+        units={'length': 'angstrom', 'area': 'angstrom**2', 'volume': 'angstrom**3'},
+        interpretation='Independent fixed-domain SA volume and area support the current native geometry; three live CASTpFold replicates preserve the unresolved printed 1MRG volume. No modern-server defect or export recipe is established.',
+        collector_sha256=hashes,
+        independent_volume=volume,
+        independent_area=area,
+        live_translations=live,
+    )
+    (ARTIFACTS / '1mrg_section_rigid_controls_2026_10_03.json').write_text(json.dumps(report, indent=2) + '\n')
+    print('Retained complete input-free evidence and six exact collector snapshots.')
+
+
+if __name__ == '__main__':
+    main()

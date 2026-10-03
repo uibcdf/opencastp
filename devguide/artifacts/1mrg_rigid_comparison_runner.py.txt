@@ -1,0 +1,147 @@
+"""Compare fresh jobs against archive membership, prepared IDs and fixed domains."""
+
+import copy
+import csv
+import hashlib
+import json
+import pickle
+import subprocess
+import sys
+from collections import Counter
+from importlib import metadata
+from pathlib import Path
+from zipfile import ZipFile
+
+import numpy as np
+
+ROOT=Path('/home/diego/repos@uibcdf/opencastp')
+sys.path.insert(0,str(ROOT))
+from devtools.compare_castp_servers import FIELDS,read_archive
+from devtools.audit_castp_orthospheres import compare_spheres
+from opencastp._core import volbl
+from opencastp._core.components import build_castp_feature_records
+
+
+def key(item):
+    return item['feature_type'],tuple(sorted(item['atom_indices']))
+
+
+def main():
+    state_path=Path('/tmp/opencastp-1mrg-rigid-controls/jobs.json')
+    state=json.loads(state_path.read_text())
+    assert state['completed']
+    old_archive=Path('/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server/1mrg.zip')
+    _pdb,old=read_archive(old_archive)
+    with ZipFile(old_archive) as handle:
+        old_bulbs=json.loads(handle.read(next(n for n in handle.namelist() if n.endswith('.bulb.json'))))
+    target=next(t for t in old if t['server_id']==22)
+    g=pickle.loads(Path('/tmp/opencastp_all_metric_1mrg_geometry.pickle').read_bytes())
+    features=build_castp_feature_records(g,1.4,pocket_definition='castp3')
+    assert Counter(map(key,features))==Counter(map(key,old))
+    feature_by_key={key(f):f for f in features}
+    report=dict(completed=False,complete_server_equivalence=False,scope='three fresh CASTpFold 1MRG translations; all region output fields paired by class/atom IDs',
+                source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+                python=sys.version.split()[0],versions={n:metadata.version(n) for n in ('opencastp','topomt','numpy','scipy')},
+                collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),server_submission=state,
+                native_prepared_atoms=len(g.atom_indices_map),original_regions=len(old),
+                target_original_server_id=22, target_atom_ids=target['atom_indices'],
+                frozen_domain_predictions=True,production_source_changed=False,variants=[])
+    output=Path('/tmp/opencastp_1mrg_rigid_comparison.json')
+    for job in state['jobs']:
+        path=Path(job['result_path'])
+        _pdb,new=read_archive(path)
+        exact_membership=Counter(map(key,new))==Counter(map(key,old))
+        matches=[t for t in new if key(t)==key(target)]
+        assert len(matches)==1
+        row=dict(variant=job['variant'],jobid=job['jobid'],translation_angstrom=job['translation_angstrom'],
+                 regions=len(new),exact_archive_memberships=exact_membership,
+                 target_server_id=matches[0]['server_id'],target_metrics=matches[0]['metrics'],
+                 field_differences_from_archive=[],additional_field_differences_from_archive=[],predictions={})
+        old_by_key={key(t):t for t in old}
+        for t in new:
+            if key(t) not in old_by_key:
+                continue
+            for field,_unit in FIELDS:
+                old_value=old_by_key[key(t)]['metrics'][field]
+                if float(old_value)!=float(t['metrics'][field]):
+                    row['field_differences_from_archive'].append(dict(original_server_id=old_by_key[key(t)]['server_id'],field=field,
+                                                                     original=old_value,fresh=t['metrics'][field]))
+            for field, fresh in t['additional_metrics'].items():
+                original=old_by_key[key(t)]['additional_metrics'][field]
+                if float(original)!=float(fresh):
+                    row['additional_field_differences_from_archive'].append(dict(original_server_id=old_by_key[key(t)]['server_id'],field=field,
+                                                                                  original=original,fresh=fresh))
+        with ZipFile(path) as archive:
+            csv_names=[n for n in archive.namelist() if n.endswith('.contrib.csv')]
+            row['archive_members']=archive.namelist()
+            if len(csv_names)==1:
+                text=archive.read(csv_names[0]).decode()
+                table=list(csv.DictReader(line for line in text.splitlines() if not line.startswith('#')))
+                ids={int(r['Atom_ID']) for r in table}
+                row['csv_atoms']=len(ids)
+                row['csv_ids_match_prepared']=ids==set(map(int,g.atom_indices_map))
+            pdb_names=[n for n in archive.namelist() if n.endswith('.pdb')]
+            if len(pdb_names)==1:
+                def pdb_points(text):
+                    return {int(line[6:11]):tuple(int(round(float(line[a:b])*1000)) for a,b in ((30,38),(38,46),(46,54)))
+                            for line in text.splitlines() if line.startswith('ATOM  ')}
+                row['returned_atom_coordinates_match_upload']=pdb_points(archive.read(pdb_names[0]).decode())==pdb_points(Path(job['path']).read_text())
+            new_bulbs=json.loads(archive.read(next(n for n in archive.namelist() if n.endswith('.bulb.json'))))
+        sphere_rows=[]
+        for target_region in new:
+            if key(target_region) not in old_by_key:
+                continue
+            original_region=old_by_key[key(target_region)]
+            expected=np.array([[*(s['c'][axis] for axis in 'xyz'),s['r']]
+                               for s in old_bulbs[original_region['server_id']-1]],dtype=float).reshape((-1,4))
+            actual=np.array([[*(s['c'][axis] for axis in 'xyz'),s['r']]
+                             for s in new_bulbs[target_region['server_id']-1]],dtype=float).reshape((-1,4))
+            expected[:,:3]+=np.array(job['translation_angstrom'])
+            comparison=compare_spheres(expected,actual)
+            comparison['max_coordinate_error_angstrom']=max((p['center_max_absolute_error_angstrom'] for p in comparison['pairs']),default=0)
+            comparison['max_radius_error_angstrom']=max((p['radius_absolute_error_angstrom'] for p in comparison['pairs']),default=0)
+            del comparison['pairs']
+            comparison['server_id']=target_region['server_id']
+            sphere_rows.append(comparison)
+        row['orthosphere_covariance']=dict(passed=exact_membership and all(r['passed'] for r in sphere_rows),
+                                           matched_spheres=sum(r['matched_spheres'] for r in sphere_rows),
+                                           max_coordinate_error_angstrom=max(r['max_coordinate_error_angstrom'] for r in sphere_rows),
+                                           max_radius_error_angstrom=max(r['max_radius_error_angstrom'] for r in sphere_rows),regions=sphere_rows)
+        for mode in ('float64','float32_coordinates'):
+            candidate=copy.copy(g)
+            candidate.atom_coordinates=g.atom_coordinates+np.array(job['translation_angstrom'])
+            if mode=='float32_coordinates':
+                candidate.atom_coordinates=candidate.atom_coordinates.astype(np.float32).astype(float)
+            context=volbl._metric_context_from_geometry(candidate)
+            failures=[]
+            paired_fields=0
+            target_values=None
+            for t in new:
+                if key(t) not in feature_by_key:
+                    continue
+                feature=feature_by_key[key(t)]
+                paired_fields+=4
+                values=volbl._measure_void_component(candidate,context,simplex_indices=tuple(feature['tetrahedron_indices']),
+                                                     input_rank=candidate.base_rank,cusp=False)
+                metrics=dict(zip((f for f,_u in FIELDS),(values.area_sa,values.area_ms,values.volume_sa,values.volume_ms),strict=True))
+                if key(t)==key(target):
+                    target_values=metrics
+                for field,value in metrics.items():
+                    expected=float(t['metrics'][field])
+                    if abs(value-expected)>.00050001:
+                        failures.append(dict(server_id=t['server_id'],field=field,actual=value,expected=expected))
+            row['predictions'][mode]=dict(target_metrics=target_values,failed=failures,required_fields=len(new)*4,
+                                          paired_fields=paired_fields,strict_matches=paired_fields-len(failures))
+            for value in vars(volbl.VolblMetricContext).values():
+                if hasattr(value,'cache_clear'):
+                    value.cache_clear()
+        report['variants'].append(row)
+        output.write_text(json.dumps(report,indent=2)+'\n')
+        print(row['variant'],'memberships',exact_membership,'target',row['target_metrics'],'changed',len(row['field_differences_from_archive']),
+              {m:(r['strict_matches'],r['target_metrics']['solvent_accessible_volume']) for m,r in row['predictions'].items()},flush=True)
+    report['completed']=True
+    output.write_text(json.dumps(report,indent=2)+'\n')
+
+
+if __name__=='__main__':
+    main()

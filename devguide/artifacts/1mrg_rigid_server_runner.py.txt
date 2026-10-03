@@ -1,0 +1,117 @@
+"""Bounded three-input live-server translation experiment; never resubmit jobs."""
+
+import hashlib
+import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+from zipfile import ZipFile, is_zipfile
+from io import BytesIO
+
+import numpy as np
+
+ROOT=Path('/home/diego/repos@uibcdf/topomt')
+sys.path.insert(0,str(ROOT))
+from topomt.third_party.castp3.servers.castpfold import CastpFoldClient
+
+DIRECTORY=Path('/tmp/opencastp-1mrg-rigid-controls')
+STATE=DIRECTORY/'jobs.json'
+ARCHIVE=ROOT/'topomt/data/CASTpFold_server/1mrg.zip'
+
+
+def save(report):
+    STATE.write_text(json.dumps(report,indent=2)+'\n')
+
+
+def prepare():
+    assert not STATE.exists(), 'Existing experiment must not be overwritten'
+    DIRECTORY.mkdir(exist_ok=True)
+    with ZipFile(ARCHIVE) as handle:
+        pdb=handle.read(next(n for n in handle.namelist() if n.endswith('.pdb'))).decode()
+    lines=[line for line in pdb.splitlines() if line.startswith(('ATOM  ','TER'))]
+    atoms=[line for line in lines if line.startswith('ATOM  ')]
+    coordinates=np.array([[int(round(float(line[a:b])*1000)) for a,b in ((30,38),(38,46),(46,54))] for line in atoms],dtype=np.int64)
+    report=dict(completed=False,complete_server_equivalence=False,
+                scope='fresh CASTpFold rerun and integer-angstrom translations of identical 1MRG ATOM records',
+                prepared_utc=datetime.now(timezone.utc).isoformat(),
+                archive_sha256=hashlib.sha256(ARCHIVE.read_bytes()).hexdigest(),
+                atoms=len(atoms),pdb_policy='ATOM and TER records; append END; omit HETATM and unrelated headers',
+                collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                jobs=[])
+    for label,translation in (('baseline',(0,0,0)),('near_origin',(-44,-108,5)),('shifted',(64,-64,32))):
+        delta=np.array(translation,dtype=np.int64)*1000
+        encoded=[]
+        moved=[]
+        for line in lines:
+            if not line.startswith('ATOM  '):
+                encoded.append(line)
+                continue
+            original=np.array([int(round(float(line[a:b])*1000)) for a,b in ((30,38),(38,46),(46,54))],dtype=np.int64)
+            xyz=original+delta
+            fields=''.join(f'{int(value)/1000:8.3f}' for value in xyz)
+            assert len(fields)==24
+            encoded.append(line[:30]+fields+line[54:])
+            moved.append(xyz)
+        moved=np.array(moved,dtype=np.int64)
+        assert np.array_equal(moved-coordinates,np.broadcast_to(delta,coordinates.shape))
+        assert np.array_equal(moved-moved[0],coordinates-coordinates[0])
+        path=DIRECTORY/f'1mrg_{label}.pdb'
+        path.write_text('\n'.join(encoded)+'\nEND\n')
+        report['jobs'].append(dict(variant=label,translation_angstrom=list(translation),
+                                  input_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+                                  exact_milliangstrom_geometry_preserved=True,path=str(path),
+                                  status='prepared',submission_attempted=False))
+    save(report)
+    print('prepared',report['atoms'],'atoms;',len(report['jobs']),'exact translations',flush=True)
+
+
+def submit():
+    report=json.loads(STATE.read_text())
+    client=CastpFoldClient(timeout=30)
+    for job in report['jobs']:
+        if job['submission_attempted']:
+            continue
+        job['submission_attempted']=True
+        job['submitted_utc']=datetime.now(timezone.utc).isoformat()
+        job['status']='submission_started'
+        save(report)
+        try:
+            jobid=client.submit(job['path'],probe_radius=1.4,email='N/A')
+            job.update(jobid=jobid,status='submitted_pending',result_url=client.download_url_template.format(jobid=jobid))
+        except (HTTPError,URLError,RuntimeError,ValueError) as exc:
+            job.update(status='submission_failed',error_type=type(exc).__name__,error=str(exc))
+        save(report)
+        print(job['variant'],job['status'],job.get('jobid',job.get('error')),flush=True)
+
+
+def poll():
+    report=json.loads(STATE.read_text())
+    client=CastpFoldClient(timeout=30)
+    for job in report['jobs']:
+        if job['status']!='submitted_pending':
+            continue
+        observation=dict(polled_utc=datetime.now(timezone.utc).isoformat())
+        try:
+            with urlopen(Request(job['result_url'],headers=client.headers),timeout=30) as response:
+                body=response.read(10*1024*1024+1)
+                observation.update(http_status=response.status,bytes=len(body),content_type=response.headers.get('Content-Type'))
+            if len(body)<=10*1024*1024 and is_zipfile(BytesIO(body)):
+                path=DIRECTORY/f'{job["variant"]}_result.zip'
+                path.write_bytes(body)
+                job.update(status='completed_zip',result_path=str(path),result_sha256=hashlib.sha256(body).hexdigest())
+                observation['valid_zip']=True
+            else:
+                observation['valid_zip']=False
+        except (HTTPError,URLError) as exc:
+            observation.update(error_type=type(exc).__name__,error=str(exc))
+        job.setdefault('polls',[]).append(observation)
+        save(report)
+        print(job['variant'],job['status'],observation,flush=True)
+    report['completed']=all(j['status']=='completed_zip' for j in report['jobs'])
+    save(report)
+
+
+if __name__=='__main__':
+    {'prepare':prepare,'submit':submit,'poll':poll}[sys.argv[1]]()

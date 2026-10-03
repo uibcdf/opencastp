@@ -191,3 +191,12 @@ and no tested alternative improves the panel. Native calculations retain their
 precision. The five regional differences remain open; no certified equivalence
 recipe is available. See the [joint-control checkpoint](https://github.com/uibcdf/opencastp/blob/main/devguide/joint_precision_mouth_controls_2026_10_03.md)
 and [issue #6](https://github.com/uibcdf/opencastp/issues/6) for measured limits.
+
+
+The [independent 1MRG checkpoint](https://github.com/uibcdf/opencastp/blob/main/devguide/1mrg_geometric_server_controls_2026_10_03.md)
+adds a separate planar-section calculation of one closed void's SA volume and
+an area check through its volume derivative. They support the native measurement
+for the shared input spheres and domain. Three fresh CASTpFold jobs preserve
+the remaining volume discrepancy under coordinate translations. No production
+correction or exact-equivalence recipe follows from these controls; the five
+regional differences remain open.

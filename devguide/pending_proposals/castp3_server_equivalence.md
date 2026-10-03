@@ -270,3 +270,19 @@ have matching aggregates but lack an individual server oracle. Shared mesh,
 filtration, domains and seeds limit this independence claim. The five strict
 regional failures and complete-equivalence gate remain open; production
 numerical source, radii and tolerances are unchanged.
+
+
+## Independent 1MRG geometry and fresh server jobs — 2026-10-03
+
+The [geometric and live-server checkpoint](../1mrg_geometric_server_controls_2026_10_03.md) independently integrates
+the two tetrahedra of 1MRG void 22 using planar disk boundaries. Its volume
+agrees with native integration within 7e-12 cubic angstroms, and an independent
+volume derivative supports native SA area. These checks share the prepared
+spheres and fixed native domain; they do not independently certify server radii
+or preceding geometry. Quadrature errors are estimates, not certified bounds.
+
+Three fresh CASTpFold jobs (baseline and two translations) preserve all 29
+regions, printed metrics, additional descriptors and 365 exported orthospheres.
+They reproduce the unresolved 0.004 volume. Simple float32 coordinate
+materialization does not fix it. The original five residuals remain open,
+with no production change, proven server bug or qualified equivalence recipe.
