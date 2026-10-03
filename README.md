@@ -9,6 +9,11 @@ OpenCASTp is an incubating auxiliary MolSysSuite library for local analysis of
 molecular cavities and openings using an explicit CASTp reconstruction.
 It is independent of TopoMT, Topography and DFND. It does not contact a server.
 
+[Why OpenCASTp exists](docs/project_rationale.md) maintains the comparison with
+CASTp3/CASTpFold and pyCASTa, implemented capabilities, measured limitations and
+future candidates. Offline execution is shared with pyCASTa; current-version
+numerical superiority and complete server equivalence are not claims.
+
 ## Current implementation
 
 The Python reference engine accepts one coordinate array and explicit atomic

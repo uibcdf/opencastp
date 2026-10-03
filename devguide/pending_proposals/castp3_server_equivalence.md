@@ -133,3 +133,17 @@ void/pocket/mouth smoke and 47 source tests plus two explicit molecular skips
 per minor. The locally executed molecular guards and 44-case benchmark remain
 separate evidence. Routine CI 37075626152 and admission bootstrap 37075626661
 also pass. See ../scientific_status.md and the pinned native runtime artifact.
+
+## Comparative rationale checkpoint — 2026-10-03
+
+The maintained [comparison register](../../docs/project_rationale.md) pins the
+inspected pyCASTa source to f3418f38cd3d3c11e6cdd8c13b11431cc5b91894
+(metadata version 1.0.8). Its analytic tetrahedral-volume routine and alpha/flow
+processing differ from the CASTp quantities and reconstruction audited here.
+These source observations do not certify current-version output differences
+or superiority. An executed comparison must control inputs, radii, backend,
+probe/alpha semantics and postprocessing, comparing lining sets before scalars
+and distinguishing polyhedral from SA/MS measures. Preserve missing quantities
+as missing. The server archive remains the oracle; pyCASTa is a comparison
+provider. This evidence may support publication rationale but does not replace
+the remaining individual-mouth, contribution, orthosphere and corpus gates.

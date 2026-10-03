@@ -33,3 +33,14 @@ future TopoMT consumption. Admission is uibcdf/molsyssuite#70.
 Record independently executed evidence for this theme and name a durable guard
 before closing. Bootstrap alone does not complete future acceleration,
 consumer migration, provenance review or public release qualification.
+
+## Rationale checkpoint — 2026-10-03
+
+[The maintained comparison register](../../docs/project_rationale.md) records why
+OpenCASTp is being developed, which capabilities are implemented and which are
+future candidates. Local execution is already provided by pyCASTa; it is not
+an exclusive advantage. The distinction being qualified is transparent local
+reconstruction and measured compatibility with modern archived CASTp results.
+Complete server equivalence, current-version pyCASTa numerical superiority,
+Rust/GPU speedups and public distribution are not certified. File-by-file
+provenance and publication qualification remain open under this issue.

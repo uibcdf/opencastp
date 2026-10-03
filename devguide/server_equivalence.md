@@ -4,6 +4,10 @@ Recorded 2026-10-02. Complete measured CASTp3/CASTpFold equivalence is the sole
 current scientific priority under uibcdf/opencastp#6. Acceleration, unrelated
 capabilities and consumer migration are deferred. TopoMT CASTp remains intact.
 
+The maintained [project rationale](../docs/project_rationale.md) separates
+implemented capabilities, bounded comparisons with pyCASTa and future candidates.
+Its publication and performance claims must retain the qualification limits here.
+
 ## Current measured coverage
 
 The fresh forty-system benchmark excludes HETATM before molecular parsing,

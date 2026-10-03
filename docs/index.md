@@ -16,6 +16,7 @@ are deferred.
 
 api
 server_comparison
+project_rationale
 ```
 
 Public package publication and file-by-file source-provenance qualification
