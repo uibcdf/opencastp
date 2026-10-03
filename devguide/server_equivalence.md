@@ -374,3 +374,25 @@ The original 89-system gate is unchanged at 14911/14916 scalars, with #6 open.
 No numerical source, native defaults, radii or tolerances changed. The next gate
 is discriminating probe quantization from intermediate measurement/export
 precision, followed by full-panel validation of any joint explanation.
+
+
+## Minimal completed server controls — 2026-10-03
+
+The [six minimal controls](minimal_server_controls_2026_10_03.md) retain the 1MRG SA-volume discrepancy with
+only its five original atoms, in two coordinate frames. A regular single-
+tetrahedron control with a slightly larger native volume prints 0.003 while
+the smaller 1MRG fragment prints 0.004. This refutes a common monotonic final
+formatter applied to the current native values, including uniform six-decimal
+intermediate formatting. Effective sphere inputs, local intersection branches,
+partial contribution precision and accumulation remain possible upstream causes.
+Independent sections support all five explicit closed-void measurements.
+
+All six lining sets, 42 additional descriptors and eight supporting spheres
+match; 22/24 regional scalars pass. Sixteen separated-sphere atom quantities
+match elementary formulas. Both implementations report one open hull region
+for the separated balls; it is not an enclosed void or biological binding-site
+claim. All six jobs completed and atom retention/labels/coordinates were verified.
+The original five residuals and 89-input gate are unchanged, with no numerical
+source, default, radius or tolerance modification. See the evidence for the
+predeclared alternatives and boundaries; a public exact-equivalence recipe is
+still unavailable.

@@ -1,0 +1,113 @@
+"""Predeclare synthetic boundary and separated-sphere controls; no server fitting."""
+
+import hashlib
+import json
+import pickle
+import sys
+from math import pi
+from pathlib import Path
+
+import numpy as np
+import pyunitwizard as puw
+from scipy.optimize import brentq
+
+sys.path.insert(0, '/tmp')
+import opencastp_minimal_server_controls as runner
+from opencastp import analyze
+from opencastp._core import volbl
+
+
+def prepare():
+    state = json.loads(runner.STATE.read_text())
+    assert len(state['jobs']) == 3 and state['completed']
+    prior = next(job for job in state['jobs'] if job['case'] == 'regular_four_real_carbons')
+    path = Path(prior['native_cache_path'])
+    assert runner.digest(path) == prior['native_cache_sha256']
+    result = pickle.loads(path.read_bytes())
+    geometry = result.geometry
+    feature = result.features[0]
+    context = volbl._metric_context_from_geometry(geometry)
+    radii = np.array(prior['unexpanded_radii_angstrom'])
+    atoms = prior['input_atom_ids']
+    input_lines = Path(prior['path']).read_text().splitlines()
+    def native_volume(probe):
+        sizes = radii + probe
+        altered = volbl.VolblMetricContext(context.coordinates, sizes, weights=sizes, solvent_radius=probe,
+                                          hidden0=context.hidden0, hidden1=context.hidden1, ccw=context.ccw)
+        return volbl._measure_void_component(geometry, altered, simplex_indices=tuple(feature['tetrahedron_indices']),
+                                            input_rank=geometry.base_rank, cusp=False).volume_sa
+    added = []
+    for target in (0.00349965, 0.00349935):
+        probe = float(brentq(lambda p: native_volume(p) - target, 1.4, 1.48, xtol=1e-14))
+        label = 'regular_boundary_' + ('above_six_decimal_half' if target > 0.0034995 else 'below_six_decimal_half')
+        pdb_path = runner.DIRECTORY / (label + '.pdb')
+        pdb_path.write_bytes(Path(prior['path']).read_bytes())
+        calculated = analyze(geometry.atom_coordinates, radii, length_unit='angstrom', probe_radius=probe,
+                             atom_indices=atoms, pocket_definition='castp3', mouth_measurement_policy='castp3')
+        assert len(calculated.features) == 1 and calculated.features[0]['feature_type'] == 'void'
+        f = calculated.features[0]
+        metrics = {name: float(puw.get_value(f[name], to_unit=unit)) for name, unit in (
+                ('solvent_accessible_volume', 'angstrom**3'), ('molecular_surface_volume', 'angstrom**3'),
+                ('solvent_accessible_area', 'angstrom**2'), ('molecular_surface_area', 'angstrom**2'))}
+        assert abs(metrics['solvent_accessible_volume'] - target) < 1e-10
+        cache_path = runner.DIRECTORY / (label + '_native.pickle')
+        cache_path.write_bytes(pickle.dumps(calculated))
+        materialization = {}
+        for digits in (4, 5, 6):
+            quantized = float(f'{probe:.{digits}f}')
+            value = native_volume(quantized)
+            materialization[f'probe_input_nearest_{digits}_decimals'] = dict(effective_probe_angstrom=quantized,
+                                                                           native_volume_angstrom3=value, direct_three_decimal=f'{value:.3f}')
+        materialization['probe_input_float32'] = dict(effective_probe_angstrom=float(np.float32(probe)),
+                                                      native_volume_angstrom3=native_volume(float(np.float32(probe))),
+                                                      direct_three_decimal=f'{native_volume(float(np.float32(probe))):.3f}')
+        job = dict(case=label, path=str(pdb_path), pdb_sha256=runner.digest(pdb_path),
+                   native_cache_path=str(cache_path), native_cache_sha256=runner.digest(cache_path),
+                   description='Predeclared symmetric single-tetrahedron volume target selected before server observation by changing only the public probe parameter; not a radius correction or a fitted server result.',
+                   input_atom_ids=atoms, unexpanded_radii_angstrom=radii.tolist(), probe_angstrom=probe,
+                   predeclared_target_volume_angstrom3=target,
+                   predeclared_probe_materialization_controls=materialization,
+                   native_predictions=[dict(feature_type=f['feature_type'], atom_indices=f['atom_indices'],
+                                            tetrahedron_count=len(f['tetrahedron_indices']), n_mouths=len(f['mouths']), metrics=metrics,
+                                            direct_three_decimal={name: f'{value:.3f}' for name, value in metrics.items()},
+                                            six_decimal_then_three={name: f'{float(f"{value:.6f}"):.3f}' for name, value in metrics.items()})],
+                   status='prepared', submission_attempted=False)
+        added.append(job)
+        print(label, probe, metrics['solvent_accessible_volume'], job['native_predictions'][0]['direct_three_decimal'],
+              job['native_predictions'][0]['six_decimal_then_three'], materialization, flush=True)
+    label = 'separated_four_real_carbons'
+    points = (10 / 1.95) * geometry.atom_coordinates
+    assert np.min([np.linalg.norm(points[i] - points[j]) for i in range(4) for j in range(i)]) > 2 * (1.88 + 1.4)
+    pdb_path = runner.DIRECTORY / (label + '.pdb')
+    records = [line[:30] + ''.join(f'{value:8.3f}' for value in point) + line[54:]
+               for line, point in zip([line for line in input_lines if line.startswith('ATOM')], points, strict=True)]
+    pdb_path.write_text('\n'.join(records) + '\nTER\nEND\n')
+    calculated = analyze(points, radii, length_unit='angstrom', probe_radius=1.4, atom_indices=atoms,
+                         pocket_definition='castp3', mouth_measurement_policy='castp3')
+    assert all(feature['feature_type'] != 'void' for feature in calculated.features)
+    cache_path = runner.DIRECTORY / (label + '_native.pickle')
+    cache_path.write_bytes(pickle.dumps(calculated))
+    sphere = dict(SA_Area=4 * pi * (1.88 + 1.4) ** 2, SA_Volume=4 * pi * (1.88 + 1.4) ** 3 / 3,
+                  MS_Area=4 * pi * 1.88 ** 2, MS_Volume=4 * pi * 1.88 ** 3 / 3)
+    added.append(dict(case=label, path=str(pdb_path), pdb_sha256=runner.digest(pdb_path),
+                      native_cache_path=str(cache_path), native_cache_sha256=runner.digest(cache_path),
+                      description='The four original carbon identities moved far apart. No enclosed void is expected; native castp3 detects one open hull region, to be tested rather than silently discarded. Per-atom full-sphere SA/MS area and volume have elementary analytical references.',
+                      input_atom_ids=atoms, unexpanded_radii_angstrom=radii.tolist(), probe_angstrom=1.4,
+                      native_predictions=[dict(feature_type=f['feature_type'], atom_indices=f['atom_indices'],
+                                               tetrahedron_count=len(f['tetrahedron_indices']), n_mouths=len(f['mouths']),
+                                               metrics={name:float(puw.get_value(f[name],to_unit=unit)) for name,unit in (
+                                                   ('solvent_accessible_volume','angstrom**3'),('molecular_surface_volume','angstrom**3'),
+                                                   ('solvent_accessible_area','angstrom**2'),('molecular_surface_area','angstrom**2'))})
+                                          for f in calculated.features],
+                      initial_zero_region_expectation_rejected_locally=True,
+                      predeclared_analytical_atom_reference=sphere,
+                      status='prepared', submission_attempted=False))
+    state['jobs'].extend(added)
+    state['completed'] = False
+    state['extra_preparation_collector_sha256'] = runner.digest(__file__)
+    runner.save(state)
+    print(label, 'native cavities', len(calculated.features), 'sphere reference', sphere, flush=True)
+
+
+if __name__ == '__main__':
+    {'prepare': prepare, 'submit': runner.submit, 'poll': runner.poll}[sys.argv[1]]()

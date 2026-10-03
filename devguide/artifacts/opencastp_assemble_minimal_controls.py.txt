@@ -1,0 +1,38 @@
+"""Retain completed minimal controls without redistributing molecular records."""
+
+import hashlib
+import json
+from pathlib import Path
+
+directory = Path('/tmp/opencastp-minimal-server-controls')
+artifacts = Path('/home/diego/repos@uibcdf/opencastp/devguide/artifacts')
+state = json.loads((directory / 'jobs.json').read_text())
+comparison = json.loads((directory / 'comparison.json').read_text())
+sections = json.loads((directory / 'section_comparison_extended.json').read_text())
+assert state['completed'] and comparison['completed'] and sections['completed']
+assert len(state['jobs']) == len(comparison['cases']) == 6
+sources = ('opencastp_minimal_server_controls.py', 'opencastp_minimal_extra_controls.py',
+           'opencastp_minimal_compare.py', 'opencastp_minimal_section_controls.py',
+           'opencastp_minimal_section_extended.py', 'opencastp_assemble_minimal_controls.py')
+snapshots = {}
+for name in sources:
+    path = Path('/tmp') / name
+    target = artifacts / (name + '.txt')
+    target.write_bytes(path.read_bytes())
+    snapshots[target.name] = hashlib.sha256(target.read_bytes()).hexdigest()
+report = dict(completed=True, complete_server_equivalence=False, production_source_changed=False,
+              scope='Six completed minimal CASTpFold reductions/geometric point-cloud controls; native predictions predeclared before submission',
+              uniform_monotonic_export_of_native_volume_refuted=True,
+              server_effective_sphere_inputs_independently_certified=False,
+              original_corpus_verdict_unchanged=True, submission=state, comparison=comparison,
+              independent_sections=sections, collector_sha256=snapshots,
+              limitations=['Partial original ATOM records are retained real identities, not a complete folded protein or the original DFND DUM model',
+                           'Small-job acceptance and atom retention are verified for these six jobs only',
+                           'Array preparation and effective radii remain caller assumptions; printed spheres constrain but do not certify exact server internals',
+                           'Monotonic final export is refuted conditional on the native volumes, not every upstream-plus-export explanation',
+                           'The separated control has no closed void but both implementations detect one open hull region under castp3; it is not a binding-site prediction',
+                           'Quadrature estimates are not rigorous interval bounds',
+                           'No original PDBs, ZIPs, original C bodies or private geometry caches redistributed',
+                           'No new CASTp3 job submitted; the full public compatibility recipe and original five corpus residuals remain open'])
+(artifacts / 'minimal_server_controls_2026_10_03.json').write_text(json.dumps(report, indent=2) + '\n')
+print('Published six completed minimal controls and six exact own-code snapshots')

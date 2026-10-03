@@ -156,3 +156,14 @@ treated as errors pass. TopoMT's catalog-only change passes its two reporting
 tests and index check; its numerical engine is unchanged. The existing hosted
 push lane is a separate engineering gate and does not certify a new full
 Python matrix or a four-minor molecular corpus calculation.
+
+
+## Subsequent minimal counterexample
+
+The [six completed minimal controls](minimal_server_controls_2026_10_03.md)
+retain the discrepancy after reducing 1MRG to five atoms. A regular one-cell
+void at nearly the same, slightly larger native volume prints 0.003, refuting
+the six-decimal final-format candidate outside the preceding fixed-1MRG probe
+controls. This rules out a common monotonic final exporter of current native
+volumes; shared effective inputs and upstream-plus-export alternatives remain
+unqualified. The original five corpus residuals stay open.

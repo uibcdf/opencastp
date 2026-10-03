@@ -1,0 +1,89 @@
+"""Verify minimal server outputs against predeclared numerical predictions."""
+
+import csv
+import hashlib
+import io
+import json
+import pickle
+import re
+import sys
+from pathlib import Path
+from zipfile import ZipFile
+
+import numpy as np
+
+sys.path.insert(0, '/home/diego/repos@uibcdf/opencastp')
+from devtools.audit_castp_orthospheres import compare_spheres
+from devtools.compare_castp_servers import compare_regions, read_archive
+
+DIRECTORY = Path('/tmp/opencastp-minimal-server-controls')
+state = json.loads((DIRECTORY / 'jobs.json').read_text())
+report = dict(completed=False, complete_server_equivalence=False, production_source_changed=False,
+              python=sys.version.split()[0], collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+              scope='Compare completed minimal jobs with native predictions computed before submission; exact atom retention, coordinates, regions, scalars and printed orthospheres',
+              units=state['units'], cases=[])
+
+def atoms(pdb):
+    return {int(line[6:11]): (line[12:16].strip(), line[17:20].strip(), line[21], int(line[22:26]),
+                            tuple(float(line[start:start + 8]) for start in (30, 38, 46)))
+            for line in pdb.decode().splitlines() if line.startswith('ATOM')}
+
+for job in state['jobs']:
+    if job['status'] != 'completed_zip':
+        continue
+    path = Path(job['result_path'])
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == job['result_sha256']
+    assert hashlib.sha256(Path(job['native_cache_path']).read_bytes()).hexdigest() == job['native_cache_sha256']
+    native = pickle.loads(Path(job['native_cache_path']).read_bytes())
+    returned, targets = read_archive(path)
+    with ZipFile(path) as archive:
+        payloads = [name for name in archive.namelist() if name != 'README.txt']
+        assert payloads and all(Path(name).name.startswith(job['jobid'] + '.') for name in payloads)
+        bulbs = json.loads(archive.read(next(name for name in payloads if name.endswith('.bulb.json'))))
+        contribution = archive.read(next(name for name in payloads if name.endswith('.contrib.csv'))).decode()
+    table = list(csv.DictReader(io.StringIO('\n'.join(line for line in contribution.splitlines() if not line.startswith('#') and line.strip()))))
+    identity = {int(row['Atom_ID']): (row['Atom'], row['Residue'], row['Chain'], int(row['Residue_ID'])) for row in table}
+    input_atoms = atoms(Path(job['path']).read_bytes())
+    assert input_atoms == atoms(returned), 'Server changed or dropped input atoms'
+    assert identity == {atom: value[:4] for atom, value in input_atoms.items()}, 'CSV atom preparation differs'
+    comparison = compare_regions(targets, native.features)
+    by_key = {(feature['feature_type'], tuple(sorted(feature['atom_indices']))): feature for feature in native.features}
+    spheres = []
+    for target in targets:
+        feature = by_key.get((target['feature_type'], tuple(target['atom_indices'])))
+        if feature is None:
+            spheres.append(dict(passed=False, server_id=target['server_id'], reason='Missing matching native region'))
+            continue
+        indices = feature['tetrahedron_indices']
+        points = np.column_stack((native.geometry.mesh.simplex_centers[indices],
+                                  np.sqrt(native.geometry.mesh.simplex_power_values[indices])))
+        exported = np.array([[*(ball['c'][axis] for axis in 'xyz'), ball['r']] for ball in bulbs[target['server_id'] - 1]], dtype=float).reshape((-1, 4))
+        pair = compare_spheres(exported, points)
+        pair['server_id'] = target['server_id']
+        spheres.append(pair)
+    row = dict(case=job['case'], jobid=job['jobid'], probe_angstrom=job['probe_angstrom'],
+               archive_sha256=job['result_sha256'], archive_job_identity_and_receipt_verified=True,
+               returned_atom_records_match_upload=True, contribution_atom_ids_and_labels_match_upload=True,
+               retained_atoms=len(table), comparison=comparison, server_regions=targets, orthospheres=spheres,
+               csv_probe_annotation=re.search(r'solv rad:\s*([^\s]+)', contribution).group(1),
+               csv_probe_annotation_is_display_only=True)
+    if 'predeclared_analytical_atom_reference' in job:
+        checks = []
+        for atom in table:
+            for field, expected in job['predeclared_analytical_atom_reference'].items():
+                printed = atom[field]
+                decimals = len(printed.partition('.')[2])
+                tolerance = 0.5 * 10 ** -decimals + 1e-8
+                checks.append(dict(atom_id=int(atom['Atom_ID']), field=field, analytical=expected,
+                                   printed=printed, passed=abs(float(printed) - expected) <= tolerance,
+                                   direct_format_matches=f'{expected:.{decimals}f}' == printed))
+        row['analytical_atom_checks'] = checks
+    report['cases'].append(row)
+    print(job['case'], 'regions', comparison['exact_memberships'], comparison['server_regions'],
+          'scalars', comparison['matched_scalars'], comparison['required_scalars'],
+          'additional', comparison['matched_additional_descriptors'], comparison['required_additional_descriptors'],
+          'volumes', [target['metrics']['solvent_accessible_volume'] for target in targets],
+          'spheres', all(pair['passed'] for pair in spheres),
+          'analytical', sum(check['passed'] for check in row.get('analytical_atom_checks', [])), flush=True)
+report['completed'] = state['completed'] and len(report['cases']) == len(state['jobs'])
+(DIRECTORY / 'comparison.json').write_text(json.dumps(report, indent=2) + '\n')

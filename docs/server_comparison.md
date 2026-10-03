@@ -211,3 +211,13 @@ regional assembly also retains all five residuals. See the
 These controls narrow the numerical investigation; complete server equivalence
 and a qualified public export recipe remain unavailable. Native radii and
 calculated precision are unchanged.
+
+
+The later [minimal controls](https://github.com/uibcdf/opencastp/blob/main/devguide/minimal_server_controls_2026_10_03.md)
+retain the 1MRG discrepancy with only five original atoms and produce a
+counterexample to a uniform final-rounding explanation in a regular tetrahedron.
+All six jobs completed with verified atom retention and supporting spheres.
+Their separated-sphere control also exposes an open-hull region convention,
+while all sixteen elementary per-atom quantities match. These results direct
+the investigation toward effective inputs and local integration/assembly;
+complete equivalence and its public recipe remain open.
