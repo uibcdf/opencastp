@@ -207,3 +207,21 @@ data. No new calculations or production numerical changes were made. Existing
 region coverage remains 84/89 passing systems; per-atom and individual-mouth
 qualification remains incomplete. Controls run in Python 3.14.7 with installed
 editable OpenCASTp and TopoMT; previous 3.13 evidence keeps its original identity.
+
+
+## Accepted native model and server recipe — 2026-10-03
+
+The maintainer requests an explicit native OpenCASTp model, independently
+selectable server-compatibility controls and a documented public recipe that
+guarantees equivalence within its validated scope. Native calculations retain
+selected incorporated HETATM atoms and full calculated precision; server
+reproduction may explicitly choose its record filtering, castp3_protor radii,
+region/mouth conventions and qualified export precision. These decisions must
+remain separate and observable. Native here does not mean TopoMT's DFND engine.
+
+See [the accepted contract](../native_model_and_server_compatibility.md) for boundaries, public-API requirements,
+effective-choice provenance and recipe acceptance gates. Array analyze already
+accepts explicit radii and independent region/mouth policies; public molecular
+preparation controls and a certified server export recipe remain to implement
+and validate. No new API, rounding rule or full equivalence claim is introduced
+by this documentation decision. Current scientific failures remain open under #6.

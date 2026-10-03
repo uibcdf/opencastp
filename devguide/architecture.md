@@ -85,3 +85,21 @@ policy. Preserve negative server-compatible mouth measures rather than
 silently clamping them. Planar triangulation area/wire length stays separately
 named from analytical SA/MS measures. See server_equivalence.md for executed
 coverage and unclosed gates; API availability does not certify every input.
+
+
+## Accepted native model and server recipe — 2026-10-03
+
+The maintainer requests an explicit native OpenCASTp model, independently
+selectable server-compatibility controls and a documented public recipe that
+guarantees equivalence within its validated scope. Native calculations retain
+selected incorporated HETATM atoms and full calculated precision; server
+reproduction may explicitly choose its record filtering, castp3_protor radii,
+region/mouth conventions and qualified export precision. These decisions must
+remain separate and observable. Native here does not mean TopoMT's DFND engine.
+
+See [the accepted contract](native_model_and_server_compatibility.md) for boundaries, public-API requirements,
+effective-choice provenance and recipe acceptance gates. Array analyze already
+accepts explicit radii and independent region/mouth policies; public molecular
+preparation controls and a certified server export recipe remain to implement
+and validate. No new API, rounding rule or full equivalence claim is introduced
+by this documentation decision. Current scientific failures remain open under #6.
