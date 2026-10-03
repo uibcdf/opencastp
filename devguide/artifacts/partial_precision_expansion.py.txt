@@ -1,0 +1,135 @@
+"""Bounded corpus expansion for two seven-system survivors, smallest inputs first.
+
+The existing owning reference auditor prepares and publicly analyzes each input
+unchanged. A consumer-local callback retains its public result for diagnostics.
+No core callable or source is monkey-patched. Four independent processes run
+distinct inputs; no additional server job is submitted.
+"""
+
+import hashlib
+import json
+import pickle
+import subprocess
+import sys
+import time
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from importlib import metadata
+from pathlib import Path
+
+sys.path.insert(0, '/tmp')
+sys.path.insert(0, '/home/diego/repos@uibcdf/opencastp')
+from opencastp_minimal_partial_precision import context_for, trace
+from devtools import compare_castp_servers as auditor
+from opencastp import analyze
+
+ROOT = Path('/home/diego/repos@uibcdf/opencastp')
+TOPOMT = ROOT.parent / 'topomt'
+DIRECTORY = Path('/tmp/opencastp-minimal-partial-precision')
+OUTPUT = DIRECTORY / 'expansion_comparison.json'
+panel_path = DIRECTORY / 'panel_comparison.json'
+panel = json.loads(panel_path.read_text())
+survivors = {row['name'] for row in panel['summary'] if row['panel_gate_passed']}
+assert survivors == {'disk_area_float32', 'cap_volume_decimal6'}
+VARIANTS = [row for row in panel['plan']['variants'] if row['name'] in survivors | {'baseline'}]
+FIELDS = dict(volume_sa='solvent_accessible_volume', volume_ms='molecular_surface_volume',
+              area_sa='solvent_accessible_area', area_ms='molecular_surface_area')
+
+
+def worker(reference):
+    name = reference['case']
+    archive = TOPOMT / 'topomt/data/CASTpFold_server' / f'{name}.zip'
+    assert hashlib.sha256(archive.read_bytes()).hexdigest() == reference['archive_sha256']
+    saved = []
+
+    def retain(*args, **kwargs):
+        result = analyze(*args, **kwargs)
+        saved.append(result)
+        return result
+
+    original = auditor.analyze
+    auditor.analyze = retain
+    try:
+        baseline = auditor.audit_archive(archive, TOPOMT, atom_record_policy='atom')
+    finally:
+        auditor.analyze = original
+    assert len(saved) == 1 and baseline['completed']
+    for key in ('prepared_pdb_sha256', 'prepared_coordinates_sha256', 'prepared_expanded_radii_sha256'):
+        assert baseline[key] == reference[key], f'Preparation changed: {name} {key}'
+    native = saved[0]
+    cache = DIRECTORY / f'{name}_public_result.pickle'
+    cache.write_bytes(pickle.dumps(native))
+    geometry = native.geometry
+    _, targets = auditor.read_archive(archive)
+    by_atoms = {(row['feature_type'], tuple(row['atom_indices'])): row for row in targets}
+    contexts = {v['name']: context_for(geometry, v) for v in VARIANTS}
+    rows = []
+    for feature in native.features:
+        target = by_atoms[(feature['feature_type'], tuple(sorted(feature['atom_indices'])))]
+        predictions = []
+        for variant in VARIANTS:
+            _, _, totals = trace(geometry, feature['tetrahedron_indices'], variant, _context=contexts[variant['name']])
+            checks = []
+            for field, key in FIELDS.items():
+                actual = totals[field]
+                printed = target['metrics'][key]
+                checks.append(dict(field=field, actual=actual, expected=float(printed),
+                                   raw_pass=abs(actual - float(printed)) <= .00050001,
+                                   format_pass=f'{actual:.3f}' == printed))
+            extras = [dict(field=field, actual=totals[field], expected=float(target['additional_metrics'][key]),
+                           passed=abs(totals[field] - float(target['additional_metrics'][key])) <= .00050001)
+                      for field, key in (('length', 'intersection_length'), ('corners', 'corner_count'))]
+            predictions.append(dict(name=variant['name'], metrics=checks, independent_extra_checks=extras))
+        rows.append(dict(server_id=target['server_id'], tetrahedron_indices=feature['tetrahedron_indices'],
+                         atom_ids=target['atom_indices'], predictions=predictions))
+    return dict(case=name, baseline_reference=baseline, cache_sha256=hashlib.sha256(cache.read_bytes()).hexdigest(),
+                rows=rows, input_hashes_match_original_reference=True)
+
+
+def main():
+    files = ('server_mouth_castp3_panel_2026_10_02.json', 'protein_heterogen_panel_2026_10_02.json', 'server_remaining_panel_2026_10_03.json')
+    sources = [json.loads((ROOT / 'devguide/artifacts' / name).read_text()) for name in files]
+    all_cases = [*sources[0]['cases'], *sources[1]['benchmarks']['atom']['cases'], *sources[2]['cases']]
+    assert len(all_cases) == len({row['case'] for row in all_cases}) == 89
+    prior = {row['case'] for row in panel['cases']}
+    chosen = sorted((row for row in all_cases if row['case'] not in prior), key=lambda row: (row['atom_count'], row['case']))[:12]
+    plan = dict(source_commit=panel['plan']['source_commit'],
+                topomt_commit=subprocess.check_output(['git', '-C', str(TOPOMT), 'rev-parse', 'HEAD'], text=True).strip(),
+                original_reference_topomt_commit=chosen[0]['preparation']['topomt_commit'],
+                collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                panel_sha256=hashlib.sha256(panel_path.read_bytes()).hexdigest(), variants=VARIANTS,
+                selection='Twelve smallest atom-count corpus inputs outside the seven-system panel; lexical tie-break; chosen before evaluation',
+                requested_cases=[row['case'] for row in chosen], corpus_size=89, workers=4,
+                source_sha256={name: hashlib.sha256((ROOT / 'devguide/artifacts' / name).read_bytes()).hexdigest() for name in files},
+                python=sys.version.split()[0], versions={name: metadata.version(name) for name in ('opencastp', 'topomt', 'molsysmt', 'numpy', 'scipy', 'pyunitwizard')},
+                units=panel['plan']['units'], complete_89_input_gate=False)
+    (DIRECTORY / 'expansion_plan.json').write_text(json.dumps(plan, indent=2) + '\n')
+    report = dict(plan=plan, completed=False, complete_server_equivalence=False, production_source_changed=False,
+                  complete_89_input_gate=False, cases=[], calculation_errors=[])
+    with ProcessPoolExecutor(max_workers=4) as executor:
+        futures = {executor.submit(worker, row): row['case'] for row in chosen}
+        for future in as_completed(futures):
+            try:
+                result = future.result()
+                report['cases'].append(result)
+                print(result['case'], 'regions', len(result['rows']), 'seconds', result['baseline_reference']['seconds'], flush=True)
+            except Exception as error:
+                report['calculation_errors'].append(dict(case=futures[future], type=type(error).__name__, message=str(error)))
+                print(futures[future], type(error).__name__, str(error), flush=True)
+            OUTPUT.write_text(json.dumps(report, indent=2) + '\n')
+    report['summary'] = []
+    for index, variant in enumerate(VARIANTS):
+        pairs = [(case['case'], row['server_id'], metric, base) for case in report['cases'] for row in case['rows']
+                 for metric, base in zip(row['predictions'][index]['metrics'], row['predictions'][0]['metrics'])]
+        extras = [check for case in report['cases'] for row in case['rows'] for check in row['predictions'][index]['independent_extra_checks']]
+        summary = dict(name=variant['name'], required=len(pairs), raw_matches=sum(m['raw_pass'] for _, _, m, _ in pairs),
+                       introduced=sum(b['raw_pass'] and not m['raw_pass'] for _, _, m, b in pairs),
+                       introduced_failures=[dict(case=c, server_id=i, **m) for c, i, m, b in pairs if b['raw_pass'] and not m['raw_pass']],
+                       extra_required=len(extras), extra_matches=sum(c['passed'] for c in extras))
+        report['summary'].append(summary)
+        print(variant['name'], summary['raw_matches'], '/', summary['required'], 'new', summary['introduced'], flush=True)
+    report['completed'] = len(report['cases']) == len(chosen) and not report['calculation_errors']
+    OUTPUT.write_text(json.dumps(report, indent=2) + '\n')
+
+
+if __name__ == '__main__':
+    main()

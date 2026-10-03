@@ -1,0 +1,46 @@
+"""Independently integrate the two diagnostic closed-void models."""
+
+import hashlib
+import json
+import pickle
+import sys
+from pathlib import Path
+
+import numpy as np
+import pyunitwizard as puw
+
+sys.path.insert(0, '/home/diego/repos@uibcdf/opencastp')
+from devtools.section_volume_oracle import integrate_tetrahedron
+
+DIRECTORY = Path('/tmp/opencastp-partial-precision-discriminator')
+state = json.loads((DIRECTORY / 'jobs.json').read_text())
+report = dict(completed=False, shared_spheres_and_domains=True, error_bound_certified=False,
+              collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+              oracle_sha256=hashlib.sha256(Path('/home/diego/repos@uibcdf/opencastp/devtools/section_volume_oracle.py').read_bytes()).hexdigest(),
+              units={'length': 'angstrom', 'volume': 'angstrom**3'}, cases=[])
+for job in state['jobs']:
+    path = Path(job['native_cache_path'])
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == job['native_cache_sha256']
+    result = pickle.loads(path.read_bytes())
+    assert len(result.features) == 1
+    feature = result.features[0]
+    assert feature['feature_type'] == 'void' and len(feature['tetrahedron_indices']) == 1
+    geometry = result.geometry
+    indices = geometry.mesh.simplex_atom_indices[feature['tetrahedron_indices'][0]]
+    tetra = geometry.atom_coordinates[indices]
+    center = geometry.mesh.simplex_centers[feature['tetrahedron_indices'][0]]
+    radius = np.sqrt(geometry.mesh.simplex_power_values[feature['tetrahedron_indices'][0]]) + 1e-5
+    box = np.array([center - radius, center + radius])
+    variants = []
+    native = float(puw.get_value(feature['solvent_accessible_volume'], to_unit='angstrom**3'))
+    for axis, subdivisions in ((2, 32), (0, 64)):
+        order = [index for index in range(3) if index != axis] + [axis]
+        value = integrate_tetrahedron(tetra[:, order], geometry.atom_coordinates[:, order], geometry.atom_radii,
+                                      epsabs=1e-12, subdivisions=subdivisions, enclosure=box[:, order])
+        variants.append(dict(axis=axis, subdivisions=subdivisions, volume_angstrom3=value['volume'],
+                             difference_from_native_angstrom3=value['volume'] - native,
+                             estimated_error_angstrom3=value['estimated_absolute_error'], messages=value['messages']))
+    report['cases'].append(dict(case=job['case'], native_volume_angstrom3=native, variants=variants))
+    print(job['case'], [(row['difference_from_native_angstrom3'], row['estimated_error_angstrom3']) for row in variants], flush=True)
+report['completed'] = True
+(DIRECTORY / 'sections.json').write_text(json.dumps(report, indent=2) + '\n')

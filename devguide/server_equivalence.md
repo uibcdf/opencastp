@@ -396,3 +396,16 @@ The original five residuals and 89-input gate are unchanged, with no numerical
 source, default, radius or tolerance modification. See the evidence for the
 predeclared alternatives and boundaries; a public exact-equivalence recipe is
 still unavailable.
+
+## Partial-precision policies refuted by minimal controls — 2026-10-03
+
+The [partial-precision checkpoint](partial_precision_controls_2026_10_03.md)
+traces cancellation on six minimal controls and predeclares 41 ablations.
+Two policies repair three scalar residuals without new failures on seven
+proteins, then pass another twelve systems. Two subsequently designed
+four-atom CASTpFold controls each refute one policy; native matches all eight
+new scalars. Both uniform policies are rejected, and no numerical change is
+adopted. The original five residuals/89-input verdict remain unchanged.
+Independent sections support the explicit new geometries. This was a bounded
+19-protein diagnostic expansion, not a fresh complete corpus qualification.
+Keep issue #6 open and return to minimal branch/input/domain discrimination.

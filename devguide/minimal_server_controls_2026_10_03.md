@@ -170,3 +170,7 @@ Ruff lint/format, index verification and Sphinx HTML with warnings treated as
 errors pass. TopoMT's catalog-only update passes its two reporting tests and
 index check; its numerical engine remains unchanged. Engineering success is
 separate from the unclosed scientific equivalence gate.
+
+## Later partial-precision counterexamples
+
+The [next checkpoint](partial_precision_controls_2026_10_03.md) decomposes these six cases. Two candidate policies survive nineteen molecular controls but are refuted by two new predeclared four-atom jobs. Neither was adopted; retain the original corpus verdict and all five open residuals.

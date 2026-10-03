@@ -1,0 +1,200 @@
+"""Predeclare and replay partial-precision hypotheses on six frozen controls.
+
+This is diagnostic own code. It shares prepared spheres, complex membership,
+primitive formulas and region domains with OpenCASTp. No server internal
+precision, modern source, exact effective radii or public compatibility policy
+is inferred from a match. Paths refer to trusted private local caches.
+"""
+
+import hashlib
+import itertools
+import json
+import math
+import pickle
+import subprocess
+import sys
+from collections import Counter
+from dataclasses import asdict
+from pathlib import Path
+
+import numpy as np
+
+from opencastp._core import volbl
+
+DIRECTORY = Path('/tmp/opencastp-minimal-server-controls')
+OUTPUT = Path('/tmp/opencastp-minimal-partial-precision')
+OUTPUT.mkdir(exist_ok=True)
+STATE = json.loads((DIRECTORY / 'jobs.json').read_text())
+COMPARISON = json.loads((DIRECTORY / 'comparison.json').read_text())
+assert STATE['completed'] and COMPARISON['completed']
+assert len(STATE['jobs']) == len(COMPARISON['cases']) == 6
+METHODS = (
+    'tetrahedron_volume', 'ball_radius', 'ball_area', 'angle_dihedral',
+    'angle_solid', 'sector_area', 'cap_height', 'cap_area', 'disk_radius',
+    'disk_area', 'cap_volume', 'segment_height', 'segment_angle',
+    'segment_area', 'cap2_area', 'cap2_volume',
+)
+VARIANTS = [dict(name='baseline', kind='baseline')]
+for method in METHODS:
+    for precision in ('float32', 'decimal6'):
+        VARIANTS.append(dict(name=f'{method}_{precision}', kind='primitive',
+                             method=method, precision=precision))
+for kind in ('term', 'tetrahedron_total', 'accumulator'):
+    for precision in ('float32', 'decimal6', 'fsum'):
+        if kind == 'term' and precision == 'fsum':
+            continue
+        VARIANTS.append(dict(name=f'{kind}_{precision}', kind=kind, precision=precision))
+
+PLAN = dict(
+    source_commit=subprocess.check_output(
+        ['git', '-C', '/home/diego/repos@uibcdf/opencastp', 'rev-parse', 'HEAD'],
+        text=True).strip(),
+    collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    source_sha256=hashlib.sha256(Path(volbl.__file__).read_bytes()).hexdigest(),
+    python=sys.version.split()[0], numpy=np.__version__,
+    units={'length': 'angstrom', 'area': 'angstrom**2', 'volume': 'angstrom**3'},
+    shared_inputs_and_domains=True, fresh_context_per_variant=True,
+    primitive_precision='Scalar method return materialization only; dependent formulas recalculate',
+    partial_precision='All four SA/MS fields plus length; corner count stays integer',
+    minimal_gate='Repair both 1MRG fragment SA volumes with no new raw or printed scalar failures',
+    variant_plan=VARIANTS,
+    inputs=[dict(case=j['case'], pdb_sha256=j['pdb_sha256'],
+                 native_cache_sha256=j['native_cache_sha256'],
+                 result_sha256=j['result_sha256']) for j in STATE['jobs']],
+)
+(OUTPUT / 'plan.json').write_text(json.dumps(PLAN, indent=2) + '\n')
+FIELDS = ('volume_sa', 'volume_ms', 'area_sa', 'area_ms', 'length')
+SERVER_KEYS = dict(volume_sa='solvent_accessible_volume', volume_ms='molecular_surface_volume',
+                   area_sa='solvent_accessible_area', area_ms='molecular_surface_area')
+
+
+def quantize(value, precision):
+    if precision == 'float32':
+        return float(np.float32(value))
+    if precision == 'decimal6':
+        return float(f'{value:.6f}')
+    return value
+
+
+def sequential(values):
+    total = 0.0
+    for value in values:
+        total += value
+    return total
+
+
+def context_for(geometry, variant):
+    context = volbl._metric_context_from_geometry(geometry)
+    if variant['kind'] == 'primitive':
+        original = getattr(context, variant['method'])
+        setattr(context, variant['method'],
+                lambda *args: quantize(original(*args), variant['precision']))
+    return context
+
+
+def trace(geometry, indices, variant, *, _context=None):
+    context = context_for(geometry, variant) if _context is None else _context
+    terms = []
+    simplices = np.asarray(geometry.mesh.simplex_atom_indices)
+    for index in indices:
+        vertices = tuple(map(int, simplices[index]))
+        initial = context.tetrahedron_volume(*vertices)
+        terms.append(dict(simplex=index, kind='initial', atoms=list(vertices),
+                          volume_sa=initial, volume_ms=initial, area_sa=0., area_ms=0., length=0., corners=0))
+    for index in indices:
+        vertices = tuple(map(int, simplices[index]))
+        i, j, k, l = vertices
+        for vertex in vertices:
+            if volbl._vertex_in_complex(geometry, vertex, geometry.base_rank):
+                others = tuple(atom for atom in vertices if atom != vertex)
+                terms.append(dict(simplex=index, kind='vertex', atoms=[vertex, *others],
+                                  **asdict(volbl._void_tetra_vertex(context, vertex, *others))))
+        for a, b, c, d in ((i, j, k, l), (i, k, j, l), (i, l, j, k), (j, k, i, l), (j, l, i, k), (k, l, i, j)):
+            if volbl._edge_in_complex(geometry, a, b, geometry.base_rank):
+                terms.append(dict(simplex=index, kind='edge', atoms=[a, b, c, d],
+                                  **asdict(volbl._void_tetra_edge(context, a, b, c, d, cusp=False))))
+        for a, b, c in ((i, j, k), (j, i, l), (k, j, l), (i, k, l)):
+            if volbl._face_in_complex(geometry, a, b, c, geometry.base_rank):
+                terms.append(dict(simplex=index, kind='face', atoms=[a, b, c],
+                                  **asdict(volbl._void_tetra_triangle(context, a, b, c, cusp=False))))
+    totals = {}
+    for field in FIELDS:
+        values = [term[field] for term in terms]
+        if variant['kind'] == 'tetrahedron_total':
+            grouped = [[term[field] for term in terms if term['simplex'] == index] for index in indices]
+            totals[field] = math.fsum(math.fsum(group) for group in grouped) if variant['precision'] == 'fsum' else sequential(quantize(sequential(group), variant['precision']) for group in grouped)
+        elif variant['kind'] == 'accumulator' and variant['precision'] == 'fsum':
+            totals[field] = math.fsum(values)
+        elif variant['kind'] == 'accumulator':
+            total = 0.
+            for value in values:
+                total = quantize(total + value, variant['precision'])
+            totals[field] = total
+        elif variant['kind'] == 'term':
+            totals[field] = sequential(quantize(value, variant['precision']) for value in values)
+        else:
+            totals[field] = sequential(values)
+    totals['corners'] = sum(term['corners'] for term in terms)
+    return context, terms, totals
+
+
+def main():
+    report = dict(plan=PLAN, completed=False, complete_server_equivalence=False,
+                  production_source_changed=False, full_corpus_executed=False,
+                  molecular_panel_executed=False, cases=[], summary=[])
+    servers = {row['case']: row['server_regions'][0] for row in COMPARISON['cases']}
+    for job in STATE['jobs']:
+        cache = Path(job['native_cache_path'])
+        assert hashlib.sha256(cache.read_bytes()).hexdigest() == job['native_cache_sha256']
+        native = pickle.loads(cache.read_bytes())
+        geometry = native.geometry
+        assert len(native.features) == 1
+        indices = native.features[0]['tetrahedron_indices']
+        predictions = job['native_predictions'][0]['metrics']
+        case = dict(case=job['case'], tetrahedra=len(indices), variants=[])
+        baseline = None
+        for variant in VARIANTS:
+            context, terms, totals = trace(geometry, indices, variant)
+            metrics = []
+            for field, server_key in SERVER_KEYS.items():
+                actual = totals[field]
+                printed = servers[job['case']]['metrics'][server_key]
+                expected = float(printed)
+                metrics.append(dict(field=field, actual=actual, expected=expected,
+                                    residual=actual - expected, printed=printed,
+                                    raw_pass=abs(actual - expected) <= .00050001,
+                                    format_pass=f'{actual:.3f}' == printed))
+            row = dict(name=variant['name'], totals=totals, metrics=metrics)
+            case['variants'].append(row)
+            if variant['kind'] == 'baseline':
+                baseline = totals
+                for field, key in SERVER_KEYS.items():
+                    assert abs(totals[field] - predictions[key]) < 1e-10
+                measured = volbl._measure_void_component(geometry, context, simplex_indices=tuple(indices), input_rank=geometry.base_rank, cusp=False)
+                assert all(totals[field] == getattr(measured, field) for field in FIELDS)
+                case['terms'] = terms
+                case['kind_counts'] = dict(Counter(term['kind'] for term in terms))
+                case['kind_totals'] = {kind: {field: math.fsum(term[field] for term in terms if term['kind'] == kind) for field in FIELDS} for kind in case['kind_counts']}
+                case['cancellation_ratio_sa_volume'] = math.fsum(abs(term['volume_sa']) for term in terms) / abs(totals['volume_sa'])
+                case['directed_attachment_branches'] = dict(
+                    hidden0_true=sum(context.hidden0(i, j) for i, j in itertools.permutations(range(len(geometry.atom_radii)), 2)),
+                    hidden1_true=sum(context.hidden1(i, j, k) for i, j, k in itertools.permutations(range(len(geometry.atom_radii)), 3)))
+        report['cases'].append(case)
+        print(case['case'], 'terms', case['kind_counts'], 'cancellation', case['cancellation_ratio_sa_volume'], 'branches', case['directed_attachment_branches'], flush=True)
+    for index, variant in enumerate(VARIANTS):
+        pairs = [(case['case'], m, base) for case in report['cases'] for m, base in zip(case['variants'][index]['metrics'], case['variants'][0]['metrics'])]
+        summary = dict(name=variant['name'], raw_matches=sum(m['raw_pass'] for _, m, _ in pairs),
+                       printed_matches=sum(m['format_pass'] for _, m, _ in pairs), required=len(pairs),
+                       repaired=sum(not b['raw_pass'] and m['raw_pass'] for _, m, b in pairs),
+                       introduced=sum(b['raw_pass'] and not m['raw_pass'] for _, m, b in pairs),
+                       max_sa_volume_shift=max(abs(case['variants'][index]['totals']['volume_sa'] - case['variants'][0]['totals']['volume_sa']) for case in report['cases']),
+                       failures=[dict(case=c, **m) for c, m, _ in pairs if not m['raw_pass']],
+                       minimal_gate_passed=all(m['raw_pass'] and m['format_pass'] for _, m, _ in pairs))
+        report['summary'].append(summary)
+        print(summary['name'], summary['raw_matches'], summary['printed_matches'], 'repair/new', summary['repaired'], summary['introduced'], 'gate', summary['minimal_gate_passed'], flush=True)
+    report['completed'] = True
+    (OUTPUT / 'comparison.json').write_text(json.dumps(report, indent=2) + '\n')
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,95 @@
+"""Design minimal jobs that discriminate between predeclared panel survivors."""
+
+import hashlib
+import json
+import pickle
+import sys
+from pathlib import Path
+
+import numpy as np
+import pyunitwizard as puw
+from scipy.optimize import brentq
+
+sys.path.insert(0, '/tmp')
+from opencastp import analyze
+from opencastp_minimal_partial_precision import context_for, trace
+import opencastp_minimal_server_controls as jobs
+
+DIRECTORY = Path('/tmp/opencastp-partial-precision-discriminator')
+DIRECTORY.mkdir(exist_ok=True)
+jobs.DIRECTORY = DIRECTORY
+jobs.STATE = DIRECTORY / 'jobs.json'
+SOURCE = Path('/tmp/opencastp-minimal-server-controls/regular_four_real_carbons.pdb')
+REFERENCE = Path('/tmp/opencastp-minimal-partial-precision/panel_comparison.json')
+panel = json.loads(REFERENCE.read_text())
+survivors = {row['name'] for row in panel['summary'] if row['panel_gate_passed']}
+variants = [row for row in panel['plan']['variants'] if row['name'] in survivors | {'baseline'}]
+
+
+def prepare():
+    assert not jobs.STATE.exists(), 'Preserve predeclared experiment state'
+    lines = [line for line in SOURCE.read_text().splitlines() if line.startswith('ATOM')]
+    coords = np.array([[float(line[start:start + 8]) for start in (30, 38, 46)] for line in lines])
+    ids = [int(line[6:11]) for line in lines]
+    radii = np.full(4, 1.88)
+
+    def native(probe):
+        return analyze(coords, radii, length_unit='angstrom', probe_radius=probe,
+                       atom_indices=ids, pocket_definition='castp3', mouth_measurement_policy='castp3')
+
+    def value(probe):
+        return float(puw.get_value(native(probe).features[0]['solvent_accessible_volume'], to_unit='angstrom**3'))
+
+    plan = dict(collector_sha256=jobs.digest(__file__), reference_sha256=jobs.digest(REFERENCE),
+                source_pdb_sha256=jobs.digest(SOURCE), variants=variants,
+                selection='Uniform 81 probe samples spanning native SA volume 0.003497 to 0.003503; choose largest minimum distance to the 0.0035 boundary per observed prediction ordering, before POST; no server outcomes used',
+                input='Same four real carbon identities in the previously submitted regular geometric point cloud',
+                exact_effective_server_inputs_certified=False, production_source_changed=False)
+    (DIRECTORY / 'plan.json').write_text(json.dumps(plan, indent=2) + '\n')
+    lo = brentq(lambda p: value(p) - .003503, 1.4355, 1.4356, xtol=1e-14)
+    hi = brentq(lambda p: value(p) - .003497, 1.4355, 1.4356, xtol=1e-14)
+    scan = []
+    for probe in np.linspace(lo, hi, 81):
+        result = native(float(probe))
+        assert len(result.features) == 1 and result.features[0]['feature_type'] == 'void'
+        feature = result.features[0]
+        assert len(feature['tetrahedron_indices']) == 1 and not feature['mouths']
+        predictions = {}
+        for variant in variants:
+            _, _, totals = trace(result.geometry, feature['tetrahedron_indices'], variant)
+            predictions[variant['name']] = totals
+        left = predictions['disk_area_float32']['volume_sa']
+        right = predictions['cap_volume_decimal6']['volume_sa']
+        scan.append(dict(probe_angstrom=float(probe), predictions=predictions,
+                         printed_divergence=f'{left:.3f}' != f'{right:.3f}',
+                         ordering='disk_above_cap' if left > right else 'cap_above_disk',
+                         minimum_boundary_margin=min(abs(left - .0035), abs(right - .0035))))
+    chosen = []
+    for ordering in ('disk_above_cap', 'cap_above_disk'):
+        options = [row for row in scan if row['printed_divergence'] and row['ordering'] == ordering]
+        if options:
+            chosen.append(max(options, key=lambda row: row['minimum_boundary_margin']))
+    assert chosen, 'No discriminatory job in this declared scan'
+    (DIRECTORY / 'scan.json').write_text(json.dumps(dict(plan=plan, samples=scan, chosen=chosen), indent=2) + '\n')
+    state = dict(completed=False, complete_server_equivalence=False, source_commit=panel['plan']['source_commit'],
+                 units=panel['plan']['units'], collector_sha256=jobs.digest(__file__),
+                 predeclared_plan=plan, scan_sha256=jobs.digest(DIRECTORY / 'scan.json'), jobs=[])
+    for selected in chosen:
+        case = 'regular_' + selected['ordering']
+        pdb = DIRECTORY / (case + '.pdb')
+        pdb.write_bytes(SOURCE.read_bytes())
+        result = native(selected['probe_angstrom'])
+        cache = DIRECTORY / (case + '_native.pickle')
+        cache.write_bytes(pickle.dumps(result))
+        state['jobs'].append(dict(case=case, description=plan['input'], path=str(pdb), pdb_sha256=jobs.digest(pdb),
+                                  input_atom_ids=ids, unexpanded_radii_angstrom=radii.tolist(),
+                                  native_cache_path=str(cache), native_cache_sha256=jobs.digest(cache),
+                                  probe_angstrom=selected['probe_angstrom'], predeclared_predictions=selected['predictions'],
+                                  minimum_boundary_margin=selected['minimum_boundary_margin'],
+                                  status='prepared', submission_attempted=False))
+        print(case, selected['probe_angstrom'], {name: (row['volume_sa'], f'{row["volume_sa"]:.3f}') for name, row in selected['predictions'].items()}, 'margin', selected['minimum_boundary_margin'], flush=True)
+    jobs.save(state)
+
+
+if __name__ == '__main__':
+    {'prepare': prepare, 'submit': jobs.submit, 'poll': jobs.poll}[sys.argv[1]]()

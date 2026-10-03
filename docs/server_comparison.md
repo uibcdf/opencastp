@@ -221,3 +221,7 @@ Their separated-sphere control also exposes an open-hull region convention,
 while all sixteen elementary per-atom quantities match. These results direct
 the investigation toward effective inputs and local integration/assembly;
 complete equivalence and its public recipe remain open.
+
+## Partial precision is still an investigation
+
+Two candidate intermediate-precision rules appeared to repair three residual volumes on nineteen proteins. Each fails a subsequently designed four-atom CASTpFold control. Neither rule is part of OpenCASTp, and the five original corpus discrepancies remain open. Small diagnostic inputs can distinguish explanations that a protein panel alone cannot. See the [developer checkpoint](https://github.com/uibcdf/opencastp/blob/main/devguide/partial_precision_controls_2026_10_03.md); an exact server-equivalence recipe is still unavailable.

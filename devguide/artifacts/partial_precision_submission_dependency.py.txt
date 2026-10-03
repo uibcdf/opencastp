@@ -1,0 +1,134 @@
+"""Predeclare minimal real-ATOM reductions and a geometric point-cloud control."""
+
+import hashlib
+import json
+import pickle
+import subprocess
+import sys
+from datetime import datetime, timezone
+from importlib import metadata
+from io import BytesIO
+from pathlib import Path
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+from zipfile import ZipFile, is_zipfile
+
+import numpy as np
+import pyunitwizard as puw
+
+sys.path.insert(0, '/home/diego/repos@uibcdf/topomt')
+sys.path.insert(0, '/home/diego/repos@uibcdf/opencastp')
+from opencastp import analyze
+from topomt.third_party.castp3.servers.castpfold import CastpFoldClient
+
+DIRECTORY = Path('/tmp/opencastp-minimal-server-controls')
+STATE = DIRECTORY / 'jobs.json'
+SOURCE = Path('/tmp/opencastp-1mrg-rigid-controls/1mrg_baseline.pdb')
+IDS = [1261, 1496, 1612, 1797, 1834]
+
+
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def save(state):
+    STATE.write_text(json.dumps(state, indent=2) + '\n')
+
+
+def prepare():
+    assert not STATE.exists(), 'Do not overwrite an existing experiment'
+    DIRECTORY.mkdir(exist_ok=True)
+    lines = {int(line[6:11]): line for line in SOURCE.read_text().splitlines() if line.startswith('ATOM')}
+    old = pickle.loads(Path('/tmp/opencastp_all_metric_1mrg_geometry.pickle').read_bytes())
+    by_id = {int(atom): i for i, atom in enumerate(old.atom_indices_map)}
+    base_radii = np.array([round(float(old.atom_radii[by_id[atom]]) - 1.4, 2) for atom in IDS])
+    points = np.array([[float(lines[atom][start:start + 8]) for start in (30, 38, 46)] for atom in IDS])
+    assert np.max(np.abs(points - old.atom_coordinates[[by_id[atom] for atom in IDS]])) < 1e-12
+    equal = 1.95 * np.array([[1, 1, 1], [1, -1, -1], [-1, 1, -1], [-1, -1, 1]], dtype=float)
+    assert np.all(base_radii[:4] == 1.88)
+    cases = [
+        ('1mrg_five_original', IDS, points, base_radii, 'Only the five real original ATOM records delimiting void 22; no added atoms.'),
+        ('1mrg_five_near_origin', IDS, points + [-44, -108, 5], base_radii, 'The same five original atoms translated by integer angstroms.'),
+        ('regular_four_real_carbons', IDS[:4], equal, base_radii[:4], 'Four retained original carbon ATOM identities repositioned into a regular tetrahedron. Explicit geometric point-cloud surrogate, not a physical folded protein; no new atoms or dummy chemical labels.'),
+    ]
+    state = dict(completed=False, complete_server_equivalence=False, prepared_utc=datetime.now(timezone.utc).isoformat(),
+                 collector_sha256=digest(__file__), source_pdb_sha256=digest(SOURCE),
+                 source_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd='/home/diego/repos@uibcdf/opencastp', text=True).strip(),
+                 python=sys.version.split()[0], versions={name: metadata.version(name) for name in ('opencastp', 'topomt', 'numpy', 'scipy', 'pyunitwizard')},
+                 purpose='Isolate atom population/context, frame effects, unequal radii and metric branches; server input acceptance and effective preparation must be verified.',
+                 units={'length': 'angstrom', 'area': 'angstrom**2', 'volume': 'angstrom**3'}, jobs=[])
+    for label, atoms, coords, radii, description in cases:
+        path = DIRECTORY / (label + '.pdb')
+        records = [lines[atom][:30] + ''.join(f'{value:8.3f}' for value in xyz) + lines[atom][54:] for atom, xyz in zip(atoms, coords, strict=True)]
+        path.write_text('\n'.join(records) + '\nTER\nEND\n')
+        result = analyze(coords, radii, length_unit='angstrom', probe_radius=1.4, atom_indices=atoms,
+                         pocket_definition='castp3', mouth_measurement_policy='castp3')
+        predictions = []
+        for feature in result.features:
+            metrics = {name: float(puw.get_value(feature[name], to_unit=unit)) for name, unit in (
+                ('solvent_accessible_volume', 'angstrom**3'), ('molecular_surface_volume', 'angstrom**3'),
+                ('solvent_accessible_area', 'angstrom**2'), ('molecular_surface_area', 'angstrom**2'))}
+            predictions.append(dict(feature_type=feature['feature_type'], atom_indices=feature['atom_indices'], metrics=metrics,
+                                    tetrahedron_count=len(feature['tetrahedron_indices']), n_mouths=len(feature['mouths']),
+                                    direct_three_decimal={name: f'{value:.3f}' for name, value in metrics.items()},
+                                    six_decimal_then_three={name: f'{float(f"{value:.6f}"):.3f}' for name, value in metrics.items()}))
+        pickle_path = DIRECTORY / (label + '_native.pickle')
+        pickle_path.write_bytes(pickle.dumps(result))
+        state['jobs'].append(dict(case=label, description=description, path=str(path), pdb_sha256=digest(path),
+                                  native_cache_path=str(pickle_path), native_cache_sha256=digest(pickle_path),
+                                  input_atom_ids=atoms, unexpanded_radii_angstrom=radii.tolist(), probe_angstrom=1.4,
+                                  native_predictions=predictions, status='prepared', submission_attempted=False))
+        print(label, len(atoms), predictions, flush=True)
+    save(state)
+
+
+def submit():
+    state = json.loads(STATE.read_text())
+    client = CastpFoldClient(timeout=30)
+    for job in state['jobs']:
+        if job['submission_attempted']:
+            continue
+        assert digest(job['path']) == job['pdb_sha256']
+        job.update(submission_attempted=True, status='submission_started', submitted_utc=datetime.now(timezone.utc).isoformat())
+        save(state)
+        try:
+            jobid = client.submit(job['path'], probe_radius=job['probe_angstrom'], email='N/A')
+            job.update(jobid=jobid, status='submitted_pending', result_url=client.download_url_template.format(jobid=jobid))
+        except (HTTPError, URLError, RuntimeError, ValueError) as exc:
+            job.update(status='submission_failed', error_type=type(exc).__name__, error=str(exc))
+        save(state)
+        print(job['case'], job['status'], job.get('jobid', job.get('error')), flush=True)
+
+
+def poll():
+    state = json.loads(STATE.read_text())
+    client = CastpFoldClient(timeout=30)
+    for job in state['jobs']:
+        if job['status'] != 'submitted_pending':
+            continue
+        observation = dict(polled_utc=datetime.now(timezone.utc).isoformat())
+        try:
+            with urlopen(Request(job['result_url'], headers=client.headers), timeout=20) as response:
+                body = response.read(10 * 1024 * 1024 + 1)
+                observation.update(http_status=response.status, bytes=len(body), content_type=response.headers.get('Content-Type'))
+            if len(body) <= 10 * 1024 * 1024 and is_zipfile(BytesIO(body)):
+                with ZipFile(BytesIO(body)) as archive:
+                    payloads = [name for name in archive.namelist() if name != 'README.txt']
+                    assert payloads and all(Path(name).name.startswith(job['jobid'] + '.') for name in payloads)
+                path = DIRECTORY / (job['jobid'] + '.zip')
+                path.write_bytes(body)
+                job.update(status='completed_zip', result_path=str(path), result_sha256=digest(path), archive_job_identity_verified=True)
+                observation['valid_zip'] = True
+            else:
+                observation['valid_zip'] = False
+        except (HTTPError, URLError) as exc:
+            observation.update(error_type=type(exc).__name__, error=str(exc))
+        job.setdefault('polls', []).append(observation)
+        save(state)
+        print(job['case'], job['status'], observation, flush=True)
+    state['completed'] = all(job['status'] == 'completed_zip' for job in state['jobs'])
+    save(state)
+
+
+if __name__ == '__main__':
+    {'prepare': prepare, 'submit': submit, 'poll': poll}[sys.argv[1]]()

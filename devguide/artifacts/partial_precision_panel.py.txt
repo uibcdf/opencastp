@@ -1,0 +1,90 @@
+"""Promote only minimal-surviving hypotheses to seven frozen molecular domains."""
+
+import hashlib
+import json
+import pickle
+import sys
+import time
+from importlib import metadata
+from pathlib import Path
+
+sys.path.insert(0, '/tmp')
+sys.path.insert(0, '/home/diego/repos@uibcdf/opencastp')
+from opencastp_minimal_partial_precision import context_for, trace
+from devtools.compare_castp_servers import read_archive
+from opencastp._core.components import build_castp_feature_records
+
+DIRECTORY = Path('/tmp/opencastp-minimal-partial-precision')
+minimal_path = DIRECTORY / 'comparison.json'
+minimal = json.loads(minimal_path.read_text())
+survivors = {row['name'] for row in minimal['summary'] if row['minimal_gate_passed']}
+variants = [row for row in minimal['plan']['variant_plan'] if row['name'] in survivors | {'baseline'}]
+assert survivors == {'disk_area_float32', 'cap_volume_decimal6', 'segment_height_decimal6'}
+names = ('1stp', '8rat', '1mrg', '1psn', '1ypi', '1fbp', '2fbp')
+fields = dict(volume_sa='solvent_accessible_volume', volume_ms='molecular_surface_volume',
+              area_sa='solvent_accessible_area', area_ms='molecular_surface_area')
+plan = dict(variants=variants, minimal_comparison_sha256=hashlib.sha256(minimal_path.read_bytes()).hexdigest(),
+            collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            source_commit=minimal['plan']['source_commit'],
+            python=sys.version.split()[0], versions={n: metadata.version(n) for n in ('opencastp', 'numpy', 'scipy')},
+            domain='Frozen native castp3 spheres, memberships and regions; fresh context per case/variant',
+            acceptance='Repair full 1MRG target with no new raw scalar or independently recalculated length/corner failures',
+            units=minimal['plan']['units'], inputs=[])
+for name in names:
+    cache = Path(f'/tmp/opencastp_all_metric_{name}_geometry.pickle')
+    archive = Path('/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server') / f'{name}.zip'
+    plan['inputs'].append(dict(case=name, native_cache_sha256=hashlib.sha256(cache.read_bytes()).hexdigest(),
+                               archive_sha256=hashlib.sha256(archive.read_bytes()).hexdigest()))
+(DIRECTORY / 'panel_plan.json').write_text(json.dumps(plan, indent=2) + '\n')
+report = dict(plan=plan, completed=False, complete_server_equivalence=False,
+              production_source_changed=False, full_corpus_executed=False, cases=[])
+for name, provenance in zip(names, plan['inputs']):
+    started = time.monotonic()
+    geometry = pickle.loads(Path(f'/tmp/opencastp_all_metric_{name}_geometry.pickle').read_bytes())
+    _, targets = read_archive(Path('/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server') / f'{name}.zip')
+    features = build_castp_feature_records(geometry, 1.4, pocket_definition='castp3')
+    by_atoms = {(row['feature_type'], tuple(row['atom_indices'])): row for row in targets}
+    contexts = {variant['name']: context_for(geometry, variant) for variant in variants}
+    rows = []
+    for feature in features:
+        target = by_atoms[(feature['feature_type'], tuple(sorted(feature['atom_indices'])))]
+        predictions = []
+        for variant in variants:
+            _, _, totals = trace(geometry, feature['tetrahedron_indices'], variant, _context=contexts[variant['name']])
+            checks = []
+            for field, key in fields.items():
+                actual = totals[field]
+                printed = target['metrics'][key]
+                expected = float(printed)
+                checks.append(dict(field=field, actual=actual, expected=expected,
+                                   raw_pass=abs(actual - expected) <= .00050001,
+                                   format_pass=f'{actual:.3f}' == printed))
+            extra = [dict(field=field, actual=totals[field], expected=float(target['additional_metrics'][key]),
+                          passed=abs(totals[field] - float(target['additional_metrics'][key])) <= .00050001)
+                     for field, key in (('length', 'intersection_length'), ('corners', 'corner_count'))]
+            predictions.append(dict(name=variant['name'], metrics=checks, independent_extra_checks=extra))
+        rows.append(dict(server_id=target['server_id'], feature_type=target['feature_type'],
+                         atom_ids=target['atom_indices'], tetrahedron_indices=feature['tetrahedron_indices'], predictions=predictions))
+    report['cases'].append(dict(**provenance, regions=len(rows), rows=rows))
+    (DIRECTORY / 'panel_comparison.json').write_text(json.dumps(report, indent=2) + '\n')
+    print(name, len(rows), 'seconds', round(time.monotonic() - started, 2), flush=True)
+report['summary'] = []
+for index, variant in enumerate(variants):
+    pairs = [(case['case'], row['server_id'], metric, base)
+             for case in report['cases'] for row in case['rows']
+             for metric, base in zip(row['predictions'][index]['metrics'], row['predictions'][0]['metrics'])]
+    extras = [check for case in report['cases'] for row in case['rows'] for check in row['predictions'][index]['independent_extra_checks']]
+    summary = dict(name=variant['name'], required=len(pairs), raw_matches=sum(m['raw_pass'] for _, _, m, _ in pairs),
+                   repaired=sum(not b['raw_pass'] and m['raw_pass'] for _, _, m, b in pairs),
+                   introduced=sum(b['raw_pass'] and not m['raw_pass'] for _, _, m, b in pairs),
+                   extra_required=len(extras), extra_matches=sum(c['passed'] for c in extras),
+                   introduced_failures=[dict(case=c, server_id=i, **m) for c, i, m, b in pairs if b['raw_pass'] and not m['raw_pass']],
+                   repaired_fields=[dict(case=c, server_id=i, **m) for c, i, m, b in pairs if not b['raw_pass'] and m['raw_pass']],
+                   baseline_failures_remaining=[dict(case=c, server_id=i, **m) for c, i, m, b in pairs if not b['raw_pass'] and not m['raw_pass']],
+                   panel_gate_passed=any(c == '1mrg' and i == 22 and m['field'] == 'volume_sa' and m['raw_pass'] for c, i, m, b in pairs)
+                       and not any(b['raw_pass'] and not m['raw_pass'] for _, _, m, b in pairs) and all(c['passed'] for c in extras))
+    report['summary'].append(summary)
+    print(variant['name'], summary['raw_matches'], '/', summary['required'], 'repair/new', summary['repaired'], summary['introduced'],
+          'length/corners', summary['extra_matches'], '/', summary['extra_required'], 'gate', summary['panel_gate_passed'], flush=True)
+report['completed'] = True
+(DIRECTORY / 'panel_comparison.json').write_text(json.dumps(report, indent=2) + '\n')

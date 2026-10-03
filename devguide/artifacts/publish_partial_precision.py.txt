@@ -1,0 +1,238 @@
+"""Publish input-free evidence, exact own collectors and maintained checkpoints."""
+
+import hashlib
+import json
+from pathlib import Path
+
+ROOT = Path('/home/diego/repos@uibcdf/opencastp')
+TOPOMT = ROOT.parent / 'topomt'
+ARTIFACTS = ROOT / 'devguide/artifacts'
+MINIMAL = Path('/tmp/opencastp-minimal-partial-precision')
+DISCRIMINATOR = Path('/tmp/opencastp-partial-precision-discriminator')
+
+
+def load(path):
+    return json.loads(path.read_text())
+
+
+def append(path, heading, text):
+    old = path.read_text()
+    assert heading not in old, 'Preserve existing checkpoint on replay'
+    path.write_text(old.rstrip() + '\n\n' + heading + '\n\n' + text.strip() + '\n')
+
+
+state = load(DISCRIMINATOR / 'jobs.json')
+comparison = load(DISCRIMINATOR / 'comparison.json')
+assert state['completed'] and comparison['completed']
+server = {row['case']: row['server_regions'][0] for row in comparison['cases']}
+fields = dict(volume_sa='solvent_accessible_volume', volume_ms='molecular_surface_volume',
+              area_sa='solvent_accessible_area', area_ms='molecular_surface_area')
+verdicts = []
+for name in ('baseline', 'disk_area_float32', 'cap_volume_decimal6'):
+    checks = []
+    for job in state['jobs']:
+        predicted = job['predeclared_predictions'][name]
+        for field, key in fields.items():
+            actual = predicted[field]
+            printed = server[job['case']]['metrics'][key]
+            checks.append(dict(case=job['case'], field=field, actual=actual, printed=printed,
+                               raw_pass=abs(actual - float(printed)) <= .00050001,
+                               format_pass=f'{actual:.3f}' == printed))
+    verdicts.append(dict(name=name, required=len(checks), raw_matches=sum(row['raw_pass'] for row in checks),
+                         printed_matches=sum(row['format_pass'] for row in checks),
+                         refuted_as_uniform_policy=not all(row['raw_pass'] for row in checks), checks=checks))
+assert [row['raw_matches'] for row in verdicts] == [8, 7, 7]
+scripts = (
+    'opencastp_minimal_partial_precision.py', 'opencastp_partial_precision_panel.py',
+    'opencastp_partial_precision_expansion.py', 'opencastp_partial_precision_discriminator.py',
+    'opencastp_discriminator_compare.py', 'opencastp_discriminator_sections.py',
+    'opencastp_publish_partial_precision.py',
+)
+hashes = {}
+for name in scripts:
+    source = Path('/tmp') / name
+    snapshot = name.removeprefix('opencastp_') + '.txt'
+    (ARTIFACTS / snapshot).write_bytes(source.read_bytes())
+    hashes[snapshot] = hashlib.sha256(source.read_bytes()).hexdigest()
+# The already published safe job-state/receipt implementation is reused by
+# the discriminator collector. Pin it explicitly rather than implying it is
+# self-contained; all private PDB/ZIP/cache files remain outside publication.
+snapshot = 'partial_precision_submission_dependency.py.txt'
+source = Path('/tmp/opencastp_minimal_server_controls.py')
+(ARTIFACTS / snapshot).write_bytes(source.read_bytes())
+hashes[snapshot] = hashlib.sha256(source.read_bytes()).hexdigest()
+report = dict(completed=True, complete_server_equivalence=False, production_source_changed=False,
+              original_corpus_verdict_unchanged=True, numerical_policy_adopted=False,
+              scope='Six frozen minimal controls, staged seven-system panel and twelve-input expansion, followed by two predeclared discriminatory live server jobs',
+              original_corpus_size=89, full_89_input_gate_executed=False,
+              collector_sha256=hashes,
+              minimal=load(MINIMAL / 'comparison.json'), molecular_panel=load(MINIMAL / 'panel_comparison.json'),
+              bounded_expansion=load(MINIMAL / 'expansion_comparison.json'),
+              discriminator_design=load(DISCRIMINATOR / 'scan.json'), discriminator_submission=state,
+              discriminator_comparison=comparison, discriminator_verdicts=verdicts,
+              discriminator_sections=load(DISCRIMINATOR / 'sections.json'))
+(ARTIFACTS / 'partial_precision_controls_2026_10_03.json').write_text(json.dumps(report, indent=2) + '\n')
+
+document = """# Partial precision, staged gates and two minimal counterexamples — 2026-10-03
+
+Owner: [OpenCASTp #6](https://github.com/uibcdf/opencastp/issues/6), still open.
+No numerical policy was adopted. The original 89-input verdict remains
+3729/3729 regions, 14911/14916 regional SA/MS scalars, 26103/26103 additional
+aggregate descriptors and 84/89 complete cases for those comparisons.
+
+## Decomposition and predeclared hypotheses
+
+Replay the six [minimal controls](minimal_server_controls_2026_10_03.md) using
+the existing metric primitives, prepared spheres, complex membership and
+tetrahedral domains. Fresh contexts prevent cached primitive values leaking
+between hypotheses. The baseline trace exactly reproduces the native sequential
+accumulation before any change. Python's built-in floating-point sum is not
+the sequential += operation on this Python version; the collector explicitly
+uses += for baseline replay and labels math.fsum experiments separately.
+
+For the five-atom original 1MRG fragment, SA volume contributions in cubic
+angstroms are:
+
+| Contribution | Count | Sum |
+| --- | ---: | ---: |
+| Initial tetrahedral volumes | 2 | 24.47905909316667 |
+| Vertex spherical sectors | 8 | -40.85832197980033 |
+| Edge overlaps | 12 | 17.856788664339486 |
+| Triple intersections | 6 | -1.4740261398970853 |
+
+Their final sequential volume is 0.003499637808737438. The sum of absolute
+individual terms divided by the final volume is about 24193; the tiny void
+results from cancellation of much larger contributions. Both math.fsum
+controls retain the two 1MRG scalar failures. This does not explain the
+server discrepancy through ordinary summation order or float64 cancellation.
+
+The plan declares 41 variants before execution: the baseline; float32 or
+six-decimal scalar returns for sixteen individual methods; and term,
+tetrahedron-total or accumulator materialization/aggregation controls.
+Underlying geometry, branch predicates and primitive formulas remain shared.
+This is an ablation of explicit candidate storage policies, not evidence of
+the modern server's internal numeric types. The fragment has two directed
+hidden1 attachment outcomes; the regular controls have none. Branch counts,
+unequal radii, asymmetry and one versus two tetrahedra remain confounded.
+
+## Economical promotion and bounded expansion
+
+Three hypotheses repair both fragment volumes and retain all 24 minimal
+regional scalars: float32 disk_area, six-decimal cap_volume and six-decimal
+segment_height. Only these enter the seven-system molecular panel.
+
+| Hypothesis | Seven-system regional scalars | Repaired / newly broken | Length and corners |
+| --- | ---: | ---: | ---: |
+| Native baseline | 1531/1536 | 0 / 0 | 768/768 |
+| float32 disk_area | 1534/1536 | 3 / 0 | 768/768 |
+| Six-decimal cap_volume | 1534/1536 | 3 / 0 | 768/768 |
+| Six-decimal segment_height | 1532/1536 | 2 / 1 | 768/768 |
+
+The last hypothesis introduces a 2FBP region 33 SA-volume failure and is
+rejected at this gate. The other two provisionally repair 1MRG, 1PSN and 1YPI;
+1FBP SA area and 2FBP region 11 SA volume remain unresolved. Neither candidate
+changes SA area, so it cannot alone repair the 1FBP area residual.
+
+Next evaluate only the two survivors on the twelve smallest atom-count inputs
+outside that panel, with lexical tie-breaking fixed before evaluation:
+1CRN, 1ROP, 2PK4, 3PHV, 1ROB, 1HEL, 1HEW, 2LYZ, 1IFB, 2IFB, 1SNC and 1STN.
+All three calculations, including baseline, match 504/504 regional scalars
+and 252/252 recalculated length/corner fields. Every archive and prepared PDB,
+coordinate array and expanded-radius array hash matches the original reference.
+This is a 19-protein diagnostic stage, not a completed fresh 89-input gate.
+Original molecular archives were reused; no molecular server job was resubmitted.
+The existing developer reference auditor supplies preparation and public
+OpenCASTp analysis; a consumer-local callback retains results in private caches.
+No numerical core function is patched or replaced.
+
+## Two deliberately discriminatory server controls
+
+Before POST, scan 81 evenly spaced probes over the same previously submitted
+four-carbon regular tetrahedron, spanning native SA volumes 0.003497–0.003503.
+For each ordering of the surviving predictions, choose the largest minimum
+distance from the 0.0035 display boundary. This designs informative inputs
+without consulting new server outcomes or fitting a compatibility correction.
+All jobs retain the same four original carbon ATOM identities/coordinates;
+these are geometric point clouds, not folded proteins or ligand-site benchmarks.
+
+| Control / CASTpFold job | Probe (angstroms) | Native SA volume | float32 disk_area | Six-decimal cap_volume | Server |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Disk above cap / j_6ac17eb2896b9 | 1.4355324990521443 | 0.00350089920185348 → 0.004 | 0.003501834644461743 → 0.004 | 0.0034997734326898122 → 0.003 | 0.004 |
+| Cap above disk / j_6ac17eb2eaa87 | 1.4355363969456285 | 0.003500224127831686 → 0.004 | 0.003499399107702139 → 0.003 | 0.0035007544017466863 → 0.004 | 0.004 |
+
+Both jobs completed. SHA-256 archive receipts/job prefixes, returned PDB atom
+records and contribution-table identities agree with the exact uploads.
+Native matches both regions, all eight regional scalars, fourteen additional
+descriptors and two exported supporting spheres at printed precision.
+Each candidate fails a different SA volume, giving 7/8 scalars each.
+Thus **both uniform partial-precision policies are refuted**, despite their
+success on nineteen proteins. Repeating the complete corpus for these now
+refuted policies would not justify adopting either.
+
+Independent planar-section integration in two orientations/refinements per
+new closed control differs from native by less than 5e-14 cubic angstroms,
+with estimated errors below 1e-12 and no convergence messages. Spheres and
+domains remain shared inputs; estimates are not certified error bounds.
+Printed geometry and retained chemistry do not independently certify the
+server's exact hidden sphere representation.
+
+## Current inference and next investigation
+
+The experiments exclude these two **common** storage policies; they do not
+exclude a branch-dependent upstream representation, effective atom inputs,
+another partial-contribution convention or a combined implementation/export
+path. No recovered modern implementation or server algorithm defect is proved.
+A chance boundary crossing can repair several residuals without identifying
+their cause. Keep all five original discrepancies visible.
+
+Return to minimal experiments that disentangle unequal radii, local triple-
+intersection attachment branches and one versus two tetrahedra. Predict their
+outcomes before additional POSTs. Prefer a small counterexample over a broad
+rerun, and promote only a surviving, justified hypothesis to molecular gates.
+Do not implement a molecule-specific, branch-specific or numeric-type patch
+solely because it moves one number across a printed boundary.
+
+[Input-free evidence](artifacts/partial_precision_controls_2026_10_03.json)
+retains plans, actual Python 3.14.7/package metadata, source/input/cache/result
+hashes, all comparisons, successful receipts, section estimates and exact own
+collectors with their reused submission dependency. Private PDBs/ZIPs/caches
+remain outside publication. The five artifact guards were failing first.
+No public API, native precision, radius table, default, tolerance, optional
+dependency or attribution boundary changed; no new suite admission or full
+equivalence claim is made. Source/distribution qualification remains #2.
+"""
+(ROOT / 'devguide/partial_precision_controls_2026_10_03.md').write_text(document)
+checkpoint = """The [partial-precision checkpoint](partial_precision_controls_2026_10_03.md)
+traces cancellation on six minimal controls and predeclares 41 ablations.
+Two policies repair three scalar residuals without new failures on seven
+proteins, then pass another twelve systems. Two subsequently designed
+four-atom CASTpFold controls each refute one policy; native matches all eight
+new scalars. Both uniform policies are rejected, and no numerical change is
+adopted. The original five residuals/89-input verdict remain unchanged.
+Independent sections support the explicit new geometries. This was a bounded
+19-protein diagnostic expansion, not a fresh complete corpus qualification.
+Keep issue #6 open and return to minimal branch/input/domain discrimination."""
+for name in ('scientific_status.md', 'server_equivalence.md'):
+    append(ROOT / 'devguide' / name, '## Partial-precision policies refuted by minimal controls — 2026-10-03', checkpoint)
+append(ROOT / 'devguide/pending_proposals/castp3_server_equivalence.md',
+       '## Partial-precision policies refuted — 2026-10-03', checkpoint.replace('(partial_precision_controls_', '(../partial_precision_controls_'))
+append(ROOT / 'devguide/minimal_server_controls_2026_10_03.md',
+       '## Later partial-precision counterexamples',
+       'The [next checkpoint](partial_precision_controls_2026_10_03.md) decomposes these six cases. Two candidate policies survive nineteen molecular controls but are refuted by two new predeclared four-atom jobs. Neither was adopted; retain the original corpus verdict and all five open residuals.')
+append(ROOT / 'docs/server_comparison.md', '## Partial precision is still an investigation',
+       'Two candidate intermediate-precision rules appeared to repair three residual volumes on nineteen proteins. Each fails a subsequently designed four-atom CASTpFold control. Neither rule is part of OpenCASTp, and the five original corpus discrepancies remain open. Small diagnostic inputs can distinguish explanations that a protein panel alone cannot. See the [developer checkpoint](https://github.com/uibcdf/opencastp/blob/main/devguide/partial_precision_controls_2026_10_03.md); an exact server-equivalence recipe is still unavailable.')
+path = TOPOMT / 'devguide/benchmark_catalog.md'
+old = path.read_text()
+marker = '\n## DFND controls\n'
+assert old.count(marker) == 1
+paragraph = """\nThe [partial-precision investigation](https://github.com/uibcdf/opencastp/blob/main/devguide/partial_precision_controls_2026_10_03.md)
+uses those six cases to screen forty-one ablations. Two candidate policies
+survive nineteen proteins (seven frozen geometries plus twelve freshly
+prepared inputs), but two new predeclared four-atom CASTpFold jobs refute
+both common policies. Native matches all eight new regional scalars,
+fourteen additional descriptors and two supporting spheres. Independent
+sections support the explicit new geometries. No TopoMT engine or OpenCASTp
+numerical policy changed; the original five residuals/89-input verdict remain
+open. These two jobs are diagnostic point clouds, not additional proteins.\n"""
+path.write_text(old.replace(marker, paragraph + marker))
+print('Published staged evidence and maintained both repository checkpoints')
