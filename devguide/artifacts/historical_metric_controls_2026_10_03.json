@@ -1,0 +1,2533 @@
+{
+  "recorded": "2026-10-03",
+  "completed": true,
+  "passed": false,
+  "complete_server_equivalence": false,
+  "source_commit": "63d9693c666185bc33d7202ad68d0862c54f37d2",
+  "scope": "SA primitives on frozen modern integration domains",
+  "historical_pipeline_executed": false,
+  "historical_coordinate_input": "modern float64 arrays",
+  "high_precision_input": "decimal strings of modern float64 arrays",
+  "predicates": "OpenCASTp hidden0/hidden1 and orientation callbacks reused",
+  "scalar_tolerance": 0.00050001,
+  "units": {
+    "volume_sa": "angstrom**3",
+    "area_sa": "angstrom**2"
+  },
+  "versions": {
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "molsysmt": "0.22.4+118.g03b318549.dirty",
+    "pyunitwizard": "0.25.0+7.g00d756c",
+    "mpmath": "1.4.1"
+  },
+  "python": "3.13.14",
+  "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "compiler_options": [
+    "-O2",
+    "-fPIC",
+    "-shared",
+    "-lm"
+  ],
+  "historical_source_sha256": {
+    "alpha-4.1-src/volbl/metric.c": "fb5dc5659fdc2a5d0f8d19d7e5b3e74010225e5b16adf6da33a42105db2bfaf3",
+    "alpha-4.1-src/volbl/volbl.h": "17e2e604117ed369f679f3da687e8b98b51bc0630b5b37ada4ccbdc1a86c61e9",
+    "alpha-4.1-src/volbl/volbl.c": "ffecc76a09c654ace452bfd1baf14a785444929536c7ec1b6fd01088bb202591",
+    "topomt_version/include/alf.h": "b884129bd9908852aea22182a5afa84b27dbe98130eca5795f6356817e0f1377",
+    "topomt_version/include/basic.h": "16167460fa53fd51cc99f71d04b274e6203c20251e2d36e0e02e0da295824cf5",
+    "topomt_version/include/lia.h": "b6c5f118c865335518d5379c23c0e812b7892e2b627b0d3e3fa211161fce8ac0",
+    "topomt_version/include/sos.h": "41f81041a02f0123d03263cdaa5af8da5a23d764e00060622098d3ccf2ee803b",
+    "topomt_version/include/trist.h": "f936523eb6d731f538a77d654585a6c833e4ccfd3e583ceb7be8c4ed31ab9162",
+    "topomt_version/include/dt.h": "0758bf9489f1bcff322b076ab435820dc68fcd3484d3862fddb048ab65330f37",
+    "topomt_version/include/sig.h": "0fdc581879093c159c1f27ce0ad368bc36d17721c78c11ecec533446469b4c70",
+    "topomt_version/include/poc-sig.h": "dbc211fbe294362b353e9c43f78abdce48b5b3246bb6b43628b95fd0b3e2c8dd"
+  },
+  "collector_sha256": {
+    "historical_metric_freeze_2026_10_03.py.txt": "bdedd06c6e330cd5bdf254eba12e07d846afeb96526112f3a5b00287ca68c5db",
+    "historical_metric_precision_2026_10_03.py.txt": "3527c1a3eede981a25af4f5d570e7dc301d2efbcb5894fdd704a093f65a8789d",
+    "historical_metric_compare_2026_10_03.py.txt": "325bff6df4101a634dc6ca1ea269b466293445c4ac01bdeb0405c7dbc781a63c",
+    "historical_metric_bridge_2026_10_03.c.txt": "9fd4eaaed9984e788ced51cb508fb1700b59d46bff08a0b4e8f566e4a8417477",
+    "historical_metric_assemble_2026_10_03.py.txt": "6e070529b7a538b0ab116081dd08c5fa2a0d6b9f870cb3c9e4c756866abd4b9e",
+    "historical_metric_orthospheres_2026_10_03.py.txt": "5b4e59ebbaf145bc0a4dd30f0de3f0f5b79779bd8b2c26f9c5ec79468b93a549"
+  },
+  "numerical_source_sha256": {
+    "src/opencastp/__init__.py": "95faf1acafb206e4f2c17bf8dcdb086edee8bec73741e3c68b89788c14517410",
+    "src/opencastp/_core/__init__.py": "36922c451318bf4edf69b6b87d935ac23b9da1077ea5143cc4be08aa232cb30b",
+    "src/opencastp/_core/components.py": "425e428f20522d93709416fa6b362eb3d4e408a145d6d6b677ce60e961657da0",
+    "src/opencastp/_core/exact.py": "cd101daa7d15579b0c8ee79a5c7e13d26e5f692a478b9fe8295d8cbd953104c9",
+    "src/opencastp/_core/geometry.py": "867f8200178ebd50d7356e2154c4224c821eac275aa5edfa441257352fe4b669",
+    "src/opencastp/_core/metrics.py": "ee8c74e79cb23531953242b8d8beab89925743802fb2ac0207253a416077d507",
+    "src/opencastp/_core/mouth_measurements.py": "a2b3364513fda5b48ef95753b8863be07937ad726ed76ca8abea66ad165f3d2e",
+    "src/opencastp/_core/mouths.py": "3fbddf9391625239a119c7627b94756da2075867492aaa4e223a774baba8641a",
+    "src/opencastp/_core/primitives.py": "45534bf6a1ce1a2fb884dcdd629ed2229c4deba8f2b35e1cef60b2b0d9c2e097",
+    "src/opencastp/_core/volbl.py": "6882062560926d795d74f7ab00bc81c36dbdd3afd396c3b0213c9813f848451c",
+    "src/opencastp/_core/weighted_mesh.py": "c1813e1c935a324430de7c8e654f450803f3c27d0cda10e5a72f8649986cae32",
+    "src/opencastp/analysis.py": "ef045df46836c98150266a8cc793b3279a7d137272e64dfd70e57fc506d0cfaa",
+    "src/opencastp/exceptions.py": "9426ad99cc762776d5eaf4358bc8d8cb64229b2aed1a53ed2d0b491f8d945299",
+    "src/opencastp/result.py": "77e2d05c383c20fa33cfab6b853160d8786885a46b3de9d77c37f9c5b5dc54ab"
+  },
+  "consumer_diagnostic_sha256": {
+    "topomt/devtools/castp/audit_castp3_radii.py": "e4828a3bbbf056a40ce380ee42a80c852fec8278cd42a33386b9039da31b13c0"
+  },
+  "orthosphere_control": {
+    "scope": "five residual regions only",
+    "complete_server_equivalence": false,
+    "cases": [
+      {
+        "case": "1mrg",
+        "server_id": 22,
+        "tetrahedra": 2,
+        "exported_bulbs": 2,
+        "matched_distinct_tetrahedra": 2,
+        "passed": true,
+        "bulb_sha256": "e88f21973468e63ae55e1a99a7834da10e3870d7c0e461dc4766bf4ddc18d0c6",
+        "checks": [
+          {
+            "simplex": 1,
+            "center_max_absolute_error_angstrom": 1.8144644158724077e-05,
+            "radius_absolute_error_angstrom": 4.094383474301244e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 0,
+            "center_max_absolute_error_angstrom": 4.840144514162148e-05,
+            "radius_absolute_error_angstrom": 9.832468025328112e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          }
+        ]
+      },
+      {
+        "case": "1psn",
+        "server_id": 13,
+        "tetrahedra": 13,
+        "exported_bulbs": 13,
+        "matched_distinct_tetrahedra": 13,
+        "passed": true,
+        "bulb_sha256": "738e70470bd3e0cadf7524381e76d9acaaaf8094f6087d38f983c8d0bf17e001",
+        "checks": [
+          {
+            "simplex": 3,
+            "center_max_absolute_error_angstrom": 4.871142211726465e-05,
+            "radius_absolute_error_angstrom": 2.451944694215058e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 7,
+            "center_max_absolute_error_angstrom": 9.458995069877574e-06,
+            "radius_absolute_error_angstrom": 3.952356936764989e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 0,
+            "center_max_absolute_error_angstrom": 4.627054178030221e-05,
+            "radius_absolute_error_angstrom": 2.9048181982349597e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 6,
+            "center_max_absolute_error_angstrom": 4.1703904649637025e-05,
+            "radius_absolute_error_angstrom": 1.809444325528986e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 5,
+            "center_max_absolute_error_angstrom": 3.602139393166226e-05,
+            "radius_absolute_error_angstrom": 2.1686426019629224e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 2,
+            "center_max_absolute_error_angstrom": 2.91734686328482e-05,
+            "radius_absolute_error_angstrom": 1.9101734257898073e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 8,
+            "center_max_absolute_error_angstrom": 3.4487941277916434e-05,
+            "radius_absolute_error_angstrom": 1.6771600189979807e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 4,
+            "center_max_absolute_error_angstrom": 3.2262183825793045e-05,
+            "radius_absolute_error_angstrom": 3.423338963459699e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 9,
+            "center_max_absolute_error_angstrom": 4.1639273913318675e-05,
+            "radius_absolute_error_angstrom": 3.693960352313397e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 12,
+            "center_max_absolute_error_angstrom": 3.998337817279207e-05,
+            "radius_absolute_error_angstrom": 2.183724982418589e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 10,
+            "center_max_absolute_error_angstrom": 3.5099463723042845e-05,
+            "radius_absolute_error_angstrom": 6.17436152650086e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 11,
+            "center_max_absolute_error_angstrom": 3.347294804356693e-05,
+            "radius_absolute_error_angstrom": 3.2373609117897217e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 1,
+            "center_max_absolute_error_angstrom": 4.968597344756631e-05,
+            "radius_absolute_error_angstrom": 5.0526833930142345e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          }
+        ]
+      },
+      {
+        "case": "1ypi",
+        "server_id": 6,
+        "tetrahedra": 42,
+        "exported_bulbs": 42,
+        "matched_distinct_tetrahedra": 42,
+        "passed": true,
+        "bulb_sha256": "2d2c4bf7677dd3e36bdbc3395c2db5cce221eeec7109a6ec711392030c902fda",
+        "checks": [
+          {
+            "simplex": 0,
+            "center_max_absolute_error_angstrom": 4.0966519684104696e-05,
+            "radius_absolute_error_angstrom": 3.557642637819214e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 1,
+            "center_max_absolute_error_angstrom": 4.416094392922787e-05,
+            "radius_absolute_error_angstrom": 6.79691393168369e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 34,
+            "center_max_absolute_error_angstrom": 4.2453121906760316e-05,
+            "radius_absolute_error_angstrom": 1.1784815939441806e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 8,
+            "center_max_absolute_error_angstrom": 2.3461910650723894e-05,
+            "radius_absolute_error_angstrom": 3.475700190680442e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 28,
+            "center_max_absolute_error_angstrom": 4.484781746327826e-05,
+            "radius_absolute_error_angstrom": 5.00161352601225e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 10,
+            "center_max_absolute_error_angstrom": 3.079976287523323e-05,
+            "radius_absolute_error_angstrom": 1.1852741028883784e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 24,
+            "center_max_absolute_error_angstrom": 4.504489956502766e-05,
+            "radius_absolute_error_angstrom": 1.857458272347401e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 41,
+            "center_max_absolute_error_angstrom": 4.0905085306519595e-05,
+            "radius_absolute_error_angstrom": 2.451814675508146e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 36,
+            "center_max_absolute_error_angstrom": 2.9102855641838232e-05,
+            "radius_absolute_error_angstrom": 2.325064124630849e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 13,
+            "center_max_absolute_error_angstrom": 4.913011146356894e-05,
+            "radius_absolute_error_angstrom": 3.2705327289050956e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 20,
+            "center_max_absolute_error_angstrom": 3.8926223012936134e-05,
+            "radius_absolute_error_angstrom": 4.2763732313044756e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 38,
+            "center_max_absolute_error_angstrom": 1.4232541175829283e-05,
+            "radius_absolute_error_angstrom": 1.1632232499003692e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 11,
+            "center_max_absolute_error_angstrom": 3.787150954792651e-05,
+            "radius_absolute_error_angstrom": 1.9237454119025443e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 39,
+            "center_max_absolute_error_angstrom": 2.3933802978604035e-05,
+            "radius_absolute_error_angstrom": 3.73850711017365e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 9,
+            "center_max_absolute_error_angstrom": 2.3268060424186388e-05,
+            "radius_absolute_error_angstrom": 4.1734462328690825e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 2,
+            "center_max_absolute_error_angstrom": 1.6127661091047685e-05,
+            "radius_absolute_error_angstrom": 2.8593025580114784e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 3,
+            "center_max_absolute_error_angstrom": 4.0590369124515746e-05,
+            "radius_absolute_error_angstrom": 7.041886785019713e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 32,
+            "center_max_absolute_error_angstrom": 3.633614859666068e-05,
+            "radius_absolute_error_angstrom": 2.5579792287233616e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 21,
+            "center_max_absolute_error_angstrom": 3.72096566323421e-05,
+            "radius_absolute_error_angstrom": 1.6361784902607646e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 33,
+            "center_max_absolute_error_angstrom": 3.978519639957767e-05,
+            "radius_absolute_error_angstrom": 3.5188980910261236e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 14,
+            "center_max_absolute_error_angstrom": 4.733500363585108e-05,
+            "radius_absolute_error_angstrom": 3.320610811208269e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 30,
+            "center_max_absolute_error_angstrom": 4.1658573358915874e-05,
+            "radius_absolute_error_angstrom": 3.259944068811915e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 16,
+            "center_max_absolute_error_angstrom": 4.895717127340049e-05,
+            "radius_absolute_error_angstrom": 2.4109437202435302e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 18,
+            "center_max_absolute_error_angstrom": 3.0858840830205736e-05,
+            "radius_absolute_error_angstrom": 5.1904356335175095e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 6,
+            "center_max_absolute_error_angstrom": 4.3708067238412696e-05,
+            "radius_absolute_error_angstrom": 3.852929197423194e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 5,
+            "center_max_absolute_error_angstrom": 4.69708916952527e-05,
+            "radius_absolute_error_angstrom": 3.4075344069739444e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 7,
+            "center_max_absolute_error_angstrom": 3.3573451936774745e-05,
+            "radius_absolute_error_angstrom": 8.013594711364647e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 15,
+            "center_max_absolute_error_angstrom": 3.0415766985925075e-05,
+            "radius_absolute_error_angstrom": 4.246825259290876e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 17,
+            "center_max_absolute_error_angstrom": 4.8333845477088744e-05,
+            "radius_absolute_error_angstrom": 2.0156736031395894e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 19,
+            "center_max_absolute_error_angstrom": 2.6771292013449965e-05,
+            "radius_absolute_error_angstrom": 2.3647561980588705e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 4,
+            "center_max_absolute_error_angstrom": 4.704706902458611e-05,
+            "radius_absolute_error_angstrom": 2.4148306592142177e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 37,
+            "center_max_absolute_error_angstrom": 4.4695746701961525e-05,
+            "radius_absolute_error_angstrom": 2.826988317128354e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 35,
+            "center_max_absolute_error_angstrom": 1.7736981924088013e-05,
+            "radius_absolute_error_angstrom": 1.812663782130297e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 40,
+            "center_max_absolute_error_angstrom": 4.4810632637393155e-05,
+            "radius_absolute_error_angstrom": 4.437878181362542e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 31,
+            "center_max_absolute_error_angstrom": 4.985574570071094e-05,
+            "radius_absolute_error_angstrom": 2.7777017606700483e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 12,
+            "center_max_absolute_error_angstrom": 2.8014019854083472e-05,
+            "radius_absolute_error_angstrom": 2.318344971585784e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 29,
+            "center_max_absolute_error_angstrom": 4.9809710766623994e-05,
+            "radius_absolute_error_angstrom": 3.290895344987277e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 26,
+            "center_max_absolute_error_angstrom": 3.909696287962561e-05,
+            "radius_absolute_error_angstrom": 1.5440616249140504e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 22,
+            "center_max_absolute_error_angstrom": 4.290745025770093e-05,
+            "radius_absolute_error_angstrom": 2.613495765690921e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 23,
+            "center_max_absolute_error_angstrom": 4.980157593337253e-05,
+            "radius_absolute_error_angstrom": 2.547331752644766e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 27,
+            "center_max_absolute_error_angstrom": 1.4792281227471449e-05,
+            "radius_absolute_error_angstrom": 2.015840666169666e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 25,
+            "center_max_absolute_error_angstrom": 2.1317195951553458e-05,
+            "radius_absolute_error_angstrom": 5.201492114359496e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          }
+        ]
+      },
+      {
+        "case": "1fbp",
+        "server_id": 3,
+        "tetrahedra": 141,
+        "exported_bulbs": 141,
+        "matched_distinct_tetrahedra": 141,
+        "passed": true,
+        "bulb_sha256": "3eb0c77633d6bf452a71c8c999a1ed8c19925f0eacf15b516705092a95a3f2c2",
+        "checks": [
+          {
+            "simplex": 42,
+            "center_max_absolute_error_angstrom": 4.6671116677998725e-05,
+            "radius_absolute_error_angstrom": 1.0941564223987399e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 50,
+            "center_max_absolute_error_angstrom": 1.5194899035009257e-05,
+            "radius_absolute_error_angstrom": 8.88769470730466e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 75,
+            "center_max_absolute_error_angstrom": 4.3402959391869445e-05,
+            "radius_absolute_error_angstrom": 6.263415803786643e-07,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 74,
+            "center_max_absolute_error_angstrom": 4.782512893086732e-05,
+            "radius_absolute_error_angstrom": 3.2398384229637145e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 48,
+            "center_max_absolute_error_angstrom": 2.0489807923240733e-05,
+            "radius_absolute_error_angstrom": 2.2756614708629996e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 41,
+            "center_max_absolute_error_angstrom": 4.199185404729633e-05,
+            "radius_absolute_error_angstrom": 3.283727976244322e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 46,
+            "center_max_absolute_error_angstrom": 2.3957667981022723e-05,
+            "radius_absolute_error_angstrom": 4.077420342363247e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 45,
+            "center_max_absolute_error_angstrom": 4.3535696079288755e-05,
+            "radius_absolute_error_angstrom": 6.588200236912201e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 77,
+            "center_max_absolute_error_angstrom": 4.939496616884753e-05,
+            "radius_absolute_error_angstrom": 4.5633004127410004e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 72,
+            "center_max_absolute_error_angstrom": 3.423466849739043e-05,
+            "radius_absolute_error_angstrom": 3.7721158747228145e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 139,
+            "center_max_absolute_error_angstrom": 4.4598219488989344e-05,
+            "radius_absolute_error_angstrom": 7.14363328135903e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 137,
+            "center_max_absolute_error_angstrom": 4.190130362857758e-05,
+            "radius_absolute_error_angstrom": 4.8511715791788035e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 138,
+            "center_max_absolute_error_angstrom": 3.662357776335057e-05,
+            "radius_absolute_error_angstrom": 5.1013683886047545e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 136,
+            "center_max_absolute_error_angstrom": 4.340469309482842e-05,
+            "radius_absolute_error_angstrom": 3.0229053877839362e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 135,
+            "center_max_absolute_error_angstrom": 4.022940916215134e-05,
+            "radius_absolute_error_angstrom": 1.7999974166738042e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 140,
+            "center_max_absolute_error_angstrom": 4.8918758487559444e-05,
+            "radius_absolute_error_angstrom": 3.482065591842165e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 44,
+            "center_max_absolute_error_angstrom": 4.328811363762952e-05,
+            "radius_absolute_error_angstrom": 4.9338134743059925e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 88,
+            "center_max_absolute_error_angstrom": 2.7387867838513102e-05,
+            "radius_absolute_error_angstrom": 3.305693663557818e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 87,
+            "center_max_absolute_error_angstrom": 4.355119249055406e-05,
+            "radius_absolute_error_angstrom": 4.641709373265357e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 54,
+            "center_max_absolute_error_angstrom": 2.880398954374641e-05,
+            "radius_absolute_error_angstrom": 6.583791860581556e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 55,
+            "center_max_absolute_error_angstrom": 4.60302279563507e-05,
+            "radius_absolute_error_angstrom": 2.4224100946490523e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 89,
+            "center_max_absolute_error_angstrom": 4.686530438391401e-05,
+            "radius_absolute_error_angstrom": 3.3347025963248456e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 81,
+            "center_max_absolute_error_angstrom": 3.7845159098992553e-05,
+            "radius_absolute_error_angstrom": 2.2251539799622577e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 86,
+            "center_max_absolute_error_angstrom": 4.216251728195175e-05,
+            "radius_absolute_error_angstrom": 1.1582440966551033e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 29,
+            "center_max_absolute_error_angstrom": 4.361196731395012e-05,
+            "radius_absolute_error_angstrom": 4.539695319594195e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 80,
+            "center_max_absolute_error_angstrom": 4.867687129817e-05,
+            "radius_absolute_error_angstrom": 9.388453978464995e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 76,
+            "center_max_absolute_error_angstrom": 4.3892481031093666e-05,
+            "radius_absolute_error_angstrom": 3.3666812018218195e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 83,
+            "center_max_absolute_error_angstrom": 4.848211494490329e-05,
+            "radius_absolute_error_angstrom": 3.129183698646898e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 73,
+            "center_max_absolute_error_angstrom": 4.039111986031685e-05,
+            "radius_absolute_error_angstrom": 5.48705455294396e-07,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 90,
+            "center_max_absolute_error_angstrom": 3.164788594745005e-05,
+            "radius_absolute_error_angstrom": 5.568852494253207e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 84,
+            "center_max_absolute_error_angstrom": 3.6795278617773874e-05,
+            "radius_absolute_error_angstrom": 9.304475774740695e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 93,
+            "center_max_absolute_error_angstrom": 4.644177540313876e-05,
+            "radius_absolute_error_angstrom": 2.143990165093257e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 91,
+            "center_max_absolute_error_angstrom": 2.8051883923296828e-05,
+            "radius_absolute_error_angstrom": 4.5200922872190574e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 92,
+            "center_max_absolute_error_angstrom": 4.291743741191567e-05,
+            "radius_absolute_error_angstrom": 2.8299209856863516e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 82,
+            "center_max_absolute_error_angstrom": 3.2623631764039374e-05,
+            "radius_absolute_error_angstrom": 3.249856351006386e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 78,
+            "center_max_absolute_error_angstrom": 2.9137307141269275e-05,
+            "radius_absolute_error_angstrom": 1.8183475016697592e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 79,
+            "center_max_absolute_error_angstrom": 4.477863991070308e-05,
+            "radius_absolute_error_angstrom": 1.9981664308943436e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 53,
+            "center_max_absolute_error_angstrom": 4.30415994436828e-05,
+            "radius_absolute_error_angstrom": 2.494729948843144e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 43,
+            "center_max_absolute_error_angstrom": 3.759954519466646e-05,
+            "radius_absolute_error_angstrom": 2.4783058702571026e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 68,
+            "center_max_absolute_error_angstrom": 4.925649463061177e-05,
+            "radius_absolute_error_angstrom": 2.6217005858697462e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 69,
+            "center_max_absolute_error_angstrom": 4.795411035374286e-05,
+            "radius_absolute_error_angstrom": 8.928117489759302e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 85,
+            "center_max_absolute_error_angstrom": 3.226548238544069e-05,
+            "radius_absolute_error_angstrom": 3.719021944537104e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 28,
+            "center_max_absolute_error_angstrom": 3.359644435363407e-05,
+            "radius_absolute_error_angstrom": 4.742106167521243e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 2,
+            "center_max_absolute_error_angstrom": 3.46903723098535e-05,
+            "radius_absolute_error_angstrom": 3.439661778159575e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 0,
+            "center_max_absolute_error_angstrom": 4.842852590769553e-05,
+            "radius_absolute_error_angstrom": 6.801516706733679e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 30,
+            "center_max_absolute_error_angstrom": 4.7946487811145744e-05,
+            "radius_absolute_error_angstrom": 2.3115063194301122e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 40,
+            "center_max_absolute_error_angstrom": 4.7778824963984334e-05,
+            "radius_absolute_error_angstrom": 7.192194441341115e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 39,
+            "center_max_absolute_error_angstrom": 4.349138656323248e-05,
+            "radius_absolute_error_angstrom": 2.914064474901501e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 13,
+            "center_max_absolute_error_angstrom": 3.9666872396537656e-05,
+            "radius_absolute_error_angstrom": 4.908139006332135e-07,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 22,
+            "center_max_absolute_error_angstrom": 4.150715473372202e-05,
+            "radius_absolute_error_angstrom": 3.528273475561505e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 8,
+            "center_max_absolute_error_angstrom": 3.0273010523274024e-05,
+            "radius_absolute_error_angstrom": 2.497500047837775e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 17,
+            "center_max_absolute_error_angstrom": 1.7770969151342797e-05,
+            "radius_absolute_error_angstrom": 1.6095558695639056e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 33,
+            "center_max_absolute_error_angstrom": 3.4308979252273275e-05,
+            "radius_absolute_error_angstrom": 1.3823711372040748e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 94,
+            "center_max_absolute_error_angstrom": 3.5912221768796826e-05,
+            "radius_absolute_error_angstrom": 3.6132887861084484e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 96,
+            "center_max_absolute_error_angstrom": 4.9341375394362785e-05,
+            "radius_absolute_error_angstrom": 8.783509469090234e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 52,
+            "center_max_absolute_error_angstrom": 4.445121273022323e-05,
+            "radius_absolute_error_angstrom": 3.912779830939073e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 61,
+            "center_max_absolute_error_angstrom": 2.4619420557314697e-05,
+            "radius_absolute_error_angstrom": 1.5801545829141617e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 64,
+            "center_max_absolute_error_angstrom": 3.342369996062189e-05,
+            "radius_absolute_error_angstrom": 3.5005179763736294e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 65,
+            "center_max_absolute_error_angstrom": 2.6122446797671728e-05,
+            "radius_absolute_error_angstrom": 2.321278005990024e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 9,
+            "center_max_absolute_error_angstrom": 4.5943362771083684e-05,
+            "radius_absolute_error_angstrom": 1.4159577376826604e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 35,
+            "center_max_absolute_error_angstrom": 4.597151924201626e-05,
+            "radius_absolute_error_angstrom": 1.2827489416888938e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 101,
+            "center_max_absolute_error_angstrom": 4.405667252171952e-05,
+            "radius_absolute_error_angstrom": 4.723666826791928e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 100,
+            "center_max_absolute_error_angstrom": 4.276238813361033e-05,
+            "radius_absolute_error_angstrom": 4.4541643751783155e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 12,
+            "center_max_absolute_error_angstrom": 4.6931234049196746e-05,
+            "radius_absolute_error_angstrom": 3.7768154135253695e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 4,
+            "center_max_absolute_error_angstrom": 4.492924150589772e-05,
+            "radius_absolute_error_angstrom": 9.974020147573981e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 32,
+            "center_max_absolute_error_angstrom": 2.8729679991457147e-05,
+            "radius_absolute_error_angstrom": 1.0985078351399835e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 126,
+            "center_max_absolute_error_angstrom": 3.926388760788768e-05,
+            "radius_absolute_error_angstrom": 8.80806389036426e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 105,
+            "center_max_absolute_error_angstrom": 4.6761430041897256e-05,
+            "radius_absolute_error_angstrom": 2.661807688264517e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 63,
+            "center_max_absolute_error_angstrom": 4.133600340594512e-05,
+            "radius_absolute_error_angstrom": 6.986727587587893e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 106,
+            "center_max_absolute_error_angstrom": 4.8712984920484814e-05,
+            "radius_absolute_error_angstrom": 4.217810324091964e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 38,
+            "center_max_absolute_error_angstrom": 2.459026400458697e-05,
+            "radius_absolute_error_angstrom": 4.532705709214824e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 70,
+            "center_max_absolute_error_angstrom": 4.469311312504942e-05,
+            "radius_absolute_error_angstrom": 3.902562183411007e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 67,
+            "center_max_absolute_error_angstrom": 4.968692319096135e-05,
+            "radius_absolute_error_angstrom": 4.6407113827307e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 51,
+            "center_max_absolute_error_angstrom": 4.0334742948289204e-05,
+            "radius_absolute_error_angstrom": 2.0378098573026193e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 27,
+            "center_max_absolute_error_angstrom": 4.70686912592555e-05,
+            "radius_absolute_error_angstrom": 1.0803981512541583e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 34,
+            "center_max_absolute_error_angstrom": 3.2655762000288746e-05,
+            "radius_absolute_error_angstrom": 1.5187964594876036e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 25,
+            "center_max_absolute_error_angstrom": 4.055487079313025e-05,
+            "radius_absolute_error_angstrom": 2.0344843132180657e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 26,
+            "center_max_absolute_error_angstrom": 3.642032294948194e-05,
+            "radius_absolute_error_angstrom": 8.425726864214056e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 131,
+            "center_max_absolute_error_angstrom": 4.5891438118061956e-05,
+            "radius_absolute_error_angstrom": 4.040272498029296e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 132,
+            "center_max_absolute_error_angstrom": 3.116364192479182e-05,
+            "radius_absolute_error_angstrom": 3.985456002597587e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 130,
+            "center_max_absolute_error_angstrom": 4.4005351504949886e-05,
+            "radius_absolute_error_angstrom": 3.473218880412077e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 128,
+            "center_max_absolute_error_angstrom": 4.090924349320346e-05,
+            "radius_absolute_error_angstrom": 9.170116637591263e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 129,
+            "center_max_absolute_error_angstrom": 3.4862460495332925e-05,
+            "radius_absolute_error_angstrom": 4.788843367231621e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 104,
+            "center_max_absolute_error_angstrom": 3.902622377438547e-05,
+            "radius_absolute_error_angstrom": 1.3950248513694419e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 5,
+            "center_max_absolute_error_angstrom": 4.9468135415509096e-05,
+            "radius_absolute_error_angstrom": 4.069084068536455e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 7,
+            "center_max_absolute_error_angstrom": 4.875230891343563e-05,
+            "radius_absolute_error_angstrom": 1.456219512974144e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 31,
+            "center_max_absolute_error_angstrom": 4.3865247477015146e-05,
+            "radius_absolute_error_angstrom": 2.882561171979603e-07,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 62,
+            "center_max_absolute_error_angstrom": 4.3668745092872996e-05,
+            "radius_absolute_error_angstrom": 2.096872093293456e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 60,
+            "center_max_absolute_error_angstrom": 4.190363617340154e-05,
+            "radius_absolute_error_angstrom": 2.2506784975284688e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 58,
+            "center_max_absolute_error_angstrom": 4.1977708946205894e-05,
+            "radius_absolute_error_angstrom": 8.523576200403227e-07,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 59,
+            "center_max_absolute_error_angstrom": 3.677239593713466e-05,
+            "radius_absolute_error_angstrom": 2.42764182138977e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 119,
+            "center_max_absolute_error_angstrom": 4.466245177070505e-05,
+            "radius_absolute_error_angstrom": 3.438601078253889e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 14,
+            "center_max_absolute_error_angstrom": 4.429568538455442e-05,
+            "radius_absolute_error_angstrom": 1.1864550435003451e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 18,
+            "center_max_absolute_error_angstrom": 4.3589982212211e-05,
+            "radius_absolute_error_angstrom": 3.320452472221902e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 37,
+            "center_max_absolute_error_angstrom": 3.5582234673370294e-05,
+            "radius_absolute_error_angstrom": 3.319472255380873e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 11,
+            "center_max_absolute_error_angstrom": 4.72540511164965e-05,
+            "radius_absolute_error_angstrom": 2.8768760294894946e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 21,
+            "center_max_absolute_error_angstrom": 2.8213797147458308e-05,
+            "radius_absolute_error_angstrom": 3.594633752568299e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 1,
+            "center_max_absolute_error_angstrom": 4.990681431138455e-05,
+            "radius_absolute_error_angstrom": 3.021482925280594e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 47,
+            "center_max_absolute_error_angstrom": 3.4269799030539616e-05,
+            "radius_absolute_error_angstrom": 2.274749092823214e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 16,
+            "center_max_absolute_error_angstrom": 1.953138635713003e-05,
+            "radius_absolute_error_angstrom": 1.6331373120515025e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 3,
+            "center_max_absolute_error_angstrom": 3.8582763535188747e-05,
+            "radius_absolute_error_angstrom": 1.7082851283323208e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 36,
+            "center_max_absolute_error_angstrom": 3.74209885070087e-05,
+            "radius_absolute_error_angstrom": 3.543145255657798e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 108,
+            "center_max_absolute_error_angstrom": 4.037318274185964e-05,
+            "radius_absolute_error_angstrom": 1.2860925031610293e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 124,
+            "center_max_absolute_error_angstrom": 3.203635572823771e-05,
+            "radius_absolute_error_angstrom": 2.9962538653727222e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 122,
+            "center_max_absolute_error_angstrom": 2.546997978924992e-05,
+            "radius_absolute_error_angstrom": 3.577933975984493e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 123,
+            "center_max_absolute_error_angstrom": 2.458984933184638e-05,
+            "radius_absolute_error_angstrom": 6.963100369627995e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 56,
+            "center_max_absolute_error_angstrom": 4.583333916485799e-05,
+            "radius_absolute_error_angstrom": 3.664785726575914e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 121,
+            "center_max_absolute_error_angstrom": 4.26648758420356e-05,
+            "radius_absolute_error_angstrom": 1.68966886775479e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 57,
+            "center_max_absolute_error_angstrom": 4.568108560931705e-05,
+            "radius_absolute_error_angstrom": 3.945551459993979e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 110,
+            "center_max_absolute_error_angstrom": 4.021309825219532e-05,
+            "radius_absolute_error_angstrom": 1.804566749186165e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 117,
+            "center_max_absolute_error_angstrom": 2.964266974458951e-05,
+            "radius_absolute_error_angstrom": 6.18768080329346e-07,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 109,
+            "center_max_absolute_error_angstrom": 1.7390738250355753e-05,
+            "radius_absolute_error_angstrom": 2.038969080198072e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 111,
+            "center_max_absolute_error_angstrom": 4.676863584229807e-05,
+            "radius_absolute_error_angstrom": 1.975438270296337e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 71,
+            "center_max_absolute_error_angstrom": 4.700111691136044e-05,
+            "radius_absolute_error_angstrom": 3.161722611277895e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 118,
+            "center_max_absolute_error_angstrom": 3.336902474160297e-05,
+            "radius_absolute_error_angstrom": 2.105748305059052e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 6,
+            "center_max_absolute_error_angstrom": 2.697569296827851e-05,
+            "radius_absolute_error_angstrom": 3.1805718493593815e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 98,
+            "center_max_absolute_error_angstrom": 4.389847029528937e-05,
+            "radius_absolute_error_angstrom": 4.3808942872924916e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 23,
+            "center_max_absolute_error_angstrom": 4.566366420988288e-05,
+            "radius_absolute_error_angstrom": 4.965554829727825e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 97,
+            "center_max_absolute_error_angstrom": 4.9767610358131265e-05,
+            "radius_absolute_error_angstrom": 5.322297138787846e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 99,
+            "center_max_absolute_error_angstrom": 2.6744502875430953e-05,
+            "radius_absolute_error_angstrom": 1.2739180943910355e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 24,
+            "center_max_absolute_error_angstrom": 2.6960084859695144e-05,
+            "radius_absolute_error_angstrom": 3.5301688835698286e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 120,
+            "center_max_absolute_error_angstrom": 4.340865140761707e-05,
+            "radius_absolute_error_angstrom": 3.673690703998034e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 10,
+            "center_max_absolute_error_angstrom": 1.587534708136218e-05,
+            "radius_absolute_error_angstrom": 1.2612951364232572e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 20,
+            "center_max_absolute_error_angstrom": 2.416592532483719e-05,
+            "radius_absolute_error_angstrom": 3.8511675794161704e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 19,
+            "center_max_absolute_error_angstrom": 4.6566806574332986e-05,
+            "radius_absolute_error_angstrom": 2.4569240227201306e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 49,
+            "center_max_absolute_error_angstrom": 2.9400582718608348e-05,
+            "radius_absolute_error_angstrom": 7.928933857481724e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 15,
+            "center_max_absolute_error_angstrom": 4.430813999078964e-05,
+            "radius_absolute_error_angstrom": 2.3767709502520162e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 116,
+            "center_max_absolute_error_angstrom": 4.7571414654612454e-05,
+            "radius_absolute_error_angstrom": 3.5325619430315314e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 114,
+            "center_max_absolute_error_angstrom": 4.6542290318640767e-05,
+            "radius_absolute_error_angstrom": 4.422142261639728e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 112,
+            "center_max_absolute_error_angstrom": 4.8965297892777926e-05,
+            "radius_absolute_error_angstrom": 1.1193620203631127e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 66,
+            "center_max_absolute_error_angstrom": 2.8617052528545628e-05,
+            "radius_absolute_error_angstrom": 5.661218887009767e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 127,
+            "center_max_absolute_error_angstrom": 4.571395711749915e-05,
+            "radius_absolute_error_angstrom": 2.598410187193423e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 95,
+            "center_max_absolute_error_angstrom": 4.120782114114263e-05,
+            "radius_absolute_error_angstrom": 4.71562013371063e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 133,
+            "center_max_absolute_error_angstrom": 1.9471525249059596e-05,
+            "radius_absolute_error_angstrom": 3.8053968657969506e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 107,
+            "center_max_absolute_error_angstrom": 3.842291221189953e-05,
+            "radius_absolute_error_angstrom": 1.93687040436763e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 102,
+            "center_max_absolute_error_angstrom": 2.130387262155864e-05,
+            "radius_absolute_error_angstrom": 2.7086204844817274e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 113,
+            "center_max_absolute_error_angstrom": 1.9623243261435164e-05,
+            "radius_absolute_error_angstrom": 2.50208187089207e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 115,
+            "center_max_absolute_error_angstrom": 4.106314554519486e-05,
+            "radius_absolute_error_angstrom": 6.027737789460197e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 125,
+            "center_max_absolute_error_angstrom": 3.977578474234633e-05,
+            "radius_absolute_error_angstrom": 4.8478530978446344e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 103,
+            "center_max_absolute_error_angstrom": 4.480374993498515e-05,
+            "radius_absolute_error_angstrom": 1.0532588037293067e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 134,
+            "center_max_absolute_error_angstrom": 4.198610434968941e-05,
+            "radius_absolute_error_angstrom": 4.228304055198251e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          }
+        ]
+      },
+      {
+        "case": "2fbp",
+        "server_id": 11,
+        "tetrahedra": 49,
+        "exported_bulbs": 49,
+        "matched_distinct_tetrahedra": 49,
+        "passed": true,
+        "bulb_sha256": "91b36996b6239df84b47973a2872ccb927596703fd494c1acccc48b5c2d9e08a",
+        "checks": [
+          {
+            "simplex": 4,
+            "center_max_absolute_error_angstrom": 4.856696308053188e-05,
+            "radius_absolute_error_angstrom": 4.321268671181322e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 3,
+            "center_max_absolute_error_angstrom": 2.984199991828973e-05,
+            "radius_absolute_error_angstrom": 6.303048603939487e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 33,
+            "center_max_absolute_error_angstrom": 3.717994113117129e-05,
+            "radius_absolute_error_angstrom": 3.9013973237411737e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 35,
+            "center_max_absolute_error_angstrom": 2.8662284707436925e-05,
+            "radius_absolute_error_angstrom": 9.458115793226085e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 2,
+            "center_max_absolute_error_angstrom": 4.812150191568776e-05,
+            "radius_absolute_error_angstrom": 2.6466062630070564e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 16,
+            "center_max_absolute_error_angstrom": 3.6117674326874294e-05,
+            "radius_absolute_error_angstrom": 2.5436654985444562e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 14,
+            "center_max_absolute_error_angstrom": 4.5854988258042795e-05,
+            "radius_absolute_error_angstrom": 1.1611770645569841e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 15,
+            "center_max_absolute_error_angstrom": 4.8694046625996634e-05,
+            "radius_absolute_error_angstrom": 4.8239709939723596e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 41,
+            "center_max_absolute_error_angstrom": 4.2857786059613545e-05,
+            "radius_absolute_error_angstrom": 3.705833547895665e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 34,
+            "center_max_absolute_error_angstrom": 2.446235596664792e-05,
+            "radius_absolute_error_angstrom": 2.535138593984243e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 43,
+            "center_max_absolute_error_angstrom": 4.2992912579364884e-05,
+            "radius_absolute_error_angstrom": 2.0071509590380288e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 47,
+            "center_max_absolute_error_angstrom": 4.205548476932108e-05,
+            "radius_absolute_error_angstrom": 4.231597099013662e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 32,
+            "center_max_absolute_error_angstrom": 1.8260212272025456e-05,
+            "radius_absolute_error_angstrom": 3.6983871716689265e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 31,
+            "center_max_absolute_error_angstrom": 4.5704348188735366e-05,
+            "radius_absolute_error_angstrom": 2.869442893449481e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 1,
+            "center_max_absolute_error_angstrom": 3.6473867599085e-05,
+            "radius_absolute_error_angstrom": 3.222858413309826e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 45,
+            "center_max_absolute_error_angstrom": 4.651047615311654e-05,
+            "radius_absolute_error_angstrom": 4.375762247232906e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 46,
+            "center_max_absolute_error_angstrom": 4.3630355403223575e-05,
+            "radius_absolute_error_angstrom": 4.53150541105396e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 39,
+            "center_max_absolute_error_angstrom": 3.7995431906523436e-05,
+            "radius_absolute_error_angstrom": 3.512241784964232e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 48,
+            "center_max_absolute_error_angstrom": 9.904861542509025e-06,
+            "radius_absolute_error_angstrom": 4.837956557457446e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 44,
+            "center_max_absolute_error_angstrom": 3.661628616669077e-05,
+            "radius_absolute_error_angstrom": 3.372000616375104e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 36,
+            "center_max_absolute_error_angstrom": 4.0101055555297194e-05,
+            "radius_absolute_error_angstrom": 3.692952967870866e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 37,
+            "center_max_absolute_error_angstrom": 4.83034012859207e-05,
+            "radius_absolute_error_angstrom": 2.9800044292205286e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 38,
+            "center_max_absolute_error_angstrom": 4.5218718010886505e-05,
+            "radius_absolute_error_angstrom": 2.9850536511055736e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 40,
+            "center_max_absolute_error_angstrom": 2.8068466065178654e-05,
+            "radius_absolute_error_angstrom": 3.669546996665218e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 23,
+            "center_max_absolute_error_angstrom": 2.5357804904757586e-05,
+            "radius_absolute_error_angstrom": 1.4550409623836913e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 22,
+            "center_max_absolute_error_angstrom": 4.429100293990018e-05,
+            "radius_absolute_error_angstrom": 5.42843843653884e-07,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 0,
+            "center_max_absolute_error_angstrom": 2.9531169019492154e-05,
+            "radius_absolute_error_angstrom": 4.0301746141668815e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 29,
+            "center_max_absolute_error_angstrom": 3.5276370887515895e-05,
+            "radius_absolute_error_angstrom": 1.4644170284627833e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 26,
+            "center_max_absolute_error_angstrom": 4.8680955515578717e-05,
+            "radius_absolute_error_angstrom": 1.0438679742375001e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 27,
+            "center_max_absolute_error_angstrom": 3.5109259556520556e-05,
+            "radius_absolute_error_angstrom": 2.152372011643422e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 24,
+            "center_max_absolute_error_angstrom": 2.383430564556477e-05,
+            "radius_absolute_error_angstrom": 4.4981856167414236e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 21,
+            "center_max_absolute_error_angstrom": 2.863245703643713e-05,
+            "radius_absolute_error_angstrom": 1.6693977280102246e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 30,
+            "center_max_absolute_error_angstrom": 1.547966338932838e-05,
+            "radius_absolute_error_angstrom": 2.2803709547991602e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 28,
+            "center_max_absolute_error_angstrom": 3.606286291812921e-05,
+            "radius_absolute_error_angstrom": 2.845988082955664e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 25,
+            "center_max_absolute_error_angstrom": 4.6121235854457154e-05,
+            "radius_absolute_error_angstrom": 1.8937290847675925e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 17,
+            "center_max_absolute_error_angstrom": 2.9638506404694454e-05,
+            "radius_absolute_error_angstrom": 1.79600900254151e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 19,
+            "center_max_absolute_error_angstrom": 4.9528727842584885e-05,
+            "radius_absolute_error_angstrom": 4.931320515932924e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 20,
+            "center_max_absolute_error_angstrom": 4.8929863780244887e-05,
+            "radius_absolute_error_angstrom": 4.1627682045852765e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 18,
+            "center_max_absolute_error_angstrom": 4.5513476759850846e-05,
+            "radius_absolute_error_angstrom": 2.892431798562356e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 11,
+            "center_max_absolute_error_angstrom": 4.527027418532725e-05,
+            "radius_absolute_error_angstrom": 3.497033521593362e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 12,
+            "center_max_absolute_error_angstrom": 1.3768085446841383e-05,
+            "radius_absolute_error_angstrom": 1.4587906838725573e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 9,
+            "center_max_absolute_error_angstrom": 4.4501576255129294e-05,
+            "radius_absolute_error_angstrom": 1.3209057629914867e-06,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 8,
+            "center_max_absolute_error_angstrom": 3.7636047379052684e-05,
+            "radius_absolute_error_angstrom": 2.1372076667525164e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 7,
+            "center_max_absolute_error_angstrom": 4.828648553889536e-05,
+            "radius_absolute_error_angstrom": 3.1347720427898906e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 5,
+            "center_max_absolute_error_angstrom": 2.9075691500679568e-05,
+            "radius_absolute_error_angstrom": 3.688208209373656e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 6,
+            "center_max_absolute_error_angstrom": 3.521405260542565e-05,
+            "radius_absolute_error_angstrom": 3.216461716126773e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 10,
+            "center_max_absolute_error_angstrom": 4.995218520953415e-05,
+            "radius_absolute_error_angstrom": 1.1152846201234468e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 42,
+            "center_max_absolute_error_angstrom": 4.718132014502885e-05,
+            "radius_absolute_error_angstrom": 3.962560305126317e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          },
+          {
+            "simplex": 13,
+            "center_max_absolute_error_angstrom": 3.260087373746501e-05,
+            "radius_absolute_error_angstrom": 2.6041785350483515e-05,
+            "status": "compatible",
+            "support_matches": true,
+            "interior_atoms": 0,
+            "compatible": true
+          }
+        ]
+      }
+    ]
+  },
+  "cases": [
+    {
+      "case": "1mrg",
+      "server_id": 22,
+      "field": "volume_sa",
+      "expected": 0.004,
+      "actual": 0.0034996378073546275,
+      "fsum": 0.0034996378073543014,
+      "sum_absolute_terms": 84.66819587720505,
+      "tetrahedra": 2,
+      "pdb_sha256": "1f2d801cc8e3862ffeb0d3564808856db3ab7ac2f199e46a96e55fa25c629f1f",
+      "feature_type": "void",
+      "c_volume_sa": 0.003499637802392569,
+      "c_area_sa": 0.19945025520604354,
+      "corrections": 0,
+      "warnings": 0,
+      "c_passes": false,
+      "precision": [
+        {
+          "digits": 40,
+          "volume_sa": "0.003499637802067610535328895512680783816044",
+          "area_sa": "0.1994502552060489122233287887497818627432"
+        },
+        {
+          "digits": 80,
+          "volume_sa": "0.0034996378020676105353288955126807835984499801256769492727229426575213400099221592",
+          "area_sa": "0.19945025520604891222332878874978186274798299786490641999308844530853767517413222"
+        }
+      ],
+      "high_precision_passes": false,
+      "primitive_count": 28,
+      "max_primitive_absolute_delta": {
+        "volume_sa": 7.30260296677443e-12,
+        "area_sa": 1.554312234475219e-14
+      }
+    },
+    {
+      "case": "1psn",
+      "server_id": 13,
+      "field": "volume_sa",
+      "expected": 0.686,
+      "actual": 0.6854994934777379,
+      "fsum": 0.6854994934776547,
+      "sum_absolute_terms": 657.0000278917507,
+      "tetrahedra": 13,
+      "pdb_sha256": "a3589219de36c7b380fcceff8f87f2413f51a7fc04592f08e53a6354d2e5ace2",
+      "feature_type": "void",
+      "c_volume_sa": 0.6854994934776033,
+      "c_area_sa": 8.94896596909077,
+      "corrections": 0,
+      "warnings": 0,
+      "c_passes": false,
+      "precision": [
+        {
+          "digits": 40,
+          "volume_sa": "0.6854994934778119220966342975644879675026",
+          "area_sa": "8.948965969090764699282933026837558170044"
+        },
+        {
+          "digits": 80,
+          "volume_sa": "0.68549949347781192209663429756448796720678984403307988879912837057154993226969661",
+          "area_sa": "8.948965969090764699282933026837558170046377811620518709488164437534079134485772"
+        }
+      ],
+      "high_precision_passes": false,
+      "primitive_count": 151,
+      "max_primitive_absolute_delta": {
+        "volume_sa": 6.906697436193099e-13,
+        "area_sa": 2.4424906541753444e-14
+      }
+    },
+    {
+      "case": "1ypi",
+      "server_id": 6,
+      "field": "volume_sa",
+      "expected": 18.094,
+      "actual": 18.094500169312916,
+      "fsum": 18.094500169312862,
+      "sum_absolute_terms": 2032.476303658858,
+      "tetrahedra": 42,
+      "pdb_sha256": "64d2d25b2b1a6bed39918378dd25547b8ed0a8ceade763f64243125bb4eb403f",
+      "feature_type": "pocket",
+      "c_volume_sa": 18.094500169285364,
+      "c_area_sa": 50.798826941345716,
+      "corrections": 0,
+      "warnings": 0,
+      "c_passes": false,
+      "precision": [
+        {
+          "digits": 40,
+          "volume_sa": "18.09450016928191157862330133196298469112",
+          "area_sa": "50.79882694134569069150404220782868801203"
+        },
+        {
+          "digits": 80,
+          "volume_sa": "18.094500169281911578623301331962984692843537608681454706481903992715712170787697",
+          "area_sa": "50.798826941345690691504042207828688012024719051121632574328730753530376543277173"
+        }
+      ],
+      "high_precision_passes": false,
+      "primitive_count": 405,
+      "max_primitive_absolute_delta": {
+        "volume_sa": 2.283329081365082e-11,
+        "area_sa": 6.461498003318411e-14
+      }
+    },
+    {
+      "case": "1fbp",
+      "server_id": 3,
+      "field": "area_sa",
+      "expected": 299.277,
+      "actual": 299.2764954437975,
+      "fsum": 299.27649544379716,
+      "sum_absolute_terms": 8195.818695478076,
+      "tetrahedra": 141,
+      "pdb_sha256": "7d70f7a292a68a278b577c4345cf48077df1d418074ffc422c974a64c8bebc25",
+      "feature_type": "channel",
+      "c_volume_sa": 178.45159348530242,
+      "c_area_sa": 299.2764954437971,
+      "corrections": 0,
+      "warnings": 0,
+      "c_passes": false,
+      "precision": [
+        {
+          "digits": 40,
+          "volume_sa": "178.4515934852921218832032194230055932919",
+          "area_sa": "299.27649544379708368907892923102421806"
+        },
+        {
+          "digits": 80,
+          "volume_sa": "178.45159348529212188320321942300559329117289517642358899026291145695925198826665",
+          "area_sa": "299.27649544379708368907892923102421805994583018250774931868884967593107315080145"
+        }
+      ],
+      "high_precision_passes": false,
+      "primitive_count": 1347,
+      "max_primitive_absolute_delta": {
+        "volume_sa": 9.376321941090282e-11,
+        "area_sa": 6.505906924303417e-14
+      }
+    },
+    {
+      "case": "2fbp",
+      "server_id": 11,
+      "field": "volume_sa",
+      "expected": 36.266,
+      "actual": 36.26650173333687,
+      "fsum": 36.26650173333725,
+      "sum_absolute_terms": 2403.398882405572,
+      "tetrahedra": 49,
+      "pdb_sha256": "18bcc6c36377fb4aae6627b52c2fb8f26d9451d8e31e2f86fe91bc9377a84e0e",
+      "feature_type": "pocket",
+      "c_volume_sa": 36.26650173327073,
+      "c_area_sa": 92.63069965345066,
+      "corrections": 0,
+      "warnings": 0,
+      "c_passes": false,
+      "precision": [
+        {
+          "digits": 40,
+          "volume_sa": "36.26650173327425068887845261512792533872",
+          "area_sa": "92.63069965345077579927541630834882774218"
+        },
+        {
+          "digits": 80,
+          "volume_sa": "36.266501733274250688878452615127925338023421397784610424386683010107435610806976",
+          "area_sa": "92.630699653450775799275416308348827742170902221133592936927358755723603047440779"
+        }
+      ],
+      "high_precision_passes": false,
+      "primitive_count": 478,
+      "max_primitive_absolute_delta": {
+        "volume_sa": 3.142730520266923e-11,
+        "area_sa": 3.752553823233029e-14
+      }
+    }
+  ]
+}

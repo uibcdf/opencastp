@@ -1,0 +1,75 @@
+"""Assemble bounded, coordinate-free historical/precision diagnostic evidence."""
+
+import hashlib
+import importlib.metadata
+import json
+import platform
+from pathlib import Path
+
+ROOT = Path('/home/diego/repos@uibcdf/opencastp')
+HISTORICAL = Path('/home/diego/repos@uibcdf/Alphashape/castp')
+SCRATCH = Path('/tmp')
+
+def sha256(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+collectors = {
+    'historical_metric_freeze_2026_10_03.py.txt': SCRATCH / 'opencastp_residual_diagnostic.py',
+    'historical_metric_precision_2026_10_03.py.txt': SCRATCH / 'opencastp_residual_precision.py',
+    'historical_metric_compare_2026_10_03.py.txt': SCRATCH / 'opencastp_historical_metric_compare.py',
+    'historical_metric_bridge_2026_10_03.c.txt': SCRATCH / 'opencastp_historical_metric_bridge.c',
+    'historical_metric_assemble_2026_10_03.py.txt': Path(__file__),
+    'historical_metric_orthospheres_2026_10_03.py.txt': SCRATCH / 'opencastp_residual_orthospheres.py',
+}
+originals = [
+    'alpha-4.1-src/volbl/metric.c', 'alpha-4.1-src/volbl/volbl.h',
+    'alpha-4.1-src/volbl/volbl.c',
+    *[f'topomt_version/include/{name}.h' for name in
+      ['alf', 'basic', 'lia', 'sos', 'trist', 'dt', 'sig', 'poc-sig']],
+]
+precise = json.loads((SCRATCH / 'opencastp_residual_high_precision.json').read_text())
+historical = json.loads((SCRATCH / 'opencastp_historical_metric_comparison.json').read_text())
+assert len(precise['cases']) == len(historical['cases']) == 5
+precision_by_case = {row['case']: row for row in precise['cases']}
+report = {
+    'recorded': '2026-10-03', 'completed': True, 'passed': False,
+    'complete_server_equivalence': False,
+    'source_commit': '63d9693c666185bc33d7202ad68d0862c54f37d2',
+    'scope': 'SA primitives on frozen modern integration domains',
+    'historical_pipeline_executed': False,
+    'historical_coordinate_input': 'modern float64 arrays',
+    'high_precision_input': 'decimal strings of modern float64 arrays',
+    'predicates': 'OpenCASTp hidden0/hidden1 and orientation callbacks reused',
+    'scalar_tolerance': 0.00050001,
+    'units': {'volume_sa': 'angstrom**3', 'area_sa': 'angstrom**2'},
+    'versions': {name: importlib.metadata.version(name) for name in
+                 ['numpy', 'scipy', 'molsysmt', 'pyunitwizard', 'mpmath']},
+    'python': platform.python_version(),
+    'compiler': 'gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0',
+    'compiler_options': ['-O2', '-fPIC', '-shared', '-lm'],
+    'historical_source_sha256': {name: sha256(HISTORICAL / name) for name in originals},
+    'collector_sha256': {name: sha256(path) for name, path in collectors.items()},
+    'numerical_source_sha256': {
+        str(path.relative_to(ROOT)): sha256(path)
+        for path in sorted((ROOT / 'src/opencastp').rglob('*.py'))
+    },
+    'consumer_diagnostic_sha256': {
+        'topomt/devtools/castp/audit_castp3_radii.py': sha256(Path('/home/diego/repos@uibcdf/topomt/devtools/castp/audit_castp3_radii.py'))
+    },
+    'orthosphere_control': json.loads((SCRATCH / 'opencastp_residual_orthospheres.json').read_text()),
+    'cases': [],
+}
+for source in historical['cases']:
+    row = {key: value for key, value in source.items() if key != 'primitive_rows'}
+    row.update(precision=precision_by_case[row['case']]['precision'],
+               high_precision_passes=precision_by_case[row['case']]['high_precision_passes'])
+    primitives = source['primitive_rows']
+    row['primitive_count'] = len(primitives)
+    row['max_primitive_absolute_delta'] = {
+        field: max(abs(term['delta_' + field]) for term in primitives)
+        for field in ('volume_sa', 'area_sa')
+    }
+    report['cases'].append(row)
+output = SCRATCH / 'historical_metric_controls_2026_10_03.json'
+output.write_text(json.dumps(report, indent=2) + '\n')
+print('Coordinate-free evidence:', len(report['cases']), 'cases;', output)

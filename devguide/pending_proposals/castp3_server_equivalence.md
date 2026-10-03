@@ -169,3 +169,23 @@ or per-atom radii. The observed restrictions, possible unqualified workarounds,
 negative-mouth convention and independently tested OpenCASTp radius control
 are recorded in ../../docs/problems_and_model_control.md and
 ../comparison_evidence_2026_10_03.md. All remaining scientific gates stay open.
+
+## Historical metric controls — 2026-10-03
+
+Compiled unchanged 1996 metric.c primitives, accurate summation and 40/80-digit
+re-evaluation all retain the five strict scalar failures on frozen modern
+integration domains. The selected compiled C quantities differ from current
+Python quantities by less than 7e-11, with zero runtime metric corrections.
+The 247 exported orthospheres in these five regions match distinct supporting
+tetrahedra at printed precision. This constrains those domains; it does not
+qualify every exported orthosphere or execute the whole historical pipeline.
+Source geometry, radius choices and comparison tolerances remain unchanged.
+See [diagnostic evidence and replay](../metric_controls_2026_10_03.md). Modern
+input, measurement and export conventions remain open; no modern-server bug
+or complete equivalence is established. The 84/89 corpus verdict is unchanged.
+
+Local diagnostic verification passes 56 tests with pytest-receptor, including
+the explicitly configured 1STP/8RAT molecular guards and two new evidence
+guards. Ruff lint/format, generated-index and warning-free Sphinx checks pass.
+One pre-existing developer Pint cache warning remains visible. These passing
+engineering checks do not change the five strict scalar failures.

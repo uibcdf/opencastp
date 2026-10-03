@@ -1,0 +1,92 @@
+"""Freeze residual region inputs and compare metric accumulation controls."""
+
+import hashlib
+import json
+import math
+import pickle
+import sys
+import tempfile
+from pathlib import Path
+from zipfile import ZipFile
+
+import numpy as np
+
+ROOT = Path('/home/diego/repos@uibcdf/opencastp')
+TOPOMT = Path('/home/diego/repos@uibcdf/topomt')
+sys.path[:0] = [str(ROOT / 'src'), str(TOPOMT)]
+
+from opencastp._core import volbl
+from opencastp._core.components import build_castp_feature_records
+from opencastp._core.geometry import build_castp_geometry
+from topomt.third_party.castp3.core.castp_core.geometry import build_castp_geometry as prepare
+import molsysmt as msm
+
+
+def main():
+    report = {'cases': [], 'source_commit': '63d9693c666185bc33d7202ad68d0862c54f37d2'}
+    for name, identifier, field, expected in (
+        ('1mrg', 22, 'volume_sa', 0.004),
+        ('1psn', 13, 'volume_sa', 0.686),
+        ('1ypi', 6, 'volume_sa', 18.094),
+        ('1fbp', 3, 'area_sa', 299.277),
+        ('2fbp', 11, 'volume_sa', 36.266),
+    ):
+        with ZipFile(TOPOMT / 'topomt/data/CASTpFold_server' / f'{name}.zip') as handle:
+            pdb = handle.read(next(n for n in handle.namelist() if n.endswith('.pdb')))
+            lining = {
+                int(line[6:11])
+                for line in handle.read(next(n for n in handle.namelist() if n.endswith('.poc'))).decode().splitlines()
+                if line.startswith(('ATOM', 'HETATM')) and int(line.split()[-2]) == identifier
+            }
+        with tempfile.TemporaryDirectory(prefix='opencastp-residual-') as directory:
+            path = Path(directory) / 'input.pdb'
+            path.write_bytes(b''.join(line for line in pdb.splitlines(keepends=True) if not line.startswith(b'HETATM')))
+            molecular = msm.convert(str(path), to_form='molsysmt.MolSys')
+            serials = msm.get(molecular, element='atom', atom_id=True)
+            prepared = prepare(str(path), selection='molecule_type in ["protein", "peptide"]', radii_model='castp3_protor', solvent_radius=1.4)
+            ids = np.asarray([int(serials[int(i)]) for i in prepared.atom_indices_map])
+            geometry = build_castp_geometry(prepared.atom_coordinates, prepared.atom_radii, atom_indices=ids, solvent_radius=1.4)
+        features = build_castp_feature_records(geometry, probe_radius=1.4, pocket_definition='castp3')
+        matches = [f for f in features if set(f['atom_indices']) == lining]
+        assert len(matches) == 1
+        feature = matches[0]
+        context = volbl._metric_context_from_geometry(geometry)
+        terms = []
+        vertices = geometry.mesh.simplex_atom_indices
+        for index in feature['tetrahedron_indices']:
+            atoms = [int(x) for x in vertices[index]]
+            terms.append(('tetrahedron', atoms, context.tetrahedron_volume(*atoms), 0.0))
+            for position, atom in enumerate(atoms):
+                if volbl._vertex_in_complex(geometry, atom, geometry.base_rank):
+                    ordered = [atom, *[other for i, other in enumerate(atoms) if i != position]]
+                    delta = volbl._void_tetra_vertex(context, *ordered)
+                    terms.append(('vertex', ordered, delta.volume_sa, delta.area_sa))
+            i, j, k, l = atoms
+            for ordered in [(i,j,k,l), (i,k,j,l), (i,l,j,k), (j,k,i,l), (j,l,i,k), (k,l,i,j)]:
+                if volbl._edge_in_complex(geometry, *ordered[:2], geometry.base_rank):
+                    delta = volbl._void_tetra_edge(context, *ordered, cusp=False)
+                    terms.append(('edge', ordered, delta.volume_sa, delta.area_sa))
+            for ordered in [(i,j,k), (j,i,l), (k,j,l), (i,k,l)]:
+                if volbl._face_in_complex(geometry, *ordered, geometry.base_rank):
+                    delta = volbl._void_tetra_triangle(context, *ordered, cusp=False)
+                    terms.append(('face', ordered, delta.volume_sa, delta.area_sa))
+        metric = volbl._measure_void_component(geometry, context, simplex_indices=tuple(feature['tetrahedron_indices']), input_rank=geometry.base_rank, cusp=False)
+        values = [t[2 if field == 'volume_sa' else 3] for t in terms]
+        case = {
+            'case': name, 'server_id': identifier, 'field': field, 'expected': expected,
+            'actual': getattr(metric, field), 'fsum': math.fsum(values),
+            'sum_absolute_terms': math.fsum(abs(v) for v in values),
+            'tetrahedra': len(feature['tetrahedron_indices']), 'terms': terms,
+            'pdb_sha256': hashlib.sha256(pdb).hexdigest(),
+            'feature_type': feature['feature_type'],
+        }
+        snapshot = {'coordinates': context.coordinates, 'radii': context.radii, 'terms': terms, 'case': case}
+        with (Path('/tmp') / f'opencastp_residual_{name}.pickle').open('wb') as handle:
+            pickle.dump(snapshot, handle)
+        report['cases'].append(case)
+        Path('/tmp/opencastp_residual_terms.json').write_text(json.dumps(report, indent=2) + '\n')
+        print(name, {key: value for key, value in case.items() if key != 'terms'}, flush=True)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,41 @@
+"""Run original 1996 metric primitives on the frozen modern integration domain."""
+
+import ctypes as C
+import hashlib
+import json
+import math
+import pickle
+import sys
+from pathlib import Path
+
+import numpy as np
+
+sys.path.insert(0, '/home/diego/repos@uibcdf/opencastp/src')
+from opencastp._core.geometry import _weighted_hidden0, _weighted_hidden1
+
+H0=C.CFUNCTYPE(C.c_int,C.c_int,C.c_int)
+H1=C.CFUNCTYPE(C.c_int,C.c_int,C.c_int,C.c_int)
+CCW=C.CFUNCTYPE(C.c_int,C.c_int,C.c_int,C.c_int,C.c_int)
+P=C.POINTER(C.c_double)
+lib=C.CDLL('/tmp/opencastp_historical_metric.so')
+lib.diagnostic_initialize.argtypes=[C.c_int,P,P,H0,H1,CCW]
+lib.diagnostic_term.argtypes=[C.c_int,C.c_int,C.c_int,C.c_int,C.c_int,P]
+report={'cases':[]}
+for name in sys.argv[1:]:
+    with open(f'/tmp/opencastp_residual_{name}.pickle','rb') as handle: snapshot=pickle.load(handle)
+    coordinates=np.ascontiguousarray(snapshot['coordinates']);radii=np.ascontiguousarray(snapshot['radii']);weights=radii*radii
+    h0=H0(lambda i,j: int(_weighted_hidden0(coordinates[i],float(weights[i]),coordinates[j],float(weights[j]))!=0))
+    h1=H1(lambda i,j,k: int(_weighted_hidden1(coordinates[[i,j]],weights[[i,j]],coordinates[k],float(weights[k]))!=0))
+    ccw=CCW(lambda i,j,k,l: int(np.linalg.det(np.array([coordinates[j]-coordinates[i],coordinates[k]-coordinates[i],coordinates[l]-coordinates[i]]))<0))
+    lib.diagnostic_initialize(len(radii),coordinates.ctypes.data_as(P),radii.ctypes.data_as(P),h0,h1,ccw)
+    rows=[]
+    for kind,atoms,python_volume,python_area in snapshot['terms']:
+        out=np.zeros(2);a=[*atoms,0] if len(atoms)==3 else atoms
+        lib.diagnostic_term(['tetrahedron','vertex','edge','face'].index(kind),*a,out.ctypes.data_as(P))
+        rows.append({'kind':kind,'volume_sa':float(out[0]),'area_sa':float(out[1]),'delta_volume_sa':float(out[0])-python_volume,'delta_area_sa':float(out[1])-python_area})
+    row={key:value for key,value in snapshot['case'].items() if key!='terms'}
+    row.update(c_volume_sa=math.fsum(r['volume_sa'] for r in rows),c_area_sa=math.fsum(r['area_sa'] for r in rows),corrections=lib.diagnostic_corrections(),warnings=lib.diagnostic_warnings(),primitive_rows=rows)
+    row['c_passes']=abs(row['c_'+row['field']]-row['expected'])<=0.00050001
+    report['cases'].append(row)
+    Path('/tmp/opencastp_historical_metric_comparison.json').write_text(json.dumps(report,indent=2)+'\n')
+    print(name,{k:v for k,v in row.items() if k!='primitive_rows'},flush=True)

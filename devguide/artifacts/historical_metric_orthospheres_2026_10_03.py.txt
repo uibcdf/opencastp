@@ -1,0 +1,60 @@
+"""Audit exported orthospheres only in the five residual integration domains."""
+
+import hashlib
+import json
+import pickle
+import sys
+from pathlib import Path
+from zipfile import ZipFile
+
+import numpy as np
+from scipy.spatial import cKDTree
+
+ROOT = Path('/home/diego/repos@uibcdf/opencastp')
+TOPOMT = Path('/home/diego/repos@uibcdf/topomt')
+sys.path[:0] = [str(ROOT / 'src'), str(TOPOMT)]
+from opencastp._core.weighted_mesh import _weighted_simplex_centers_power_values
+from devtools.castp.audit_castp3_radii import audit_bulb_contacts
+
+report = {'scope': 'five residual regions only', 'complete_server_equivalence': False, 'cases': []}
+for name in ('1mrg', '1psn', '1ypi', '1fbp', '2fbp'):
+    snapshot = pickle.loads(Path(f'/tmp/opencastp_residual_{name}.pickle').read_bytes())
+    simplices = np.array([atoms for kind, atoms, *_ in snapshot['terms'] if kind == 'tetrahedron'])
+    coordinates, radii = snapshot['coordinates'], snapshot['radii']
+    centers, powers = _weighted_simplex_centers_power_values(simplices, coordinates, radii ** 2)
+    tree = cKDTree(centers)
+    path = TOPOMT / 'topomt/data/CASTpFold_server' / f'{name}.zip'
+    with ZipFile(path) as archive:
+        raw = archive.read(next(n for n in archive.namelist() if n.endswith('.bulb.json')))
+    bulbs = json.loads(raw)[snapshot['case']['server_id'] - 1]
+    rows = []
+    for bulb in bulbs:
+        center = np.array([bulb['c'][axis] for axis in 'xyz'])
+        distance, index = tree.query(center)
+        index = int(index)
+        contacts = audit_bulb_contacts(coordinates, radii - 1.4, center, bulb['r'], 1.4)
+        center_error = float(np.max(np.abs(center - centers[index])))
+        radius_error = abs(float(np.sqrt(powers[index])) - bulb['r']) if powers[index] >= 0 else None
+        rows.append({
+            'simplex': index,
+            'center_max_absolute_error_angstrom': center_error,
+            'radius_absolute_error_angstrom': radius_error,
+            'status': contacts['status'],
+            'support_matches': set(contacts['contacts']) == set(int(i) for i in simplices[index]),
+            'interior_atoms': len(contacts['interior']),
+            'compatible': bool(contacts['status'] == 'compatible' and
+                set(contacts['contacts']) == set(int(i) for i in simplices[index]) and
+                center_error <= 0.00005001 and radius_error is not None and radius_error <= 0.00005001),
+        })
+    row = {
+        'case': name, 'server_id': snapshot['case']['server_id'],
+        'tetrahedra': len(simplices), 'exported_bulbs': len(bulbs),
+        'matched_distinct_tetrahedra': len({r['simplex'] for r in rows if r['compatible']}),
+        'passed': bool(len(rows) == len(simplices) and all(r['compatible'] for r in rows) and
+                       len({r['simplex'] for r in rows}) == len(simplices)),
+        'bulb_sha256': hashlib.sha256(raw).hexdigest(),
+        'checks': rows,
+    }
+    report['cases'].append(row)
+    print(name, row['passed'], row['exported_bulbs'], row['matched_distinct_tetrahedra'], flush=True)
+Path('/tmp/opencastp_residual_orthospheres.json').write_text(json.dumps(report, indent=2) + '\n')

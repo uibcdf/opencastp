@@ -1,0 +1,92 @@
+"""Re-evaluate frozen SA terms at arbitrary precision, without production edits."""
+
+import ast
+import inspect
+import json
+import math
+import pickle
+import sys
+from functools import lru_cache
+from pathlib import Path
+
+import mpmath as mp
+import numpy as np
+
+sys.path.insert(0, '/home/diego/repos@uibcdf/opencastp/src')
+from opencastp._core import volbl
+from opencastp._core.geometry import _weighted_hidden0, _weighted_hidden1
+
+
+class PrecisionTransform(ast.NodeTransformer):
+    def visit_Constant(self, node):
+        if isinstance(node.value, float):
+            return ast.copy_location(ast.Call(func=ast.Name(id='mp_real', ctx=ast.Load()), args=[ast.Constant(value=str(node.value))], keywords=[]), node)
+        return node
+
+    def visit_Call(self, node):
+        node = self.generic_visit(node)
+        if isinstance(node.func, ast.Name) and node.func.id == 'float':
+            node.func.id = 'mp_real'
+        if isinstance(node.func, ast.Attribute) and node.func.attr == 'asarray':
+            for keyword in node.keywords:
+                if keyword.arg == 'dtype':
+                    keyword.value = ast.Name(id='object', ctx=ast.Load())
+        return node
+
+
+def precise_context(snapshot, digits):
+    mp.mp.dps = digits
+    source = inspect.getsource(volbl.VolblMetricContext)
+    tree = ast.fix_missing_locations(PrecisionTransform().visit(ast.parse(source)))
+    env = vars(volbl).copy()
+    env.update(mp_real=mp.mpf, pi=mp.pi, sqrt=mp.sqrt, acos=mp.acos, asin=mp.asin, fabs=abs, _clamp=lambda v,l,h: min(max(v,l),h))
+    exec(compile(tree, '<diagnostic arbitrary precision>', 'exec'), env)
+    coordinates = np.array([[mp.mpf(str(x)) for x in row] for row in snapshot['coordinates']], dtype=object)
+    radii = np.array([mp.mpf(str(r)) for r in snapshot['radii']], dtype=object)
+    p = snapshot['coordinates']; w = snapshot['radii'] ** 2
+    return env['VolblMetricContext'](
+        coordinates, radii, weights=radii, solvent_radius=mp.mpf('1.4'),
+        hidden0=lambda i,j: _weighted_hidden0(p[i],float(w[i]),p[j],float(w[j])) != 0,
+        hidden1=lambda i,j,k: _weighted_hidden1(p[[i,j]],w[[i,j]],p[k],float(w[k])) != 0,
+        ccw=lambda i,j,k,l: np.linalg.det(np.array([p[j]-p[i],p[k]-p[i],p[l]-p[i]])) < 0,
+    )
+
+
+def evaluate(snapshot, digits):
+    context = precise_context(snapshot, digits)
+    terms = []
+    for kind, atoms, _old_volume, _old_area in snapshot['terms']:
+        if kind == 'tetrahedron':
+            volume, area = context.tetrahedron_volume(*atoms), mp.mpf(0)
+        elif kind == 'vertex':
+            area = context.sector_area(*atoms)
+            volume = -area * context.ball_radius(atoms[0]) / 3
+        elif kind == 'edge':
+            i,j,k,l = atoms
+            angle = context.angle_dihedral(*(context.vector(i) for i in atoms))
+            volume = angle * (context.cap_volume(i,j) + context.cap_volume(j,i))
+            area = -angle * (context.cap_area(i,j) + context.cap_area(j,i))
+        else:
+            i,j,k = atoms
+            volume = -(context.cap2_volume(i,j,k) + context.cap2_volume(j,i,k) + context.cap2_volume(k,i,j)) / 2
+            area = (context.cap2_area(i,j,k) + context.cap2_area(j,i,k) + context.cap2_area(k,i,j)) / 2
+        terms.append((volume, area))
+    return {'digits': digits, 'volume_sa': mp.nstr(mp.fsum(t[0] for t in terms), digits), 'area_sa': mp.nstr(mp.fsum(t[1] for t in terms), digits)}
+
+
+def main():
+    report = {'cases': []}
+    for name in sys.argv[1:]:
+        with (Path('/tmp') / f'opencastp_residual_{name}.pickle').open('rb') as handle:
+            snapshot = pickle.load(handle)
+        rows = [evaluate(snapshot, digits) for digits in (40, 80)]
+        case = snapshot['case']; selected = rows[-1][case['field']]
+        row = {key:value for key,value in case.items() if key != 'terms'}
+        row.update(precision=rows, high_precision_passes=abs(float(selected)-case['expected'])<=0.00050001)
+        report['cases'].append(row)
+        Path('/tmp/opencastp_residual_high_precision.json').write_text(json.dumps(report, indent=2) + '\n')
+        print(name, rows, 'passes', row['high_precision_passes'], flush=True)
+
+
+if __name__ == '__main__':
+    main()

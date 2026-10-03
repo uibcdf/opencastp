@@ -1,0 +1,49 @@
+/* Diagnostic harness; compile against the separately provided historical source. */
+#include <stdlib.h>
+#include "alf.h"
+#include "volbl.h"
+
+float Alpha = 0.0f;
+Balls *B = NULL;
+Vol_real *Radius = NULL;
+Vol_real Solvent_radius = 1.4;
+int (*alf_hidden0)(int, int);
+int (*alf_hidden1)(int, int, int);
+static int (*ccw_callback)(int, int, int, int);
+static int corrections, warnings;
+
+int sos_positive3(int i, int j, int k, int l) { return ccw_callback(i, j, k, l); }
+void volbl_warning(Vol_real value, char *where, char *name) { ++warnings; }
+Vol_real volbl_correction(Vol_real value, Vol_real replacement, char *where, char *name)
+{ ++corrections; return replacement; }
+
+void diagnostic_initialize(int count, double *coordinates, double *radii,
+    int (*hidden0)(int, int), int (*hidden1)(int, int, int),
+    int (*ccw)(int, int, int, int))
+{
+    free(B); free(Radius);
+    B = calloc(count, sizeof(Balls)); Radius = calloc(count, sizeof(Vol_real));
+    for (int i = 0; i < count; ++i) {
+        B[i].x = coordinates[3*i]; B[i].y = coordinates[3*i+1];
+        B[i].z = coordinates[3*i+2]; B[i].w = radii[i]; Radius[i] = radii[i];
+    }
+    alf_hidden0 = hidden0; alf_hidden1 = hidden1; ccw_callback = ccw;
+    corrections = warnings = 0;
+}
+
+void diagnostic_term(int kind, int i, int j, int k, int l, double *output)
+{
+    double angle;
+    switch (kind) {
+        case 0: output[0] = tetrahedron_volume(i,j,k,l); output[1] = 0.0; break;
+        case 1: output[1] = sector_area(i,j,k,l);
+            output[0] = -output[1] * ball_radius(i) / 3.0; break;
+        case 2: angle = angle_dihedral(vector(i),vector(j),vector(k),vector(l));
+            output[0] = angle * (cap_volume(i,j)+cap_volume(j,i));
+            output[1] = -angle * (cap_area(i,j)+cap_area(j,i)); break;
+        default: output[0] = -pawn_volume(i,j,k);
+            output[1] = pawn_area(i,j,k); break;
+    }
+}
+int diagnostic_corrections(void) { return corrections; }
+int diagnostic_warnings(void) { return warnings; }

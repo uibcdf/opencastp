@@ -131,3 +131,76 @@ def test_pycasta_index_audit_separates_flow_groups_from_final_pockets():
         )
         assert any(index >= flow["atoms"] for index in flow["sample_rejected_group"])
         assert flow["flow_groups"] > row["reported_pockets"]
+
+
+def test_historical_metric_controls_preserve_all_five_strict_failures():
+    """A precision diagnostic must not become a false server-equivalence claim."""
+    from decimal import Decimal, localcontext
+
+    report = json.loads(
+        (ARTIFACTS / "historical_metric_controls_2026_10_03.json").read_text()
+    )
+    assert report["completed"] and not report["passed"]
+    assert not report["complete_server_equivalence"]
+    assert report["historical_pipeline_executed"] is False
+    assert report["scope"] == "SA primitives on frozen modern integration domains"
+    assert report["historical_coordinate_input"] == "modern float64 arrays"
+    assert report["high_precision_input"] == "decimal strings of modern float64 arrays"
+    assert report["source_commit"] == "63d9693c666185bc33d7202ad68d0862c54f37d2"
+    assert {row["case"] for row in report["cases"]} == {
+        "1mrg",
+        "1psn",
+        "1ypi",
+        "1fbp",
+        "2fbp",
+    }
+    assert len(report["cases"]) == 5
+    for name, digest in report["collector_sha256"].items():
+        assert hashlib.sha256((ARTIFACTS / name).read_bytes()).hexdigest() == digest
+    assert report["historical_source_sha256"]["alpha-4.1-src/volbl/metric.c"]
+    with localcontext() as context:
+        context.prec = 90
+        tolerance = Decimal(str(report["scalar_tolerance"]))
+        assert tolerance == Decimal("0.00050001")
+        for row in report["cases"]:
+            expected = Decimal(str(row["expected"]))
+            assert row["corrections"] == row["warnings"] == 0
+            assert [value["digits"] for value in row["precision"]] == [40, 80]
+            low = Decimal(row["precision"][0][row["field"]])
+            high = Decimal(row["precision"][1][row["field"]])
+            assert abs(low - high) < Decimal("1e-30")
+            values = [
+                Decimal(str(row["actual"])),
+                Decimal(str(row["fsum"])),
+                Decimal(str(row["c_" + row["field"]])),
+                high,
+            ]
+            assert all(abs(value - expected) > tolerance for value in values)
+            required_correction = abs(values[0] - expected) - tolerance
+            assert max(abs(value - values[0]) for value in values) < (
+                required_correction / 100
+            )
+            assert row["tetrahedra"] > 0
+
+
+def test_residual_orthosphere_control_is_complete_only_for_its_five_regions():
+    report = json.loads(
+        (ARTIFACTS / "historical_metric_controls_2026_10_03.json").read_text()
+    )["orthosphere_control"]
+    assert report["scope"] == "five residual regions only"
+    assert not report["complete_server_equivalence"]
+    assert sum(row["exported_bulbs"] for row in report["cases"]) == 247
+    for row in report["cases"]:
+        assert row["passed"]
+        assert (
+            len(row["checks"])
+            == row["exported_bulbs"]
+            == row["tetrahedra"]
+            == row["matched_distinct_tetrahedra"]
+        )
+        assert len({check["simplex"] for check in row["checks"]}) == row["tetrahedra"]
+        for check in row["checks"]:
+            assert check["compatible"] and check["support_matches"]
+            assert check["status"] == "compatible" and check["interior_atoms"] == 0
+            assert check["center_max_absolute_error_angstrom"] <= 0.00005001
+            assert check["radius_absolute_error_angstrom"] <= 0.00005001
