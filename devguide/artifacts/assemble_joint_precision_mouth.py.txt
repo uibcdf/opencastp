@@ -1,0 +1,29 @@
+"""Preserve bounded joint controls without changing prior equivalence verdicts."""
+
+import hashlib
+import json
+from pathlib import Path
+
+ROOT = Path('/home/diego/repos@uibcdf/opencastp')
+sections = {
+    'intermediate_precision': json.loads(Path('/tmp/opencastp_joint_precision_controls.json').read_text()),
+    'individual_mouths': json.loads(Path('/tmp/opencastp_individual_mouth_controls.json').read_text()),
+}
+assert all(section['completed'] for section in sections.values())
+assert sections['individual_mouths']['passed']
+collectors = {
+    'joint_precision_metric_runner.py.txt': Path('/tmp/opencastp_joint_precision_controls.py'),
+    'individual_mouth_auditor.py.txt': ROOT/'devtools/audit_castp_mouths.py',
+    'assemble_joint_precision_mouth.py.txt': Path(__file__),
+}
+assert sections['intermediate_precision']['collector_sha256'] == hashlib.sha256(collectors['joint_precision_metric_runner.py.txt'].read_bytes()).hexdigest()
+assert sections['individual_mouths']['collector_sha256'] == hashlib.sha256(collectors['individual_mouth_auditor.py.txt'].read_bytes()).hexdigest()
+report = dict(
+    completed=True, complete_server_equivalence=False, numerical_production_source_changed=False,
+    owner='uibcdf/opencastp#6',
+    interpretation='Uniform intermediate export rejected for current kernel outputs; prior model correctness is not inferred. None of the exploratory joint precision variants is qualified.',
+    collector_sha256={name:hashlib.sha256(path.read_bytes()).hexdigest() for name,path in collectors.items()},
+    **sections,
+)
+Path('/tmp/joint_precision_mouth_controls_2026_10_03.json').write_text(json.dumps(report, indent=2)+'\n')
+print('assembled', len(report['intermediate_precision']['cases']), 'systems; full equivalence remains false')

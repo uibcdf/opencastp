@@ -143,3 +143,13 @@ Sphinx 9.1.0 and MyST Parser 5.1.0 were installed from the repository's declared
 optional documentation requirements into the same Python 3.14 environment.
 The passing engineering suite does not change the scientific failure verdicts.
 Hosted evidence remains a separate source/commit-qualified gate.
+
+
+## Interpretation and individual-mouth follow-up
+
+Rejection of the uniform export transform above applies to the current
+computed totals. It does not establish every upstream assumption or exclude
+a different upstream calculation combined with an export stage. The later
+[joint precision and mouth controls](joint_precision_mouth_controls_2026_10_03.md)
+test that distinction, retain unsuccessful variants and qualify bounded
+one-mouth scalar comparisons and an independent fixed-input partition check.

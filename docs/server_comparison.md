@@ -168,3 +168,26 @@ has a further boundary mismatch within the raw arithmetic allowance.
 The [characterization checkpoint](https://github.com/uibcdf/opencastp/blob/main/devguide/metric_characterization_controls_2026_10_03.md)
 retains these findings, rejected export rule and remaining gates under
 [issue #6](https://github.com/uibcdf/opencastp/issues/6).
+
+
+## Individual mouths and remaining numerical assumptions
+
+Fresh checks in seven systems cover 158 cavities with one mouth. All 632
+individual SA/MS area/perimeter values, rim atom sets and triangle counts
+match the server. An independent connectivity calculation on the same mesh,
+filtration and pocket seeds also matches the partition of 203 mouths and
+1059 triangles. This checks mouth separation without recovering the server's
+triangle geometry or independently rebuilding the preceding geometry stages.
+
+For the 20 cavities with several mouths, the server ZIP supplies cavity-level
+totals, combined rim atoms and counts. Those agree, but they cannot certify
+each mouth's measurements or partition against the server. Individual
+multi-mouth equivalence remains unqualified.
+
+The rejected uniform rounding transform was tested on current kernel values;
+it does not prove every upstream assumption correct. Joint intermediate-vector
+precision controls repair some original discrepancies while creating others,
+and no tested alternative improves the panel. Native calculations retain their
+precision. The five regional differences remain open; no certified equivalence
+recipe is available. See the [joint-control checkpoint](https://github.com/uibcdf/opencastp/blob/main/devguide/joint_precision_mouth_controls_2026_10_03.md)
+and [issue #6](https://github.com/uibcdf/opencastp/issues/6) for measured limits.

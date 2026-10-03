@@ -255,3 +255,18 @@ individual mouth partitions. Native numerical source, preparation profiles and
 comparison tolerances are unchanged. The five strict regional scalar failures,
 84/89 region-gate verdict and incomplete whole-corpus/individual-mouth gates
 remain visible under #6. No public compatibility export recipe is delivered.
+
+
+## Joint precision and individual-mouth checkpoint — 2026-10-03
+
+The [joint controls](../joint_precision_mouth_controls_2026_10_03.md) clarify that the rejected uniform export transform
+is conditional on the current kernel; it does not establish all upstream
+assumptions. None of five exploratory intermediate-vector precision variants
+improves the seven-system 1536-scalar panel, raw or jointly with export.
+An independent edge-fan graph agrees on 203 mouths / 1059 triangles in the
+same seven systems. All 632 individual area/perimeter values, rim atoms and
+triangle counts match for 158 one-mouth regions. The 20 multi-mouth regions
+have matching aggregates but lack an individual server oracle. Shared mesh,
+filtration, domains and seeds limit this independence claim. The five strict
+regional failures and complete-equivalence gate remain open; production
+numerical source, radii and tolerances are unchanged.

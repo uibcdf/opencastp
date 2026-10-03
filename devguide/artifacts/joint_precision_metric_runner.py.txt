@@ -1,0 +1,119 @@
+"""Explore intermediate-vector precision jointly with export, on fixed domains."""
+
+import gc
+import hashlib
+import json
+import pickle
+import subprocess
+import sys
+import time
+from functools import lru_cache
+from importlib import metadata
+from pathlib import Path
+
+import numpy as np
+
+sys.path.insert(0, '/home/diego/repos@uibcdf/opencastp')
+from devtools.compare_castp_servers import FIELDS, read_archive
+from opencastp._core import volbl
+from opencastp._core.components import build_castp_feature_records
+
+ROOT = Path('/home/diego/repos@uibcdf/opencastp')
+ARCHIVES = Path('/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server')
+CASES = ('1stp', '8rat', '1mrg', '1psn', '1ypi', '1fbp', '2fbp')
+VARIANTS = {
+    'baseline': (),
+    'center2_float32': ('center2',),
+    'center3_float32': ('center3',),
+    'triangle_dual_float32': ('triangle_dual',),
+    'center2_and_triangle_dual_float32': ('center2', 'triangle_dual'),
+    'all_three_vectors_float32': ('center2', 'center3', 'triangle_dual'),
+}
+
+
+def quantized(original):
+    @lru_cache(maxsize=None)
+    def wrapped(*args):
+        return np.asarray(original(*args), dtype=np.float32).astype(float)
+    return wrapped
+
+
+def main():
+    report = dict(
+        completed=False, complete_server_equivalence=False,
+        scope='fresh regional SA/MS integration on seven frozen geometries; exploratory intermediate-vector ablations',
+        source_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
+        python=sys.version.split()[0],
+        versions={n: metadata.version(n) for n in ('opencastp', 'topomt', 'numpy', 'scipy')},
+        collector_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        core_source_sha256={str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
+                            for p in (ROOT/'src/opencastp/_core/volbl.py', ROOT/'src/opencastp/_core/components.py')},
+        model='ATOM/protein/peptide; castp3_protor; 1.4 angstrom probe; castp3 region definition; cusp=False',
+        held_fixed=['coordinates', 'expanded radii', 'exact filtration/predicates', 'region tetrahedra', 'printed tolerance 0.00050001'],
+        exploratory_not_modern_source_derived=True,
+        production_source_changed=False, modern_server_source_recovered=False,
+        export_rule='float(np.round(float(f"{value:.4f}"), 3))',
+        cases=[],
+    )
+    output = Path('/tmp/opencastp_joint_precision_controls.json')
+    for name in CASES:
+        started = time.monotonic()
+        cache = Path(f'/tmp/opencastp_all_metric_{name}_geometry.pickle')
+        geometry = pickle.loads(cache.read_bytes())
+        archive = ARCHIVES/f'{name}.zip'
+        _pdb, targets = read_archive(archive)
+        features = build_castp_feature_records(geometry, probe_radius=1.4, pocket_definition='castp3')
+        def key(item):
+            return item['feature_type'], tuple(sorted(item['atom_indices']))
+        lookup = {key(f): f for f in features}
+        assert len(lookup) == len(features) == len(targets)
+        assert set(lookup) == {key(t) for t in targets}
+        case = dict(case=name, regions=len(targets), archive_sha256=hashlib.sha256(archive.read_bytes()).hexdigest(),
+                    geometry_cache_sha256=hashlib.sha256(cache.read_bytes()).hexdigest(), variants={})
+        for variant, vectors in VARIANTS.items():
+            context = volbl._metric_context_from_geometry(geometry)
+            for attribute in vectors:
+                setattr(context, attribute, quantized(getattr(context, attribute)))
+            rows = []
+            for target in targets:
+                feature = lookup[key(target)]
+                metrics = volbl._measure_void_component(
+                    geometry, context, simplex_indices=tuple(feature['tetrahedron_indices']),
+                    input_rank=geometry.base_rank, cusp=False)
+                for (field, _unit), attribute in zip(FIELDS, ('area_sa', 'area_ms', 'volume_sa', 'volume_ms'), strict=True):
+                    actual, expected = float(getattr(metrics, attribute)), float(target['metrics'][field])
+                    candidate = float(np.round(float(f'{actual:.4f}'), 3))
+                    rows.append(dict(server_id=target['server_id'], field=field, actual=actual, expected=expected,
+                                     raw_passed=abs(actual-expected) <= 0.00050001,
+                                     direct_printed=float(f'{actual:.3f}'),
+                                     candidate_export=candidate, candidate_passed=candidate==expected))
+            if variant == 'baseline':
+                baseline = {(r['server_id'], r['field']): r for r in rows}
+            for row in rows:
+                base = baseline[(row['server_id'], row['field'])]
+                row['baseline_raw_passed'] = base['raw_passed']
+                row['baseline_actual'] = base['actual']
+            case['variants'][variant] = dict(
+                required=len(rows), raw_matches=sum(r['raw_passed'] for r in rows),
+                direct_printed_matches=sum(r['direct_printed']==r['expected'] for r in rows),
+                candidate_matches=sum(r['candidate_passed'] for r in rows),
+                raw_introduced_failures=sum(r['baseline_raw_passed'] and not r['raw_passed'] for r in rows),
+                candidate_introduced_failures=sum(r['baseline_raw_passed'] and not r['candidate_passed'] for r in rows),
+                failures=[r for r in rows if not r['raw_passed'] or not r['candidate_passed']],
+                raw_residuals=[r for r in rows if not r['baseline_raw_passed']],
+            )
+            for value in vars(volbl.VolblMetricContext).values():
+                if hasattr(value, 'cache_clear'):
+                    value.cache_clear()
+            del context
+            gc.collect()
+            print(name, variant, {k:v for k,v in case['variants'][variant].items() if k not in ('failures','raw_residuals')}, flush=True)
+        case['seconds'] = time.monotonic()-started
+        report['cases'].append(case)
+        output.write_text(json.dumps(report, indent=2)+'\n')
+    report['completed'] = True
+    output.write_text(json.dumps(report, indent=2)+'\n')
+
+
+if __name__ == '__main__':
+    main()
