@@ -302,3 +302,21 @@ independent systems including 1MRG, the candidate matches 7,564/7,566 values,
 explains 186/187 native discrepancies and introduces one other mismatch.
 It remains unqualified as a public server-export policy. Native precision
 and original failures are retained; the region gate is unchanged.
+
+## Cavity and atom characterization controls — 2026-10-03
+
+The [four-field controls](metric_characterization_controls_2026_10_03.md) newly audit 7566 MS space-filling atom
+quantities in 1STP, 8RAT and 1MRG: 7368 strict raw matches and 7566 candidate
+export matches. Two SA candidate failures remain. Atom contributions are not
+cavity totals. Applying the same intermediate-rounding candidate to all 14916
+recorded region quantities introduces 742 failures; it is rejected as a uniform
+cavity-export rule. Direct formatting also exposes a 1OKM MS-area printed-output
+mismatch within the existing arithmetic tolerance; this is not a sixth raw failure.
+
+Complete orthosphere-set comparison now matches 5668/5668 spheres across all
+384 regions in seven systems, including the five residual systems. It checks
+a geometric bijection at exported precision, not independent atom contacts or
+individual mouth partitions. Native numerical source, preparation profiles and
+comparison tolerances are unchanged. The five strict regional scalar failures,
+84/89 region-gate verdict and incomplete whole-corpus/individual-mouth gates
+remain visible under #6. No public compatibility export recipe is delivered.

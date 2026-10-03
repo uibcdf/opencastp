@@ -1,0 +1,45 @@
+"""Rebuild full native residual-case geometry from trusted frozen sphere inputs."""
+
+import hashlib
+import json
+import pickle
+import subprocess
+import sys
+from collections import defaultdict
+from importlib import metadata
+from pathlib import Path
+from zipfile import ZipFile
+
+import numpy as np
+
+from opencastp._core.geometry import build_castp_geometry
+
+root = Path('/home/diego/repos@uibcdf/opencastp')
+archives = Path('/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server')
+report = dict(completed=False, source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),
+              python=sys.version.split()[0], prepared_input_origin='trusted preceding frozen ATOM/protein/peptide snapshots; original source/runtime identity retained in earlier evidence',
+              versions={name:metadata.version(name) for name in ('opencastp','numpy','scipy')},
+              core_sha256=hashlib.sha256((root/'src/opencastp/_core/geometry.py').read_bytes()).hexdigest(), cases=[])
+for case in sys.argv[1:]:
+    source = pickle.loads(Path(f'/tmp/opencastp_residual_{case}.pickle').read_bytes())
+    with ZipFile(archives/f'{case}.zip') as handle:
+        pdb = handle.read(next(n for n in handle.namelist() if n.endswith('.pdb')))
+    serials = defaultdict(list)
+    for line in pdb.decode().splitlines():
+        if line.startswith('ATOM'):
+            serials[tuple(float(line[a:b]) for a,b in ((30,38),(38,46),(46,54)))].append(int(line[6:11]))
+    ids = []
+    for point in source['coordinates']:
+        candidates = serials[tuple(round(float(v),3) for v in point)]
+        assert len(candidates)==1
+        ids.append(candidates[0])
+    geometry = build_castp_geometry(source['coordinates'],source['radii'],atom_indices=np.array(ids),solvent_radius=1.4)
+    Path(f'/tmp/opencastp_all_metric_{case}_geometry.pickle').write_bytes(pickle.dumps(geometry))
+    row = dict(case=case, atoms=len(ids), pdb_sha256=hashlib.sha256(pdb).hexdigest(),
+               prepared_coordinate_sha256=hashlib.sha256(source['coordinates'].tobytes()).hexdigest(),
+               prepared_expanded_radius_sha256=hashlib.sha256(source['radii'].tobytes()).hexdigest())
+    report['cases'].append(row)
+    print(case,len(ids),flush=True)
+    Path('/tmp/opencastp_prepare_residual_geometry_controls.json').write_text(json.dumps(report,indent=2)+'\n')
+report['completed']=True
+Path('/tmp/opencastp_prepare_residual_geometry_controls.json').write_text(json.dumps(report,indent=2)+'\n')

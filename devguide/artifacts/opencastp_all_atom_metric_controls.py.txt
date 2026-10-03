@@ -1,0 +1,177 @@
+"""Bounded four-field CHECKING audit; external inputs stay outside the package."""
+
+import csv
+import hashlib
+import json
+import pickle
+import subprocess
+import sys
+import time
+from collections import Counter, defaultdict
+from importlib import metadata
+from itertools import combinations
+from pathlib import Path
+from zipfile import ZipFile
+
+import numpy as np
+
+from opencastp._core import volbl
+from opencastp._core.geometry import (
+    ALF_EDGE,
+    ALF_TETRA,
+    ALF_TRIANGLE,
+    ALF_VERTEX,
+    build_castp_geometry,
+)
+
+ROOT = Path('/home/diego/repos@uibcdf/opencastp')
+ARCHIVES = Path('/home/diego/repos@uibcdf/topomt/topomt/data/CASTpFold_server')
+FIELDS = ('SA_Area', 'SA_Volume', 'MS_Area', 'MS_Volume')
+
+
+def atom_contributions(geometry):
+    """Assemble historical CHECKING partition using the native metric primitives.
+
+    Values describe the space-filling union, not individual pockets. Torus
+    volume modification terms cancel globally but belong in atom attribution.
+    A solvent patch is split equally, as in the inspected historical source.
+    This diagnostic neither implements a public API nor changes native totals.
+    """
+    context = volbl._metric_context_from_geometry(geometry)
+    edges = volbl._edge_atoms_by_master_id(geometry)
+    faces = volbl._face_atoms_by_master_id(geometry)
+    values = np.zeros((len(geometry.atom_radii), 4))
+    counts = Counter()
+    for rank in range(1, geometry.base_rank + 1):
+        bounds = geometry.master_rank_offsets.get(rank)
+        if bounds is None:
+            continue
+        for entry in geometry.master_entries[bounds[0]:bounds[1]]:
+            kind = int(entry.f_type)
+            if kind != ALF_TETRA and not entry.is_first:
+                continue
+            if kind == ALF_VERTEX:
+                atoms = [int(entry.index)]
+                area = lambda i, *others: context.ball_area(i)
+                volume = lambda i, *others: context.ball_volume(i)
+            elif kind == ALF_EDGE:
+                atoms = list(edges[int(entry.index)])
+                area, volume = context.cap_area, context.cap_volume
+            elif kind == ALF_TRIANGLE:
+                atoms = list(faces[int(entry.index)])
+                area, volume = context.cap2_area, context.cap2_volume
+            elif kind == ALF_TETRA:
+                atoms = list(map(int, geometry.mesh.simplex_atom_indices[int(entry.index)]))
+                area, volume = context.cap3_area, context.cap3_volume
+            else:
+                raise AssertionError(kind)
+            counts[kind] += 1
+            sign = (-1) ** (len(atoms) - 1)
+            for atom in atoms:
+                others = [other for other in atoms if other != atom]
+                sa_area, sa_volume = area(atom, *others), volume(atom, *others)
+                shell = context.shell(atom, sa_area)
+                values[atom] += sign * np.array([
+                    sa_area, sa_volume, shell.area, sa_volume - shell.volume,
+                ])
+            for i, j in combinations(atoms, 2):
+                others = [atom for atom in atoms if atom not in (i, j)]
+                if len(others) == 0:
+                    angle = 1.0
+                elif len(others) == 1:
+                    angle = context.segment_angle(i, j, *others)
+                else:
+                    angle = context.segment2_angle(i, j, *others)
+                torus = context.torus(i, j, cusp=False)
+                values[i, 2] -= sign * angle * torus.area_1
+                values[j, 2] -= sign * angle * torus.area_2
+                values[i, 3] += sign * angle * (torus.volume_1 + torus.volume_mod_1)
+                values[j, 3] += sign * angle * (torus.volume_2 + torus.volume_mod_2)
+            if len(atoms) >= 3:
+                factor = 2.0 if len(atoms) == 3 else -1.0
+                for triangle in combinations(atoms, 3):
+                    patch = context.patch(*triangle)
+                    for position, atom in enumerate(triangle, 1):
+                        values[atom, 2] += factor * getattr(patch, f'area_{position}')
+                        values[atom, 3] -= factor * getattr(patch, f'volume_{position}')
+    total = volbl.space_filling_measurements(geometry, geometry.base_rank, _context=context)
+    reference_totals = np.array([total.area_sa, total.volume_sa, total.area_ms, total.volume_ms])
+    assembled = values.sum(axis=0)
+    np.testing.assert_allclose(assembled, reference_totals, rtol=0, atol=2e-7)
+    return values, counts, dict(zip(FIELDS, (assembled - reference_totals).tolist(), strict=True))
+
+
+def main():
+    report = {
+        'scope': 'three-system four-field SA/MS space-filling CHECKING contributions; not pocket contributions',
+        'completed': False, 'passed': False, 'complete_server_equivalence': False,
+        'production_source_changed': False, 'modern_export_source_recovered': False,
+        'source_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
+        'python': sys.version.split()[0],
+        'versions': {name: metadata.version(name) for name in ('opencastp', 'topomt', 'numpy', 'scipy', 'pyunitwizard')},
+        'prepared_inputs': 'trusted local frozen ATOM/protein/peptide snapshots; expanded castp3_protor radii and 1.4 angstrom probe',
+        'cusp': False,
+        'units': {'SA_Area': 'angstrom**2', 'MS_Area': 'angstrom**2', 'SA_Volume': 'angstrom**3', 'MS_Volume': 'angstrom**3'},
+        'core_source_sha256': {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest() for path in (ROOT/'src/opencastp/_core/geometry.py', ROOT/'src/opencastp/_core/volbl.py')},
+        'cases': [],
+    }
+    output = Path('/tmp/opencastp_all_atom_metric_controls.json')
+    for name in sys.argv[1:]:
+        started = time.monotonic()
+        snapshot = pickle.loads(Path(f'/tmp/opencastp_residual_{name}.pickle').read_bytes())
+        archive = ARCHIVES/f'{name}.zip'
+        with ZipFile(archive) as handle:
+            pdb = handle.read(next(n for n in handle.namelist() if n.endswith('.pdb')))
+            csv_bytes = handle.read(next(n for n in handle.namelist() if n.endswith('.contrib.csv')))
+        assert b'No cusp correction' in csv_bytes and b'CHECKING' in csv_bytes
+        coordinates_to_ids = defaultdict(list)
+        for line in pdb.decode().splitlines():
+            if line.startswith('ATOM'):
+                coordinates_to_ids[tuple(float(line[a:b]) for a,b in ((30,38),(38,46),(46,54)))].append(int(line[6:11]))
+        ids = []
+        for point in snapshot['coordinates']:
+            candidates = coordinates_to_ids[tuple(round(float(v), 3) for v in point)]
+            assert len(candidates) == 1
+            ids.append(candidates[0])
+        geometry = build_castp_geometry(snapshot['coordinates'], snapshot['radii'], atom_indices=np.array(ids), solvent_radius=1.4)
+        # Trusted developer-only geometry cache permits a separate orthosphere control.
+        Path(f'/tmp/opencastp_all_metric_{name}_geometry.pickle').write_bytes(pickle.dumps(geometry))
+        values, counts, total_deltas = atom_contributions(geometry)
+        targets = {int(row['Atom_ID']): row for row in csv.DictReader(line for line in csv_bytes.decode().splitlines() if not line.startswith('#'))}
+        assert set(ids) == set(targets) and len(targets) == len(ids)
+        fields = {}
+        for position, field in enumerate(FIELDS):
+            digits = 2 if field.endswith('Area') else 3
+            tolerance = 0.5 * 10 ** (-digits) + 1e-8
+            rows = []
+            for index, identifier in enumerate(geometry.atom_indices_map):
+                actual, expected = float(values[index, position]), float(targets[int(identifier)][field])
+                exported = float(np.round(float(f'{actual:.4f}'), digits))
+                rows.append(dict(atom_id=int(identifier), actual=actual, expected=expected,
+                                 raw_passed=abs(actual-expected) <= tolerance,
+                                 candidate_export=exported, export_passed=exported == expected))
+            fields[field] = dict(required=len(rows), raw_matches=sum(r['raw_passed'] for r in rows),
+                                 candidate_export_matches=sum(r['export_passed'] for r in rows),
+                                 introduced_export_failures=sum(r['raw_passed'] and not r['export_passed'] for r in rows),
+                                 explained_raw_failures=sum(not r['raw_passed'] and r['export_passed'] for r in rows),
+                                 tolerance=tolerance,
+                                 failures=[r for r in rows if not r['raw_passed'] or not r['export_passed']])
+        case = dict(case=name, atoms=len(ids), fields=fields,
+                    total_conservation_max_error=max(abs(v) for v in total_deltas.values()),
+                    total_conservation_deltas=total_deltas, simplex_counts=dict(counts),
+                    archive_sha256=hashlib.sha256(archive.read_bytes()).hexdigest(),
+                    pdb_sha256=hashlib.sha256(pdb).hexdigest(), csv_sha256=hashlib.sha256(csv_bytes).hexdigest(),
+                    prepared_coordinate_sha256=hashlib.sha256(snapshot['coordinates'].tobytes()).hexdigest(),
+                    prepared_expanded_radius_sha256=hashlib.sha256(snapshot['radii'].tobytes()).hexdigest(),
+                    seconds=time.monotonic()-started)
+        report['cases'].append(case)
+        output.write_text(json.dumps(report, indent=2)+'\n')
+        print(name, {f:(r['raw_matches'],r['candidate_export_matches'],r['required']) for f,r in fields.items()}, 'conservation', case['total_conservation_max_error'], flush=True)
+    report['completed'] = True
+    report['passed'] = all(f['raw_matches'] == f['required'] for c in report['cases'] for f in c['fields'].values())
+    report['export_candidate_qualified'] = all(f['candidate_export_matches'] == f['required'] for c in report['cases'] for f in c['fields'].values())
+    output.write_text(json.dumps(report, indent=2)+'\n')
+
+
+if __name__ == '__main__':
+    main()

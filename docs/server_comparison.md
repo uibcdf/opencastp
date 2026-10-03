@@ -124,3 +124,47 @@ explains the current public-server controls and why a relabeled upload is
 not yet a qualified chemical workaround. Per-atom radius overrides are
 implemented in the numerical API; direct molecular-file ingestion remains
 a separate frontend boundary.
+
+## Characterization coverage — 2026-10-03
+
+Exact region memberships match for all 3729 archived regions in the 89-input
+corpus. The following table separates implemented quantities and their measured
+region-level agreement under the declared server-compatible preparation.
+
+| Characterization | Unit | Matching/compared values |
+| --- | --- | ---: |
+| Cavity solvent-accessible area | square angstroms | 3728/3729 |
+| Cavity molecular-surface area | square angstroms | 3729/3729 |
+| Cavity solvent-accessible volume | cubic angstroms | 3725/3729 |
+| Cavity molecular-surface volume | cubic angstroms | 3729/3729 |
+| Aggregate mouth SA/MS areas and arc perimeters | square angstroms / angstroms | 14916/14916 |
+| Molecular intersection-arc length | angstroms | 3729/3729 |
+| Corner count and aggregate mouth-triangle count | counts | 7458/7458 |
+
+The mouth totals include exported zeros for closed voids. Agreement of totals
+does not yet qualify each individual mouth. Planar triangulation measures remain
+separately named from these analytical SA/MS measures. Five cavity quantities
+remain outside the unchanged printed-precision comparison; no full guarantee
+is claimed.
+
+Additional bounded controls cover all 5668 exported orthospheres across 384
+regions in seven systems, including every system with a scalar discrepancy.
+They match centers/radii and multiplicity at published precision, without
+recovering exact server geometry or proving individual mouth partitions.
+
+The three-system atom CHECKING audit separately compares 15132 SA/MS
+space-filling contributions. A four-decimal intermediate export candidate
+reproduces all 7566 MS contributions and 7564/7566 SA contributions, while
+preserving two unresolved SA export mismatches. These are atom contributions
+to the molecular union, not per-pocket atom volumes or areas.
+
+That candidate is unsuitable for cavity totals: replaying it over the 14916
+stored region quantities introduces 742 discrepancies. It has not been
+implemented as a compatibility option. Native results retain their calculated
+values and units. Exact printed-output equality is a separate validation gate
+from raw agreement within the print quantum; even direct three-decimal formatting
+has a further boundary mismatch within the raw arithmetic allowance.
+
+The [characterization checkpoint](https://github.com/uibcdf/opencastp/blob/main/devguide/metric_characterization_controls_2026_10_03.md)
+retains these findings, rejected export rule and remaining gates under
+[issue #6](https://github.com/uibcdf/opencastp/issues/6).

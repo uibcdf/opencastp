@@ -1,0 +1,40 @@
+"""Replay uniform export candidates on all recorded region metrics, without recalculation."""
+
+import hashlib
+import json
+from pathlib import Path
+
+import numpy as np
+
+ROOT = Path('/home/diego/repos@uibcdf/opencastp')
+ARTIFACTS = ROOT/'devguide/artifacts'
+names = ('server_mouth_castp3_panel_2026_10_02.json', 'protein_heterogen_panel_2026_10_02.json', 'server_remaining_panel_2026_10_03.json')
+sources = [json.loads((ARTIFACTS/name).read_text()) for name in names]
+cases = [*sources[0]['cases'], *sources[1]['benchmarks']['atom']['cases'], *sources[2]['cases']]
+assert len(cases) == len({c['case'] for c in cases}) == 89
+rows = []
+for case in cases:
+    for region in case['regions']:
+        for metric in region['metrics']:
+            assert abs(metric['tolerance'] - 0.00050001) < 1e-15
+            native = float(f"{metric['actual']:.3f}")
+            candidate = float(np.round(float(f"{metric['actual']:.4f}"), 3))
+            rows.append(dict(case=case['case'], server_id=region['server_id'], field=metric['field'],
+                             actual=metric['actual'], expected=metric['expected'], raw_passed=metric['passed'],
+                             native_printed=native, native_printed_matches=native==metric['expected'],
+                             candidate_export=candidate, candidate_matches=candidate==metric['expected']))
+report = dict(scope='replay of 89-case retained region SA/MS scalar evidence; no fresh numerical calculation',
+              completed=True, complete_server_equivalence=False, source_verdict_unchanged=True,
+              rule='uniform four-decimal printf-like intermediate followed by NumPy three-decimal rounding; candidate only',
+              modern_export_source_recovered=False, cases=89, regions=sum(c['server_regions'] for c in cases),
+              fields=len(rows), raw_matches=sum(r['raw_passed'] for r in rows),
+              native_printed_matches=sum(r['native_printed_matches'] for r in rows),
+              native_printed_failed=[r for r in rows if not r['native_printed_matches']],
+              candidate_matches=sum(r['candidate_matches'] for r in rows),
+              candidate_introduced_failures=sum(r['raw_passed'] and not r['candidate_matches'] for r in rows),
+              candidate_explained_raw_failures=sum(not r['raw_passed'] and r['candidate_matches'] for r in rows),
+              candidate_failed=[r for r in rows if not r['candidate_matches']],
+              raw_failed=[r for r in rows if not r['raw_passed']],
+              source_artifact_sha256={n:hashlib.sha256((ARTIFACTS/n).read_bytes()).hexdigest() for n in names})
+Path('/tmp/opencastp_region_export_inventory.json').write_text(json.dumps(report, indent=2)+'\n')
+print({k:v for k,v in report.items() if k not in ('candidate_failed','raw_failed','native_printed_failed','source_artifact_sha256')},flush=True)

@@ -1,0 +1,50 @@
+"""Pin independent metric controls and original native/export outcomes."""
+
+import hashlib
+import json
+import subprocess
+from datetime import datetime, timezone
+from pathlib import Path
+
+root = Path('/home/diego/repos@uibcdf/opencastp')
+atoms = json.loads(Path('/tmp/opencastp_all_atom_metric_controls.json').read_text())
+orthospheres = json.loads(Path('/tmp/opencastp_orthosphere_seven_panel.json').read_text())
+replay = json.loads(Path('/tmp/opencastp_region_export_inventory.json').read_text())
+preparation = json.loads(Path('/tmp/opencastp_prepare_residual_geometry_controls.json').read_text())
+assert atoms['completed'] and not atoms['passed']
+assert orthospheres['completed'] and orthospheres['passed']
+assert replay['completed'] and replay['candidate_introduced_failures'] == 742
+assert preparation['completed']
+for source in (atoms, orthospheres, preparation):
+    assert source['python'] == '3.14.7'
+for case in atoms['cases']:
+    match = next(c for c in orthospheres['cases'] if c['case'] == case['case'])
+    assert case['prepared_coordinate_sha256'] == match['prepared_coordinate_sha256']
+    assert case['prepared_expanded_radius_sha256'] == match['prepared_expanded_radius_sha256']
+for case in preparation['cases']:
+    match = next(c for c in orthospheres['cases'] if c['case'] == case['case'])
+    assert case['prepared_coordinate_sha256'] == match['prepared_coordinate_sha256']
+    assert case['prepared_expanded_radius_sha256'] == match['prepared_expanded_radius_sha256']
+baseline = atoms['source_commit']
+for relative,digest in atoms['core_source_sha256'].items():
+    assert hashlib.sha256((root/relative).read_bytes()).hexdigest() == digest
+    assert hashlib.sha256(subprocess.check_output(['git','show',f'{baseline}:{relative}'],cwd=root)).hexdigest() == digest
+collectors = ('opencastp_all_atom_metric_controls.py', 'opencastp_region_export_inventory.py',
+              'opencastp_prepare_residual_geometry_controls.py', 'opencastp_assemble_characterization.py')
+snapshots = {name+'.txt':Path('/tmp',name).read_bytes() for name in collectors}
+snapshots['metric_characterization_orthosphere_auditor.py.txt'] = (root/'devtools/audit_castp_orthospheres.py').read_bytes()
+assert hashlib.sha256(snapshots['metric_characterization_orthosphere_auditor.py.txt']).hexdigest() == orthospheres['source_sha256']['devtools/audit_castp_orthospheres.py']
+report = dict(completed=True, complete_server_equivalence=False, assembled_utc=datetime.now(timezone.utc).isoformat(),
+              owner='uibcdf/opencastp#6', source_commit=baseline, numerical_source_matches_producer_commit=True,
+              public_export_policy_delivered=False, native_values_preserved=True,
+              atom_contributions=atoms, orthospheres=orthospheres, region_export_replay=replay,
+              residual_geometry_preparation=preparation,
+              collector_sha256={n:hashlib.sha256(data).hexdigest() for n,data in snapshots.items()},
+              historical_partition_reference=dict(
+                  executed_historical_pipeline=False,
+                  description='CHECKING sf/sf_ms partition; torus endpoint volume modifications cancel globally; solvent patches split equally',
+                  source_sha256={name:hashlib.sha256(Path('/home/diego/repos@uibcdf/Alphashape/castp/alpha-4.1-src/volbl',name).read_bytes()).hexdigest()
+                                 for name in ('volbl.c','metric.c')}
+              ))
+Path('/tmp/metric_characterization_controls_2026_10_03.json').write_text(json.dumps(report,indent=2)+'\n')
+print('Assembled controls; server equivalence remains incomplete',flush=True)
